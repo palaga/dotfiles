@@ -42,4 +42,6 @@
 *.aux
 *.log
 *.toc
+*.out
+*.dvi
 *.pdf
