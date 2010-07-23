@@ -1,4 +1,4 @@
 Dotfiles
 ========
 
-This file contains my personal dotfiles (config files).
+This repository contains my personal dotfiles (config files).
