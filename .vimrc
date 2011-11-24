@@ -1,7 +1,5 @@
 " Todo:
-"   - Fold settings
-"   - Use a different colorscheme for vim (the current only works properly under gvim).
-"   - Turn on filetype plugins, for custom bindings/colors.
+"   - Fold settings, per file type (python, java, C).
 
 " General config:
     set nocompatible                    " Turn off compatibility mode with vi.
@@ -22,9 +20,13 @@
     set cursorline                      " Highlight the current line.
     "set cursorcolumn                  " Highlight the current column. Not in the mood for that, right now.
     syntax on                           " Turn syntax highlighting on.
+    filetype plugin indent on           " Turn on filetype plugins and indentation.
 
 " Fold config:
-    " todo
+    set foldmethod=marker               " Only fold lines between markers.
+    set foldmarker={,}                  " Markers to use for folding.
+    set foldminlines=3                  " Minimum amount of lines for folding.
+    set foldlevelstart=99               " No initial folds.
 
 " Indentation config:
     set autoindent                      " Automaticly indent to the level of the previous line.
@@ -32,8 +34,7 @@
     set expandtab                       " Set soft tabs (replace tabs with <tabstop> spaces).
     set softtabstop=4                   " A tab will be replaced with this amount of spaces.
     set shiftwidth=4                    " Same as tabstop, but for autoindents and >> indents.
-    set tabstop=8                       " Real tabs will be this long and will show up, because of the list setting.
+    set tabstop=4                       " Real tabs will be this long and will show up, because of the list setting.
 
 " Set color scheme:
-    colorscheme tango2
-    "colorscheme ekvoli
+    colorscheme darkblue
