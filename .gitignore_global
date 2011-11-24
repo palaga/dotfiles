@@ -1,0 +1,45 @@
+# Compiled sources:
+*.a
+*.so
+*.o
+*.class
+*.pyc
+*.pyo
+
+
+# Packages:
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.Z
+*.tar.lz
+*.tar.xz
+
+*.tgz
+*.tbz
+*.tb2
+*.taz
+*.tlz
+*.txz
+
+*.gz
+*.bz2
+*.Z
+*.lz
+*.lzma
+*.lzo
+*.rz
+
+*.7z
+*.zip
+*.jar
+*.rar
+
+*.iso
+
+
+# Latex generated:
+*.aux
+*.log
+*.toc
+*.pdf

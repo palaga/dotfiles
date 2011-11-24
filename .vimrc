@@ -18,7 +18,6 @@
     set backspace=indent,eol,start      " Allow backspace to remove indents, join lines and remove characters before insert.
     set filetype=unix,dos,mac           " Support newline formats in given order.
     set cursorline                      " Highlight the current line.
-    "set cursorcolumn                  " Highlight the current column. Not in the mood for that, right now.
     syntax on                           " Turn syntax highlighting on.
     filetype plugin indent on           " Turn on filetype plugins and indentation.
 
@@ -37,4 +36,4 @@
     set tabstop=4                       " Real tabs will be this long and will show up, because of the list setting.
 
 " Set color scheme:
-    colorscheme darkblue
+    colorscheme darkburn
