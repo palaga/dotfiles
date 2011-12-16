@@ -1,10 +1,14 @@
+#--------------+
+# Key bindings |
+#--------------+
+
 # Prefered bindings:
 bind H      any toggleOutline
 bind o      any open
 bind O      any openInNewWin
 bind c      any toggleContinuousMode
 
-# Vi-like keys
+# Vi-like keys:
 bind h      any scrollLeft(16)
 bind j      any scrollDown(16)
 bind k      any scrollUp(16)
@@ -19,3 +23,16 @@ bind K      any prevPage
 bind down   any nextPage
 bind up     any prevPage
 
+
+
+#----------------+
+# General config |
+#----------------+
+
+# Enable t1lib, FreeType, and anti-aliased text:
+enableT1lib     yes
+enableFreeType  yes
+antialias       yes
+
+# Browser to use:
+urlCommand      "chromium %s"
