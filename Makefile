@@ -7,10 +7,10 @@ CFGFILES = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc
 all: install
 
 install: $(CFGFILES)
-	$(foreach file, $(CFGFILES),ln -s $(CURDIR)/$(file) $(PREFIX)/$(file);)
+	$(foreach file, $(CFGFILES),ln -s $(CURDIR)/$(file) $(PREFIX)/.$(file);)
 
 clean:
-	$(foreach file, $(CFGFILES),rm -f $(PREFIX)/$(file);)
+	$(foreach file, $(CFGFILES),rm -f $(PREFIX)/.$(file);)
 
 
 .PHONY: all install clean

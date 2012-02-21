@@ -4,5 +4,7 @@
 # This line tells keychain to start agents when needed (-Q). Do not print any
 # information about yourself (--quiet), but do print some environment variables,
 # containing information about the agents (--eval).
-eval $(keychain --eval --quiet -Q)
+if (($+commands[keychain])); then
+    eval $(keychain --eval --quiet -Q)
+fi
 
