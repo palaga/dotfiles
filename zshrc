@@ -26,7 +26,15 @@ compinit
 promptinit
 
 
-# Completion style:
+# Completion rules:
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*' force-list always
+
+zstyle ':completion:*:cd:*' force-list always
+
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
 
@@ -66,4 +74,10 @@ bindkey -v
 bindkey '^R' history-incremental-search-backward
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
+
+
+# Oh-My-Zsh configuration:
+#ZSH=$HOME/.oh-my-zsh
+#plugin=(git)
+#source $ZSH/oh-my-zsh.sh
 
