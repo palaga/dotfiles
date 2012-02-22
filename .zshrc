@@ -35,8 +35,9 @@ zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
 prompt walters
 
 
-# Directory colors:
-eval `dircolors -b $HOME/.dircolors`
+# General settings:
+eval `dircolors -b $HOME/.dircolors` # directory colors
+ulimit -c unlimited                  # enable core dumps
 
 
 # Command aliasses:
