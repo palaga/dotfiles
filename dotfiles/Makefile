@@ -4,34 +4,41 @@
 PREFIX   = $(HOME)
 CFGFILES = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc
 
-RED      = `tput setaf 1`
-GREEN    = `tput setaf 2`
-BOLD     = `tput bold`
-BRED     = $(BOLD)$(RED)
-BGREEN   = $(BOLD)$(GREEN)
-CLEAR    = `tput sgr0`
+
+all: $(CFGFILES)
 
 
-all: install
+zshrc: zshrc
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
 
 
-install: $(CFGFILES)
-	@$(foreach\
-		file,\
-		$(CFGFILES),\
-		echo -n "Installing .$(file): " && ln -s $(CURDIR)/$(file) $(PREFIX)/.$(file) 2>/dev/null && echo $(BGREEN)done$(CLEAR) || echo $(BRED)failed$(CLEAR);\
-	)
-	@echo "Installation complete."
+zshenv: zshenv
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+
+
+vimrc: vimrc
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+
+
+gitignore_global: gitignore_global
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+
+
+dircolors: dircolors
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+
+
+Xdefaults: Xdefaults
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+
+
+xpdfrc: xpdfrc
+	ln -s $(CURDIR)/$< $(PREFIX)/.$<
 
 
 clean:
-	@$(foreach\
-		file,\
-		$(CFGFILES),\
-		echo -n "Removing .$(file): " && rm -f $(PREFIX)/.$(file) && echo $(BGREEN)done$(CLEAR) || echo $(BRED)failed$(CLEAR);\
-	)
-	@echo "Done"
+	$(foreach file, $(CFGFILES), rm -f $(PREFIX)/.$(file))
 
 
-.PHONY: all install clean
+.PHONY: all install clean $(CFGFILES)
 
