@@ -1,44 +1,36 @@
 # This makefile is intended to speed up the setup of the environment.
-# Still a WIP
 
-PREFIX   = $(HOME)
-CFGFILES = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc
+DESTDIR   = $(HOME)
+CFGFILES  = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc
+DESTFILES = $(addprefix .,$(CFGFILES))
 
 
 all: $(CFGFILES)
+	@echo "Usage: make [DESTDIR=<stage_dir>] [install|uninstall|.<filename>]"
+	@echo "    install       Install all dotfiles."
+	@echo "    uninstall     Uninstall all dotfiles."
+	@echo "    .<filename>   Install a single file."
+	@echo
+	@echo "Options:"
+	@echo "    DESTDIR=...   Set the destination directory (defaults to \$$HOME)."
+	@echo
+	@echo "Available files:"
+	@$(foreach file, $(DESTFILES), echo "    $(file)";)
 
 
-zshrc: zshrc
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+install: $(DESTFILES)
+	@echo install: done
 
 
-zshenv: zshenv
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+# Little cheat, all files can be dotfiles...
+.%: %
+	ln -s $(CURDIR)/$< $(DESTDIR)/.$<
 
 
-vimrc: vimrc
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
+uninstall:
+	$(foreach file, $(CFGFILES), rm -f $(DESTDIR)/.$(file);)
+	@echo uninstall: done
 
 
-gitignore_global: gitignore_global
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
-
-
-dircolors: dircolors
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
-
-
-Xdefaults: Xdefaults
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
-
-
-xpdfrc: xpdfrc
-	ln -s $(CURDIR)/$< $(PREFIX)/.$<
-
-
-clean:
-	$(foreach file, $(CFGFILES), rm -f $(PREFIX)/.$(file))
-
-
-.PHONY: all install clean $(CFGFILES)
+.PHONY: all install uninstall
 
