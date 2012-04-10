@@ -5,6 +5,11 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# GUI only setup:
+if [ $DISPLAY ]; then
+    xset -b;
+fi
+
 export HISTFILE=~/.zsh_history
 export HISTSIZE=5000
 export SAVEHIST=5000
@@ -38,8 +43,9 @@ zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
 prompt walters
 
 
-# Directory colors:
-eval `dircolors -b $HOME/.dircolors`
+# General settings:
+eval `dircolors -b $HOME/.dircolors` # directory colors
+ulimit -c unlimited                  # enable core dumps
 
 
 # Command aliasses:
