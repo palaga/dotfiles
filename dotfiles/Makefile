@@ -1,7 +1,7 @@
 # This makefile is intended to speed up the setup of the environment.
 
 DESTDIR   = $(HOME)
-CFGFILES  = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc bashrc conkyrc
+CFGFILES  = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc bashrc conkyrc xinitrc
 DESTFILES = $(addprefix .,$(CFGFILES))
 
 

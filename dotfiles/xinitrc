@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+eval $(cat $HOME/.fehbg)
+urxvtd -q -o -f
+wmname LG3D
+unclutter -idle 3 &
+
+exec $HOME/local/bin/dwm-clock &
+exec $HOME/local/bin/dwm
+
