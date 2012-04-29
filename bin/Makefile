@@ -1,7 +1,7 @@
 # Simplify installing scripts
 
 DESTDIR   = $(HOME)/bin
-SCRIPTS   = chromovie
+SCRIPTS   = chromovie git_diff_wrapper
 DESTFILES = $(addprefix $(DESTDIR)/,$(SCRIPTS))
 
 
