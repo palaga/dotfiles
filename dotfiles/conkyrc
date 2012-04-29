@@ -1,0 +1,56 @@
+# General settings
+background no
+double_buffer yes
+out_to_console no
+out_to_stderr no
+extra_newline no
+update_interval 1.0
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit C
+short_units yes
+
+
+# Window settings
+own_window yes
+own_window_type override
+own_window_transparent no
+own_window_colour black
+
+
+# Positioning and geometry settings
+alignment bottom_left
+gap_x 5
+gap_y 5
+minimum_size 1024 10
+maximum_width 1024
+
+
+# Style settings
+color1 1793D1
+show_graph_scale no
+show_graph_range no
+use_spacer none
+border_width 0
+uppercase no
+stippled_borders 0
+default_color white
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+#use_xft yes
+#xftfont DejaVu Sans Mono:size=12
+
+
+TEXT
+${color1}$nodename \
+$color| weather: ${color1}${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EHAM cloud_cover} \
+(${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EHAM temperature} C) \
+$color| uptime: ${color1}$uptime_short \
+$color| temp: ${color1}$acpitemp C \
+$color| bat: ${color1}${battery_short} ($battery_time) \
+$color| ram: ${color1}$memperc% \
+$color| cpu: ${color1}${cpu cpu1}% ${cpu cpu2}% \
+$color| up: ${color1}${upspeed wlan0} \
+$color| down: ${color1}${downspeed wlan0}
