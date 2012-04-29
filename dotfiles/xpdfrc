@@ -29,6 +29,9 @@ bind up     any prevPage
 # General config |
 #----------------+
 
+continuousView  yes
+initialZoom     page
+
 # Enable t1lib, FreeType, and anti-aliased text:
 enableT1lib     yes
 enableFreeType  yes

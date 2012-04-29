@@ -10,9 +10,19 @@ if [ $DISPLAY ]; then
     xset -b;
 fi
 
+# History configuration:
 export HISTFILE=~/.zsh_history
 export HISTSIZE=5000
 export SAVEHIST=5000
+
+setopt hist_ignore_all_dups # Do not keep duplicate entries
+setopt hist_find_no_dups    # Do not show dupplicates, when searching
+setopt hist_no_store        # Do not store history commands (fc)
+setopt hist_no_functions    # Do not store function definitions
+setopt hist_ignore_space    # Do not store commands, which start with a space
+setopt inc_append_history   # Append history, while they are entered
+
+
 
 # Environment variables:
 export EDITOR=vim
