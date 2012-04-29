@@ -1,4 +1,15 @@
 # Just to have some propper functionality in a bash session.
 
+[[ $- != *i* ]] && return
+
+xset -b
+export EDITOR=vim
+export BROWSER=chromium
 export PATH=$PATH:$HOME/bin:$HOME/local/bin
+
+alias ls='ls --color=auto'
+eval `dircolors -b $HOME/.dircolors`
+PS1='[\u@\h \W]\$ '
+
+ulimit -c unlimited
 

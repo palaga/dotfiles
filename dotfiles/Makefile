@@ -2,10 +2,10 @@
 
 DESTDIR   = $(HOME)
 CFGFILES  = zshrc zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc bashrc conkyrc xinitrc
-DESTFILES = $(addprefix .,$(CFGFILES))
+DESTFILES = $(addprefix $(DESTDIR)/.,$(CFGFILES))
 
 
-all: $(CFGFILES)
+all:
 	@echo "Usage: make [DESTDIR=<stage_dir>] [install|uninstall|.<filename>]"
 	@echo "    install       Install all dotfiles."
 	@echo "    uninstall     Uninstall all dotfiles."
@@ -23,7 +23,7 @@ install: $(DESTFILES)
 
 
 # Little cheat, all files can be dotfiles...
-.%: %
+$(DESTDIR)/.%: %
 	ln -s $(CURDIR)/$< $(DESTDIR)/.$<
 
 
