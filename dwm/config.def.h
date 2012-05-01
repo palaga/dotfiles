@@ -17,8 +17,10 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	/* class         instance    title       tags mask     isfloating   monitor */
+	{ "Firefox",     NULL,       NULL,       1 << 0,       False,       -1 },
+	{ "Chromium",    NULL,       NULL,       1 << 0,       False,       -1 },
+	{ "stalonetray", NULL,       NULL,       1 << 8,       True,        -1 },
 };
 
 /* layout(s) */
