@@ -20,7 +20,7 @@ dwm-clock: dwm-clock.o
 
 
 $(DWMDIR)/dwm: $(DWMDIR)/dwm.c $(DWMDIR)/Makefile config.def.h
-	cp config.def.h $(DWMDIR)/config.h
+	cp config.h $(DWMDIR)/config.h
 	make -C $(DWMDIR)
 
 
