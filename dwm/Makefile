@@ -5,6 +5,7 @@ CFLAGS  = -Wall -pedantic -std=c99 -lX11
 LDFLAGS = -lX11
 DWMDIR  = $(HOME)/dwm
 PREFIX  = $(HOME)/local
+DWMMAKE = make -C $(DWMDIR) PREFIX=$(PREFIX)
 
 
 all: $(DWMDIR)/dwm dwm-clock
@@ -24,16 +25,17 @@ $(DWMDIR)/dwm: $(DWMDIR)/dwm.c $(DWMDIR)/Makefile config.def.h
 
 
 install: $(DWMDIR)/dwm $(DWMDIR)/Makefile dwm-clock
-	make -C $(DWMDIR) PREFIX=$(PREFIX) install
+	$(DWMMAKE) install
 	cp dwm-clock $(PREFIX)/bin
 
 
 uninstall:
-	make -C $(DWMDIR) PREFIX=$(PREFIX) uninstall
+	$(DWMMAKE) uninstall
 	rm -f $(PREFIX)/bin/dwm-clock
 
 
 clean:
+	$(DWMMAKE) clean
 	rm -f dwm-clock{,.o}
 
 
