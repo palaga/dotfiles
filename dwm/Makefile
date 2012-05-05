@@ -19,9 +19,9 @@ dwm-clock: dwm-clock.o
 	$(CC) $(LDFLAGS) -o $@ $<
 
 
-$(DWMDIR)/dwm: $(DWMDIR)/dwm.c $(DWMDIR)/Makefile config.def.h
-	cp config.h $(DWMDIR)/config.h
-	make -C $(DWMDIR)
+$(DWMDIR)/dwm: $(DWMDIR)/dwm.c $(DWMDIR)/Makefile config.h
+	ln -s $(CURDIR)/config.h $(DWMDIR)/config.h
+	$(DWMMAKE)
 
 
 install: $(DWMDIR)/dwm $(DWMDIR)/Makefile dwm-clock
