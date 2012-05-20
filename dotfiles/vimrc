@@ -36,4 +36,4 @@
     set tabstop=4                       " Real tabs will be this long and will show up, because of the list setting.
 
 " Set color scheme:
-    colorscheme darkburn
+    colorscheme zenburn
