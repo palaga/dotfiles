@@ -37,3 +37,6 @@
 
 " Set color scheme:
     colorscheme zenburn
+
+
+call pathogen#infect()

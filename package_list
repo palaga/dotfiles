@@ -38,6 +38,8 @@ lynx
 htop
 vifm
 screen
+youtube-viewer
+tmux
 zsh
 
 # Document
@@ -52,6 +54,7 @@ powertop
 # Development
 base-devel
 gdb
+ack
 mercurial
 ctags
 git
@@ -62,6 +65,8 @@ python
 tcl
 tcllib
 tk
+expect
+dejagnu
 jre
 jdk
 dia
@@ -86,4 +91,6 @@ openssh
 rsync
 wget
 ca_certificates
+tidyhtml
+youtube_viewer
 
