@@ -1,6 +1,22 @@
 " Todo:
 "   - Fold settings, per file type (python, java, C).
 
+" Vundle config:
+    set rtp+=~/.vim/bundle/vundle/
+    call vundle#rc()
+" Bundles to manage:
+    Bundle 'gmarik/vundle'
+    Bundle 'jnurmine/Zenburn'
+    Bundle 'derekwyatt/vim-scala'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'scrooloose/nerdcommenter'
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'mileszs/ack.vim'
+    Bundle 'gregsexton/gitv'
+    Bundle 'majutsushi/tagbar'
+
+
 " General config:
     set nocompatible                    " Turn off compatibility mode with vi.
     set nobackup                        " Turn off backup files (<filename>~ files).
@@ -38,5 +54,3 @@
 " Set color scheme:
     colorscheme zenburn
 
-
-call pathogen#infect()
