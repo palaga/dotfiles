@@ -1,0 +1,9 @@
+# /usr/bin/env bash
+
+if [ "$#" != "1" ]; then
+    echo "usage: $0 <zender>"
+    echo "zenders: ned1 ned2 ned3 hollanddoc24-bb"
+    exit 0
+fi
+
+mplayer -cache 4096 -cache-min 50 -playlist "http://livestreams.omroep.nl/npo/$1"
