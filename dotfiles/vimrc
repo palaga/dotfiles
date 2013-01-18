@@ -4,6 +4,7 @@
 " Vundle config:
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
+
 " Bundles to manage:
     Bundle 'gmarik/vundle'
     Bundle 'jnurmine/Zenburn'
@@ -39,10 +40,10 @@
     filetype plugin indent on           " Turn on filetype plugins and indentation.
 
 " Fold config:
-    set foldmethod=marker               " Only fold lines between markers.
-    set foldmarker={,}                  " Markers to use for folding.
-    set foldminlines=3                  " Minimum amount of lines for folding.
-    set foldlevelstart=99               " No initial folds.
+    set foldmethod=manual               " Freestyle folding.
+    "set foldmarker={,}                  " Markers to use for folding.
+    "set foldminlines=3                  " Minimum amount of lines for folding.
+    "set foldlevelstart=99               " No initial folds.
 
 " Indentation config:
     set autoindent                      " Automaticly indent to the level of the previous line.
