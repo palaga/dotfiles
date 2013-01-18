@@ -12,6 +12,7 @@
     Bundle 'scrooloose/nerdtree'
     Bundle 'scrooloose/nerdcommenter'
     Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-surround'
     Bundle 'mileszs/ack.vim'
     Bundle 'gregsexton/gitv'
     Bundle 'majutsushi/tagbar'
