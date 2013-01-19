@@ -16,6 +16,7 @@
     Bundle 'mileszs/ack.vim'
     Bundle 'gregsexton/gitv'
     Bundle 'majutsushi/tagbar'
+    Bundle 'sophacles/vim-processing'
 
 
 " General config:
