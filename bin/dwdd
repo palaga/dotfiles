@@ -1,0 +1,8 @@
+# /usr/bin/env bash
+
+if [ "$#" != "1" ]; then
+    echo "usage: $0 <yyyymmdd>"
+    exit 0
+fi
+
+mplayer  "http://download.omroep.nl/vara/tv/dewerelddraaitdoor/$1-dwdd_tvdd.mp4"
