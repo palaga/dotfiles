@@ -19,6 +19,7 @@
     Bundle 'gregsexton/gitv'
     Bundle 'majutsushi/tagbar'
     Bundle 'sophacles/vim-processing'
+    Bundle 'SirVer/ultisnips'
 
 
 " General config:
