@@ -60,6 +60,7 @@ ulimit -c unlimited                  # enable core dumps
 
 # Command aliasses:
 alias ls='ls --color=always'
+alias gvim='gvim --remote-silent'
 
 
 # Suffix aliasses:
