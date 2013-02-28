@@ -1,9 +1,40 @@
-# /usr/bin/env bash
+#! /usr/bin/env tclsh
 
-if [ "$#" != "1" ]; then
-    echo "usage: $0 <zender>"
-    echo "zenders: ned1 ned2 ned3 hollanddoc24-bb"
-    exit 0
-fi
+set zenders "ned1 ned2 ned3"
+set thema   "101tv cultura24 best24 hollanddoc24 humortv24 journaal24 politiek24 zappelin24"
 
-mplayer -cache 4096 -cache-min 50 -playlist "http://livestreams.omroep.nl/npo/$1"
+set cache     4096
+set cache_min 20
+set aspect    16:9
+
+
+proc playChannel {channel} {
+  global zenders thema cache cache_min aspect
+  set inZender [lsearch -exact $zenders $channel]
+  set inThema  [lsearch $thema $channel*]
+
+  if {$inZender > -1 || $inThema > -1} {
+    if {$inThema > -1} { set channel "[lindex $thema $inThema]-bb" }
+    set mplayer "mplayer -aspect $aspect -cache $cache -cache-min $cache_min -playlist \"http://livestreams.omroep.nl/npo/$channel\""
+    catch {exec {*}$mplayer >@ stdout}
+  } else {
+    puts "Channel '$channel' doesn't seem to exist"
+    help
+  }
+}
+
+
+proc help {} {
+  global argv0 zenders thema
+  puts "usage: $argv0 <zender>"
+  puts "zenders: $zenders"
+  puts "themakanalen: $thema"
+}
+
+
+if {$argc == 0} {
+  help
+} else {
+  playChannel [lindex $argv 0]
+}
+
