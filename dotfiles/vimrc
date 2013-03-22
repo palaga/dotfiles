@@ -20,6 +20,7 @@
     Bundle 'majutsushi/tagbar'
     Bundle 'sophacles/vim-processing'
     Bundle 'SirVer/ultisnips'
+    Bundle 'embear/vim-localvimrc'
 
 
 " General config:
@@ -85,9 +86,9 @@
     set autoindent                      " Automaticly indent to the level of the previous line.
     set smartindent                     " Guess indent level, based on syntax.
     set expandtab                       " Set soft tabs (replace tabs with <tabstop> spaces).
-    set softtabstop=4                   " A tab will be replaced with this amount of spaces.
-    set shiftwidth=4                    " Same as tabstop, but for autoindents and >> indents.
-    set tabstop=4                       " Real tabs will be this long and will show up, because of the list setting.
+    set softtabstop=2                   " A tab will be replaced with this amount of spaces.
+    set shiftwidth=2                    " Same as tabstop, but for autoindents and >> indents.
+    set tabstop=2                       " Real tabs will be this long and will show up, because of the list setting.
 
 
 " Set color scheme:
