@@ -4,8 +4,8 @@ set command "mplayer -softvol -volume 50 -aspect 16:9"
 set types   [list tvdd dwld dwddgast]
 
 # Shortcuts:
-proc dwld     {date  } { playtype $date leert      }
-proc tvdd     {date  } { playtype $date tvdd       }
+proc dwld     {date  } { playtype $date leert   {} }
+proc tvdd     {date  } { playtype $date tvdd    {} }
 proc dwddgast {date n} { playtype $date gesprek $n }
 
 
@@ -56,8 +56,10 @@ if {$argc > 0} {
     set type [lindex $types $idxType]
 
     if {$type == "dwddgast"} {
+      puts true
       $type $date $number
     } else {
+      puts false
       $type $date
     }
 
