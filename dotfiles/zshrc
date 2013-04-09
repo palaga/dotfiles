@@ -61,6 +61,7 @@ ulimit -c unlimited                  # enable core dumps
 # Command aliasses:
 alias ls='ls --color=always'
 alias g='gvim --remote-silent'
+alias mplayeri='rlwrap -c -f ~/dotfiles/rlwrap/mplayer.rlwrap mplayer -slave -quiet -idle'
 
 
 # Suffix aliasses:
@@ -68,6 +69,8 @@ alias -s txt=$EDITOR
 alias -s tex=$EDITOR
 alias -s c=$EDITOR
 alias -s java=$EDITOR
+alias -s hs=$EDITOR
+alias -s lhs=$EDITOR
 
 alias -s html=$BROWSER
 alias -s pdf='xpdf'
