@@ -1,8 +1,68 @@
-# /usr/bin/env bash
+#! /usr/bin/env tclsh
 
-if [ "$#" != "1" ]; then
-    echo "usage: $0 <yyyymmdd>"
-    exit 0
-fi
+set command "mplayer -softvol -volume 50 -aspect 16:9"
+set types   [list tvdd dwld dwddgast]
 
-mplayer  "http://download.omroep.nl/vara/tv/dewerelddraaitdoor/$1-dwdd_tvdd.mp4"
+# Shortcuts:
+proc dwld     {date  } { playtype $date leert   {} }
+proc tvdd     {date  } { playtype $date tvdd    {} }
+proc dwddgast {date n} { playtype $date gesprek $n }
+
+
+
+proc play {url} {
+  global command
+  catch {exec {*}$command $url >@ stdout}
+}
+
+
+proc playtype {date type number} {
+  set url "http://download.omroep.nl/vara/tv/dewerelddraaitdoor/$date-dwdd"
+
+  # Changed underscore to dash since 12th of march 2013
+  if   {[clock scan $date] < [clock scan 20130312]} \
+       { set url ${url}_$type$number.mp4 } \
+  else { set url ${url}-$type$number.mp4 }
+
+  play $url
+}
+
+
+proc help {} {
+  global types
+  puts "usage: dwdd <type> <yyyymmdd>"
+  puts "type can be one of {$types}"
+}
+
+
+if {$argc > 0} {
+  set date    {}
+  set number  {}
+  set type    [lindex [file split $argv0] end]
+  set idxType [lsearch $types $type]
+
+  if {$idxType > -1} {
+    set date [lindex $argv 0]
+    if {$argc > 1} {
+      set number [lindex $argv 1]
+    }
+  } else {
+    set idxType [lsearch $types [lindex $argv 0]*]
+    set date    [lindex $argv 1]
+    set number  [lindex $argv 2]
+  }
+
+  if {$idxType > -1} {
+    set type [lindex $types $idxType]
+
+    if {$type == "dwddgast"} {
+      puts true
+      $type $date $number
+    } else {
+      puts false
+      $type $date
+    }
+
+  } else help
+} else help
+

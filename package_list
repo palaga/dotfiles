@@ -71,9 +71,12 @@ jre
 jdk
 dia
 gvim
+ghc
 
 # Utilities
 bc
+rlwrap
+nc
 graphviz
 alsa-utils
 sudo
