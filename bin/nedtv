@@ -15,7 +15,7 @@ proc playChannel {channel} {
 
   if {$inZender > -1 || $inThema > -1} {
     if {$inThema > -1} { set channel "[lindex $thema $inThema]-bb" }
-    set mplayer "mplayer -aspect $aspect -cache $cache -cache-min $cache_min -playlist \"http://livestreams.omroep.nl/npo/$channel\""
+    set mplayer "mplayer -softvol -aspect $aspect -cache $cache -cache-min $cache_min -playlist \"http://livestreams.omroep.nl/npo/$channel\""
     catch {exec {*}$mplayer >@ stdout}
   } else {
     puts "Channel '$channel' doesn't seem to exist"
