@@ -1,93 +1,100 @@
-! Urxvt config:
-URxvt.buffered:         true
-URxvt.depth:            32
-URxvt.background:       rgba:0040/0040/0040/dddd
-URxvt.blurRadius:       20x20
-URxvt.foreground:       #e0e0e0
-URxvt.font:             xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true
-URxvt.boldFont:         xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true
-URxvt.cursorBlink:      true
+! *rxvt config:
+*Rxvt.buffered:                         true
+*Rxvt.depth:                            32
+*Rxvt.blurRadius:                       20x20
+*Rxvt.font:                             xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true
+*Rxvt.cursorBlink:                      true
+URxvt.perl-ext-common:                  default,matcher
+URxvt.urlLauncher:                      chromium
+URxvt.matcher.button:                   2
+URxvt.scrollBar:                        false
+
+
+! xterm config:
+xterm*faceName:                         xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true
+xterm*font:                             7x13
+xterm*locale:                           true
+
+! general term config:
+*boldFont:                              xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true
 
 ! Colorscheme from Terminator:
-URxvt.color0:           #2E3436
-URxvt.color1:           #CC0000
-URxvt.color2:           #4E9A06
-URxvt.color3:           #C4A000
-URxvt.color4:           #3465A4
-URxvt.color5:           #75507B
-URxvt.color6:           #06989A
-URxvt.color7:           #D3D7CF
+*foreground:                            #e0e0e0
+*background:                            #252525
 
-URxvt.color8:           #555753
-URxvt.color9:           #EF2929
-URxvt.color10:          #8AE234
-URxvt.color11:          #FCE94F
-URxvt.color12:          #729FCF
-URxvt.color13:          #AD7FA8
-URxvt.color14:          #34E2E2
-URxvt.color15:          #EEEEEC
+*color0:                                #2E3436
+*color1:                                #CC0000
+*color2:                                #4E9A06
+*color3:                                #C4A000
+*color4:                                #3465A4
+*color5:                                #75507B
+*color6:                                #06989A
+*color7:                                #D3D7CF
 
-URxvt.perl-ext-common:  default,matcher
-URxvt.urlLauncher:      chromium
-URxvt.matcher.button:   2
+*color8:                                #555753
+*color9:                                #EF2929
+*color10:                               #8AE234
+*color11:                               #FCE94F
+*color12:                               #729FCF
+*color13:                               #AD7FA8
+*color14:                               #34E2E2
+*color15:                               #EEEEEC
 
 
 ! Dzen2 config:
 ! Todo: everything, beside font.
-dzen2.font:             xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true
+dzen2.font:                             xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true
 
 
-!xcalc-----------------------------------------------------------------------
-
-xcalc*geometry:                        200x275
-xcalc.ti.bevel.background:             #111111
-xcalc.ti.bevel.screen.background:      #000000
-xcalc.ti.bevel.screen.DEG.background:  #000000
-xcalc.ti.bevel.screen.DEG.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.GRAD.background: #000000
-xcalc.ti.bevel.screen.GRAD.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.RAD.background:  #000000
-xcalc.ti.bevel.screen.RAD.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.INV.background:  #000000
-xcalc.ti.bevel.screen.INV.foreground:  Red
-xcalc.ti.bevel.screen.LCD.background:  #000000
-xcalc.ti.bevel.screen.LCD.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.LCD.shadowWidth: 0
-xcalc.ti.bevel.screen.M.background:    #000000
-xcalc.ti.bevel.screen.M.foreground:    LightSeaGreen
-xcalc.ti.bevel.screen.P.background:    #000000
-xcalc.ti.bevel.screen.P.foreground:    Yellow
-xcalc.ti.Command.foreground:  White
-xcalc.ti.Command.background:  #777777
-xcalc.ti.button5.background:  Orange3
-xcalc.ti.button19.background: #611161
-xcalc.ti.button18.background: #611161
-xcalc.ti.button20.background: #611111
+! xcalc config:
+xcalc*geometry:                         200x275
+xcalc.ti.bevel.background:              #111111
+xcalc.ti.bevel.screen.background:       #000000
+xcalc.ti.bevel.screen.DEG.background:   #000000
+xcalc.ti.bevel.screen.DEG.foreground:   LightSeaGreen
+xcalc.ti.bevel.screen.GRAD.background:  #000000
+xcalc.ti.bevel.screen.GRAD.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.RAD.background:   #000000
+xcalc.ti.bevel.screen.RAD.foreground:   LightSeaGreen
+xcalc.ti.bevel.screen.INV.background:   #000000
+xcalc.ti.bevel.screen.INV.foreground:   Red
+xcalc.ti.bevel.screen.LCD.background:   #000000
+xcalc.ti.bevel.screen.LCD.foreground:   LightSeaGreen
+xcalc.ti.bevel.screen.LCD.shadowWidth:  0
+xcalc.ti.bevel.screen.M.background:     #000000
+xcalc.ti.bevel.screen.M.foreground:     LightSeaGreen
+xcalc.ti.bevel.screen.P.background:     #000000
+xcalc.ti.bevel.screen.P.foreground:     Yellow
+xcalc.ti.command.foreground:            White
+xcalc.ti.command.background:            #777777
+xcalc.ti.button5.background:            Orange3
+xcalc.ti.button19.background:           #611161
+xcalc.ti.button18.background:           #611161
+xcalc.ti.button20.background:           #611111
 !uncomment to change label on division button
 !xcalc.ti.button20.label:      /
-xcalc.ti.button25.background: #722222
-xcalc.ti.button30.background: #833333
-xcalc.ti.button35.background: #944444
-xcalc.ti.button40.background: #a55555
-xcalc.ti.button22.background: #222262
-xcalc.ti.button23.background: #222262
-xcalc.ti.button24.background: #222272
-xcalc.ti.button27.background: #333373
-xcalc.ti.button28.background: #333373
-xcalc.ti.button29.background: #333373
-xcalc.ti.button32.background: #444484
-xcalc.ti.button33.background: #444484
-xcalc.ti.button34.background: #444484
-xcalc.ti.button37.background: #555595
-xcalc.ti.button38.background: #555595
-xcalc.ti.button39.background: #555595
-XCalc*Cursor:                 hand2
-XCalc*ShapeStyle:             rectangle
+xcalc.ti.button25.background:           #722222
+xcalc.ti.button30.background:           #833333
+xcalc.ti.button35.background:           #944444
+xcalc.ti.button40.background:           #a55555
+xcalc.ti.button22.background:           #222262
+xcalc.ti.button23.background:           #222262
+xcalc.ti.button24.background:           #222272
+xcalc.ti.button27.background:           #333373
+xcalc.ti.button28.background:           #333373
+xcalc.ti.button29.background:           #333373
+xcalc.ti.button32.background:           #444484
+xcalc.ti.button33.background:           #444484
+xcalc.ti.button34.background:           #444484
+xcalc.ti.button37.background:           #555595
+xcalc.ti.button38.background:           #555595
+xcalc.ti.button39.background:           #555595
+xcalc*cursor:                           hand2
+xcalc*shapeStyle:                       rectangle
 
 
-! xclock ---------------------------------------------------------------------
-
- xclock*update:            1
- xclock*analog:            false
- xclock*Foreground:        white
- xclock*background:        black
+! xclock config:
+xclock*update:                          1
+xclock*analog:                          false
+xclock*foreground:                      white
+xclock*background:                      black

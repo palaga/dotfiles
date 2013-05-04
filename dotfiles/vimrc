@@ -79,7 +79,9 @@
 
 " Encryption config:
   set key=                            " Unset any key.
-  set cryptmethod=blowfish            " Set encryption method to blowfish (only for vim 7.3 and up).
+  if exists('+cryptmethod')
+    set cryptmethod=blowfish          " Set encryption method to blowfish (only for vim 7.3 and up).
+  endif
 
 
 " Indentation config:

@@ -1,10 +1,17 @@
 #! /usr/bin/env bash
 
-eval $(cat $HOME/.fehbg)
-urxvtd -q -o -f
-wmname LG3D
-unclutter -idle 3 &
+# Load Xdefaults, if exist
+#[[ -f ~/.Xdefaults]] && xrdb -merge ~/.Xdefaults
 
-exec $HOME/local/bin/dwm-clock &
-exec $HOME/local/bin/dwm
+eval $(cat $HOME/.fehbg)          # Set wallpaper
+urxvtd -q -o -f                   # Start terminal daemon
+wmname LG3D                       # Rename my WM, for java GUI
+syndeamon -d                      # Disable touchpad when typing
+xsetroot -cursor_name left_ptr    # Change cursor from cross to pointer
+unclutter -idle 3 &               # Hide cursor after 3 seconds
+
+
+#exec $HOME/local/bin/dwm-clock &
+#exec $HOME/local/bin/dwm
+exec xmonad
 
