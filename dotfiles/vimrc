@@ -72,6 +72,7 @@
 
 " Fold config:
   set foldmethod=manual               " Freestyle folding.
+  set foldcolumn=1                    " Show folds in an extra column on the left side.
   "set foldmarker={,}                  " Markers to use for folding.
   "set foldminlines=3                  " Minimum amount of lines for folding.
   "set foldlevelstart=99               " No initial folds.
