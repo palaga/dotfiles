@@ -57,7 +57,7 @@
               \search,tag,undo        " Open folds when one of these actions occurs on a fold.
   set mouse=a                         " Cheat a little. The mouse can be used in all modes.
   set backspace=indent,eol,start      " Allow backspace to remove indents, join lines and remove characters before insert.
-  set filetype=unix,dos,mac           " Support newline formats in given order.
+  set fileformats=unix,dos,mac        " Support newline formats in given order.
 
   syntax on                           " Turn syntax highlighting on.
   filetype plugin indent on           " Turn on filetype plugins and indentation.

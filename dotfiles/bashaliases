@@ -1,0 +1,10 @@
+# Command aliaes
+alias ls='ls --color=auto'
+alias g='gvim --remote-silent'
+alias cls='clear;ls'
+
+# Interactive versions
+alias mplayeri='rlwrap -c -f ~/dotfiles/rlwrap/mplayer.rlwrap mplayer -slave -quiet -idle'
+alias tclshi='rlwrap -c -f ~/dotfiles/rlwrap/tcl8.6.rlwrap tclsh'
+
+# vim: ft=sh:

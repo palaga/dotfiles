@@ -1,0 +1,17 @@
+# Zsh specific
+# Suffix aliases:
+alias -s txt=$EDITOR
+alias -s tex=$EDITOR
+alias -s c=$EDITOR
+alias -s java=$EDITOR
+alias -s hs=$EDITOR
+alias -s lhs=$EDITOR
+
+alias -s html=$BROWSER
+alias -s pdf=$PDFVIEWER
+
+alias -s jpg=$IMAGEVIEWER
+alias -s png=$IMAGEVIEWER
+alias -s gif=$IMAGEVIEWER
+
+alias -s avi=$MEDIAPLAYER
