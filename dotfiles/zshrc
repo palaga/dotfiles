@@ -8,6 +8,7 @@
 # Environment variables
 # General startup settings (dircolors, etc)
 source ~/.bashrc
+fpath=($fpath ~/.zshfunctions)
 limit coredumpsize unlimited
 
 # History configuration:
@@ -20,6 +21,7 @@ setopt hist_find_no_dups    # Do not show dupplicates, when searching
 setopt hist_no_store        # Do not store history commands (fc)
 setopt hist_no_functions    # Do not store function definitions
 setopt hist_ignore_space    # Do not store commands, which start with a space
+setopt prompt_subst         # Enable prompt substitution
 
 
 # Load modules
@@ -41,8 +43,12 @@ zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
 
 
+# VCS info configuration:
+zstyle ':vcs_info:*' enable git hg
+
+
 # Setting up prompt:
-prompt walters
+prompt palaga
 
 
 # Key binds:

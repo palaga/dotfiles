@@ -1,7 +1,7 @@
 # This makefile is intended to speed up the setup of the environment.
 
 DESTDIR   = $(HOME)
-CFGFILES  = zshrc zshaliases zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc bashrc bashaliases conkyrc xinitrc inputrc
+CFGFILES  = zshrc zshaliases zshenv vimrc gitignore_global dircolors Xdefaults xpdfrc bashrc bashaliases conkyrc xinitrc inputrc xmonad/xmonad.hs zshfunctions
 DESTFILES = $(addprefix $(DESTDIR)/.,$(CFGFILES))
 
 
@@ -24,8 +24,8 @@ install: $(DESTFILES)
 
 # Special case
 $(DESTDIR)/.xmonad/xmonad.hs: xmonad/xmonad.hs
-	echo mkdir -p $(DESTDIR)/.xmonad
-	echo ln -s $(CURDIR)/$< $(DESTDIR)/.$<
+	mkdir -p $(DESTDIR)/.xmonad
+	ln -s $(CURDIR)/$< $(DESTDIR)/.$<
 
 
 # Little cheat, all files can be dotfiles...
