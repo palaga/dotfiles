@@ -7,7 +7,7 @@
 # Load .bashrc where all compatible defaults are stored:
 # Environment variables
 # General startup settings (dircolors, etc)
-source .bashrc
+source ~/.bashrc
 limit coredumpsize unlimited
 
 # History configuration:

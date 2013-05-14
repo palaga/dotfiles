@@ -1,5 +1,6 @@
 # Command aliaes
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 alias g='gvim --remote-silent'
 alias cls='clear;ls'
 

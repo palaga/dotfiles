@@ -4,45 +4,40 @@ package require Tcl 8.5
 package require Tk  8.5
 
 
-
 # Set globals
-    set debug       1
-    set sbVar       "Status: idle"
-    set sizeVar     "Size: N/A"
-    set stateVar    "stopped"
-    set checkFile    ""
-    set checkFile   ""
-    set checkTime   500
-    set reloadTime  5000
-    set filterSize  0
+set debug       1
+set sbVar       "Status: idle"
+set sizeVar     "Size: N/A"
+set stateVar    "stopped"
+set checkFile   ""
+set checkFile   ""
+set checkTime   500
+set reloadTime  5000
+set filterSize  0
 
 
+proc listMovies {{debug 0}} {
+  set movieList [list]
+  set processes [open "|pgrep -f flash" r]
 
-
-proc listMovies {} {
-    global debug
-
-    set movieList [list]
-    set processes [open "|pgrep -f flash" r]
-
-    while {![eof $processes]} {
-        set pID [gets $processes]
-        if {$pID != ""} {
-            if { [ file readable "/proc/$pID/fd/" ] } {
-                foreach fd [glob "/proc/$pID/fd/*"] {
-                    if {[string first "/tmp/Flash" [file link $fd]] == 0} {
-                        lappend movieList $fd;
-                    }
-                }
-            }
+  while {![eof $processes]} {
+    set pID [gets $processes]
+    if {$pID != ""} {
+      if {[file readable "/proc/$pID/fd/"]} {
+        foreach fd [glob "/proc/$pID/fd/*"] {
+          if {[string first "/tmp/Flash" [file link $fd]] == 0} {
+            lappend movieList $fd;
+          }
         }
+      }
     }
+  }
 
-    if { [catch {close $processes} result options] && $debug } {
-        puts [format "Error while retrieving movie list: %s" $result]
-    }
+  if {[catch {close $processes} result options] && $debug} {
+    puts stderr [format "Error while retrieving movie list: %s" $result]
+  }
 
-    return $movieList
+  return $movieList
 }
 
 
@@ -75,12 +70,12 @@ proc getMovie {lb} {
 }
 
 
-proc reloadMovieListBox {lb} {
+proc reloadMovieListBox {lb {debug 0}} {
     global checkFile
 
     $lb delete 0 end
 
-    set movieList [filterList [listMovies]]
+    set movieList [filterList [listMovies $debug]]
     $lb insert 0 {*}$movieList
 
     if {$checkFile != ""} {

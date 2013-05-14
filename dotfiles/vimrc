@@ -21,6 +21,7 @@
   Bundle 'sophacles/vim-processing'
   Bundle 'SirVer/ultisnips'
   Bundle 'embear/vim-localvimrc'
+  Bundle 'jceb/vim-orgmode'
 
 
 " General config:
