@@ -1,0 +1,35 @@
+prompt_palaga_help () {
+  cat  << EOF
+This prompt is based on walters theme, but extends it with vcs info.
+The right-hand prompt can be configured, just like in walters prompt:
+
+  prompt palaga [<color>]
+
+Credits go to Colin Walters <walters@debian.org> and
+Michel Daenzer <daenzer@debian.org>.
+EOF
+}
+
+precmd () { vcs_info }
+
+prompt_palaga_setup () {
+  if [[ "$TERM" != "dumb" ]]; then
+    autoload -Uz vcs_info
+
+    zstyle ':vcs_info:*' stagedstr     '%F{black}|%F{magenta}s%f'
+    zstyle ':vcs_info:*' unstagedstr   '%F{black}|%F{magenta}u%f'
+    zstyle ':vcs_info:*' actionformats ' %F{blue}[%F{cyan}%s%F{blue}:%F{yellow}%b%F{blue}|%F{red}%a%c%u%F{blue}]%f'
+    zstyle ':vcs_info:*' formats       ' %F{blue}[%F{cyan}%s%F{blue}:%F{yellow}%b%c%u%F{blue}]%f'
+    zstyle ':vcs_info:*' check-for-changes true
+
+    export PROMPT='%B%(?..%F{red}[%?] )%F{blue}%n%f%b@%B%F{green}%m%f%b${vcs_info_msg_0_}%(!.%F{red}#%f.>) '
+    export RPROMPT="%F{${1:-green}}%~%f"
+  else
+    export PROMPT="%B%(?..[%?] )%b%n@%U%m%u%(!.#.>) "
+  fi
+}
+
+prompt_palaga_setup "$@"
+
+# vim:set ft=zsh:
+
