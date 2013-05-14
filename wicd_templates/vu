@@ -1,0 +1,23 @@
+name = VU
+author = Christian Ouwehand
+version = 2
+require identity *Identity pass *Password
+protected identity *Identity pass *Password
+-----
+ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=0
+eapol_version=2
+ap_scan=1
+fast_reauth=1
+
+network={
+   ssid="$_ESSID"
+   mode=0
+   proto=WPA2
+   key_mgmt=WPA-EAP
+   eap=TTLS
+   identity="$_IDENTITY"
+   password="$_PASS"
+   anonymous_identity="$_ANON"
+   phase2="auth=PAP"
+}

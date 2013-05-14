@@ -21,6 +21,7 @@
   Bundle 'sophacles/vim-processing'
   Bundle 'SirVer/ultisnips'
   Bundle 'embear/vim-localvimrc'
+  Bundle 'jceb/vim-orgmode'
 
 
 " General config:
@@ -57,7 +58,7 @@
               \search,tag,undo        " Open folds when one of these actions occurs on a fold.
   set mouse=a                         " Cheat a little. The mouse can be used in all modes.
   set backspace=indent,eol,start      " Allow backspace to remove indents, join lines and remove characters before insert.
-  set filetype=unix,dos,mac           " Support newline formats in given order.
+  set fileformats=unix,dos,mac        " Support newline formats in given order.
 
   syntax on                           " Turn syntax highlighting on.
   filetype plugin indent on           " Turn on filetype plugins and indentation.
@@ -72,6 +73,7 @@
 
 " Fold config:
   set foldmethod=manual               " Freestyle folding.
+  set foldcolumn=1                    " Show folds in an extra column on the left side.
   "set foldmarker={,}                  " Markers to use for folding.
   "set foldminlines=3                  " Minimum amount of lines for folding.
   "set foldlevelstart=99               " No initial folds.
@@ -79,7 +81,9 @@
 
 " Encryption config:
   set key=                            " Unset any key.
-  set cryptmethod=blowfish            " Set encryption method to blowfish (only for vim 7.3 and up).
+  if exists('+cryptmethod')
+    set cryptmethod=blowfish          " Set encryption method to blowfish (only for vim 7.3 and up).
+  endif
 
 
 " Indentation config:
