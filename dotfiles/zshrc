@@ -60,7 +60,9 @@ bindkey '^[[B' history-search-forward
 
 # Zsh aliases:
 source ~/.zshaliases
-[ -e ~/.zshcustom ] && source ~/.zshcustom
+if [[ -e ~/.zshcustom ]]; then
+  source ~/.zshcustom;
+fi
 
 
 # Oh-My-Zsh configuration:
