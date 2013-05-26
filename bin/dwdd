@@ -1,7 +1,11 @@
 #! /usr/bin/env tclsh
 
-set command "mplayer -softvol -volume 50 -aspect 16:9"
-set types   [list tvdd dwld dwddgast]
+set volume   50
+set cachemin 10
+set cache    [expr {40*1024}]
+set aspect   16:9
+set command  "mplayer -cache $cache -cache-min $cachemin -softvol -volume $volume -aspect $aspect"
+set types    [list tvdd dwld dwddgast]
 
 # Shortcuts:
 proc dwld     {date  } { playtype $date leert   {} }
