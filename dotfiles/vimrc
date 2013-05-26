@@ -63,6 +63,8 @@
   syntax on                           " Turn syntax highlighting on.
   filetype plugin indent on           " Turn on filetype plugins and indentation.
 
+  " Use xdg-open to open possible uri onder cursor
+  let g:netrw_browsex_viewer='xdg-open'
 
 " Gui options:
   " a: When in visual try to copy selection to the windowing system's global
