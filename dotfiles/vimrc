@@ -22,6 +22,8 @@
   Bundle 'SirVer/ultisnips'
   Bundle 'embear/vim-localvimrc'
   Bundle 'jceb/vim-orgmode'
+  Bundle 'godlygeek/tabular'
+  Bundle 'kien/ctrlp.vim'
 
 
 " General config:

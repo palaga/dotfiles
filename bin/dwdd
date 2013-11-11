@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 
-set command "mplayer -softvol -volume 50 -aspect 16:9"
+set command "mplayer -cache 4096 -cache-min 80 -softvol -volume 50 -aspect 16:9"
 set types   [list tvdd dwld dwddgast]
 
 # Shortcuts:
