@@ -22,6 +22,7 @@
   Bundle 'SirVer/ultisnips'
   Bundle 'embear/vim-localvimrc'
   Bundle 'jceb/vim-orgmode'
+  Bundle 'wlangstroth/vim-haskell'
 
 
 " General config:
@@ -74,11 +75,16 @@
 
 
 " Fold config:
-  set foldmethod=manual               " Freestyle folding.
+  set foldmethod=syntax               " Freestyle folding.
   set foldcolumn=1                    " Show folds in an extra column on the left side.
   "set foldmarker={,}                  " Markers to use for folding.
   "set foldminlines=3                  " Minimum amount of lines for folding.
-  "set foldlevelstart=99               " No initial folds.
+  set foldlevelstart=99               " No initial folds.
+
+
+" Syntastic config:
+  let g:syntastic_java_javac_config_file_enabled=1 " Read javac config file, to make classpath permanent
+  let g:syntastic_java_javac_delete_output=0       " Do not delete class files, to speed up checking
 
 
 " Encryption config:
