@@ -76,11 +76,11 @@
 
 
 " Fold config:
-  set foldmethod=manual               " Freestyle folding.
+  set foldmethod=syntax               " Syntax folding.
   set foldcolumn=1                    " Show folds in an extra column on the left side.
   "set foldmarker={,}                  " Markers to use for folding.
   "set foldminlines=3                  " Minimum amount of lines for folding.
-  "set foldlevelstart=99               " No initial folds.
+  set foldlevelstart=99               " No initial folds.
 
 
 " Encryption config:
@@ -102,6 +102,11 @@
 " Set color scheme:
   set background=dark                 " Please use a dark scheme, when posible.
   colorscheme zenburn
+
+
+" Syntastic specific settings:
+  let g:syntastic_java_javac_delete_output=0        " Keep class files, to speedup checking
+  let g:syntastic_java_javac_config_file_enabled=1  " Enable javac config file
 
 
 " Mappings:
