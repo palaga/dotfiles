@@ -1,7 +1,9 @@
 " Todo:
 "   - Fold settings, per file type (python, java, C).
 
+
 " Vundle config:
+  filetype off
   set rtp+=~/.vim/bundle/vundle/
   call vundle#rc()
 
