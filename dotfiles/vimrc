@@ -2,30 +2,41 @@
 "   - Fold settings, per file type (python, java, C).
 
 
-" Vundle config:
+" NeoBundle config:
   filetype off
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#rc()
+  if has('vim_starting')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand('~/.vim/bundle/'))
+  endif
 
 " Bundles to manage:
-  Bundle 'gmarik/vundle'
-  Bundle 'jnurmine/Zenburn'
-  Bundle 'altercation/vim-colors-solarized'
-  Bundle 'derekwyatt/vim-scala'
-  Bundle 'scrooloose/syntastic'
-  Bundle 'scrooloose/nerdtree'
-  Bundle 'scrooloose/nerdcommenter'
-  Bundle 'tpope/vim-fugitive'
-  Bundle 'tpope/vim-surround'
-  Bundle 'mileszs/ack.vim'
-  Bundle 'gregsexton/gitv'
-  Bundle 'majutsushi/tagbar'
-  Bundle 'sophacles/vim-processing'
-  Bundle 'SirVer/ultisnips'
-  Bundle 'embear/vim-localvimrc'
-  Bundle 'jceb/vim-orgmode'
-  Bundle 'godlygeek/tabular'
-  Bundle 'kien/ctrlp.vim'
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  NeoBundle      'Shougo/vimproc.vim'
+  NeoBundle      'Shougo/unite.vim'
+  NeoBundle      'Shougo/vimshell.vim'
+  NeoBundle      'Shougo/neocomplete.vim'
+  NeoBundle      'jnurmine/Zenburn'
+  NeoBundle      'altercation/vim-colors-solarized'
+  NeoBundle      'derekwyatt/vim-scala'
+  NeoBundle      'scrooloose/syntastic'
+  NeoBundle      'scrooloose/nerdtree'
+  NeoBundle      'scrooloose/nerdcommenter'
+  NeoBundle      'tpope/vim-fugitive'
+  NeoBundle      'tpope/vim-surround'
+  NeoBundle      'mileszs/ack.vim'
+  NeoBundle      'gregsexton/gitv'
+  NeoBundle      'majutsushi/tagbar'
+  NeoBundle      'SirVer/ultisnips'
+  NeoBundle      'embear/vim-localvimrc'
+  NeoBundle      'jceb/vim-orgmode'
+  NeoBundle      'godlygeek/tabular'
+  NeoBundle      'kien/ctrlp.vim'
+  NeoBundle      'bling/vim-airline'
+  NeoBundle      'chrisbra/csv.vim'
+
+  NeoBundleCheck
+
 
 
 " General config:
@@ -120,5 +131,7 @@
 
 " Mappings:
   " Open file under curser, even if it doesn't exist, with \gf:
-  map <leader>gf :sp <cfile><cr>
+  map <leader>gf :sp   <cfile><cr>
+  map <leader>gF :tabe <cfile><cr>
+  map <leader>gr :r    <cfile><cr>
 
