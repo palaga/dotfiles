@@ -3,18 +3,17 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import subprocess as sp
+import base64, json
 
 
 def findurl (url):
-    page    = urlopen(url)
-    html    = page.read()
-    soup = BeautifulSoup(html)
-    div  = soup.find("div", id="item1")
-
-    if div["class"] == ["video"]:
-        return div["data-vidurl"]
-    else:
-        None
+    page     = urlopen(url)
+    html     = page.read()
+    soup     = BeautifulSoup(html)
+    div      = soup.find("div", id="video1")
+    rawdata  = base64.b64decode(div["data-files"])
+    jsondata = json.loads(rawdata.decode("ascii"))
+    return jsondata["flv"]
 
 
 def play (url):
