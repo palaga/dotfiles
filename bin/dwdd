@@ -1,7 +1,7 @@
 #! /usr/bin/env tclsh
 
 set volume   50
-set cachemin 10
+set cachemin 2
 set cache    [expr {40*1024}]
 set aspect   16:9
 set command  "mplayer -cache $cache -cache-min $cachemin -softvol -volume $volume -aspect $aspect"
