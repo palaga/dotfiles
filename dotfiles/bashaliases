@@ -3,6 +3,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias g='gvim --remote-silent'
 alias cls='clear;ls'
+alias rot13="tr '[A-Za-z]' '[N-ZA-Mn-za-m]'"
 
 # Interactive versions
 alias mplayeri='rlwrap -c -f ~/dotfiles/rlwrap/mplayer.rlwrap mplayer -slave -quiet -idle'

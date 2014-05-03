@@ -1,27 +1,41 @@
 " Todo:
 "   - Fold settings, per file type (python, java, C).
 
-" Vundle config:
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#rc()
+
+" NeoBundle config:
+  filetype off
+  if has('vim_starting')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand('~/.vim/bundle/'))
+  endif
 
 " Bundles to manage:
-  Bundle 'gmarik/vundle'
-  Bundle 'jnurmine/Zenburn'
-  Bundle 'altercation/vim-colors-solarized'
-  Bundle 'derekwyatt/vim-scala'
-  Bundle 'scrooloose/syntastic'
-  Bundle 'scrooloose/nerdtree'
-  Bundle 'scrooloose/nerdcommenter'
-  Bundle 'tpope/vim-fugitive'
-  Bundle 'tpope/vim-surround'
-  Bundle 'mileszs/ack.vim'
-  Bundle 'gregsexton/gitv'
-  Bundle 'majutsushi/tagbar'
-  Bundle 'sophacles/vim-processing'
-  Bundle 'SirVer/ultisnips'
-  Bundle 'embear/vim-localvimrc'
-  Bundle 'jceb/vim-orgmode'
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  NeoBundle      'Shougo/vimproc.vim'
+  NeoBundle      'Shougo/unite.vim'
+  NeoBundle      'Shougo/vimshell.vim'
+  NeoBundle      'Shougo/neocomplete.vim'
+  NeoBundle      'jnurmine/Zenburn'
+  NeoBundle      'altercation/vim-colors-solarized'
+  NeoBundle      'derekwyatt/vim-scala'
+  NeoBundle      'scrooloose/syntastic'
+  NeoBundle      'scrooloose/nerdtree'
+  NeoBundle      'scrooloose/nerdcommenter'
+  NeoBundle      'tpope/vim-fugitive'
+  NeoBundle      'tpope/vim-surround'
+  NeoBundle      'mileszs/ack.vim'
+  NeoBundle      'gregsexton/gitv'
+  NeoBundle      'majutsushi/tagbar'
+  NeoBundle      'SirVer/ultisnips'
+  NeoBundle      'embear/vim-localvimrc'
+  NeoBundle      'jceb/vim-orgmode'
+  NeoBundle      'godlygeek/tabular'
+  NeoBundle      'kien/ctrlp.vim'
+  NeoBundle      'bling/vim-airline'
+  NeoBundle      'chrisbra/csv.vim'
+
+  NeoBundleCheck
 
 
 " General config:
@@ -63,6 +77,8 @@
   syntax on                           " Turn syntax highlighting on.
   filetype plugin indent on           " Turn on filetype plugins and indentation.
 
+  " Use xdg-open to open possible uri onder cursor
+  let g:netrw_browsex_viewer='xdg-open'
 
 " Gui options:
   " a: When in visual try to copy selection to the windowing system's global
@@ -72,11 +88,22 @@
 
 
 " Fold config:
-  set foldmethod=manual               " Freestyle folding.
+  set foldmethod=syntax               " Syntax folding.
   set foldcolumn=1                    " Show folds in an extra column on the left side.
   "set foldmarker={,}                  " Markers to use for folding.
   "set foldminlines=3                  " Minimum amount of lines for folding.
-  "set foldlevelstart=99               " No initial folds.
+  set foldlevelstart=99               " No initial folds.
+
+" Syntastic config:
+  let g:syntastic_java_javac_config_file_enabled=1 " Read javac config file, to make classpath permanent
+  let g:syntastic_java_javac_delete_output=0       " Do not delete class files, to speed up checking
+
+" VimTip 1651:
+  " Don't screw up folds when inserting text that might affect them, until
+  " leaving insert mode. Foldmethod is local to the window. Protect against
+  " screwing up folding when switching between windows.
+  autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+  autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 
 " Encryption config:
@@ -100,7 +127,14 @@
   colorscheme zenburn
 
 
+" Syntastic specific settings:
+  let g:syntastic_java_javac_delete_output=0        " Keep class files, to speedup checking
+  let g:syntastic_java_javac_config_file_enabled=1  " Enable javac config file
+
+
 " Mappings:
   " Open file under curser, even if it doesn't exist, with \gf:
-  map <leader>gf :sp <cfile><cr>
+  map <leader>gf :sp   <cfile><cr>
+  map <leader>gF :tabe <cfile><cr>
+  map <leader>gr :r    <cfile><cr>
 
