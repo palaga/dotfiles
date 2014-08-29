@@ -33,8 +33,10 @@
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (defvar my-packages '(ac-slime
+		      auctex
 		      auto-complete
 		      autopair
+		      company
 		      flycheck
 		      graphviz-dot-mode
 		      haskell-mode
@@ -44,6 +46,7 @@
 		      zenburn-theme
 		      solarized-theme
 		      writegood-mode
+		      powerline
 		      slime
 		      ac-slime)
   "Default packages")
@@ -63,8 +66,17 @@
 
 
 ;;; Setting up theme
-(load-theme 'solarized-dark)
+(load-theme 'solarized-dark t)
+(load-theme 'zenburn t t)
 
+
+;;; 
+(setq inferior-lisp-program "/bin/sbcl")
+(require 'dired-x)
+(put 'dired-find-alternate-file 'disabled nil)
+(setq dired-omit-files-p t)
+(require 'ido)
+(ido-mode t)
 
 ;;; Setting up paredit
 (require 'paredit)
@@ -76,16 +88,17 @@
 (add-hook 'lisp-interaction-mode-hook            #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook                      #'enable-paredit-mode)
 
-
+;;; Powerline settings
+(require 'powerline)
+(powerline-center-theme)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+ '(powerline-buffer-size-suffix nil)
+ '(powerline-default-separator (quote zigzag))
+ '(powerline-height nil)
+ '(powerline-text-scale-factor nil))
+
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+ '(powerline-active1 ((t (:inherit default :background "#002b36"))))
+ '(powerline-active2 ((t (:inherit default :background "#073642"))))
+ '(powerline-inactive1 ((t (:inherit default :background "#073642"))))
+ '(powerline-inactive2 ((t (:inherit default :background "#002B36")))))
