@@ -34,6 +34,8 @@
   NeoBundle      'kien/ctrlp.vim'
   NeoBundle      'bling/vim-airline'
   NeoBundle      'chrisbra/csv.vim'
+  NeoBundle      'wannesm/wmgraphviz.vim'
+  NeoBundle      'kovisoft/slimv'
 
   NeoBundleCheck
 

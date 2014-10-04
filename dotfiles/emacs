@@ -1,4 +1,5 @@
 (require 'whitespace)
+(global-whitespace-mode 1)
 (global-linum-mode 1)                   ; Enable line number
 (setq truncate-lines t                  ; Disable line wrapping
       inhibit-startup-message t         ; Bring straight to scratch buffer
@@ -8,6 +9,8 @@
       make-backup-files nil             ; Disable backup files
       echo-keystrokes 0.1               ; Lower the time to show keystrokes
       use-dialog-box nil                ; Do not use dialog boxes
+      browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "chromium"
       whitespace-style '(trailing	; Show trailing spaces
 			 tabs		;      tabs
 			 newline	;      newlines
@@ -23,6 +26,7 @@
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "M-\\") 'hippie-expand)
 
 
 ;;; Package configuration
@@ -30,8 +34,10 @@
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 
+			 
 (defvar my-packages '(ac-slime
 		      auctex
 		      auto-complete
@@ -40,16 +46,22 @@
 		      flycheck
 		      graphviz-dot-mode
 		      haskell-mode
+		      lacarte
 		      magit
 		      markdown-mode
 		      paredit
-		      zenburn-theme
 		      solarized-theme
-		      writegood-mode
+		      org
+		      org-plus-contrib
 		      powerline
 		      slime
-		      ac-slime)
+		      writegood-mode
+		      zenburn-theme)
   "Default packages")
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((dot . t)))
 
 (require 'cl)
 (defun my-packages-installed-p ()
@@ -67,14 +79,20 @@
 
 ;;; Setting up theme
 (load-theme 'solarized-dark t)
-(load-theme 'zenburn t t)
+;; (load-theme 'zenburn t t)
+
+;;; Configure la carte
+(require 'lacarte)
+(global-set-key [?\e ?\M-x] 'lacarte-execute-command)
 
 
 ;;; 
 (setq inferior-lisp-program "/bin/sbcl")
+
 (require 'dired-x)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq dired-omit-files-p t)
+
 (require 'ido)
 (ido-mode t)
 
@@ -92,12 +110,21 @@
 (require 'powerline)
 (powerline-center-theme)
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-plantuml-jar-path "/home/palaga/.emacs.d/plantuml.jar")
  '(powerline-buffer-size-suffix nil)
  '(powerline-default-separator (quote zigzag))
  '(powerline-height nil)
  '(powerline-text-scale-factor nil))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(powerline-active1 ((t (:inherit default :background "#002b36"))))
  '(powerline-active2 ((t (:inherit default :background "#073642"))))
  '(powerline-inactive1 ((t (:inherit default :background "#073642"))))
