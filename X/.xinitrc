@@ -13,5 +13,6 @@ unclutter -idle 3 &               # Hide cursor after 3 seconds
 
 #exec $HOME/local/bin/dwm-clock &
 #exec $HOME/local/bin/dwm
+xmodmap .xmodmap
 exec xmonad
 
