@@ -22,6 +22,7 @@ export PDFVIEWER=xpdf
 export IMAGEVIEWER='feh -.'
 export MEDIAPLAYER='mplayer'
 export PATH=$PATH:$HOME/bin:$HOME/local/bin
+export TCLLIBPATH=". $TCLLIBPATH"
 
 # Less configuration:
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
