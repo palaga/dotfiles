@@ -1,6 +1,6 @@
 * Introduction
 ** TODO Why org mode
-   Self documenting configuration, yay!
+   Self documenting configuration, ya!
 * Package Configuration
   Packages should be installed and loaded in a modular and reliable
   way... Enter /use-package/! It allows for easy package loading and
@@ -247,6 +247,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package org
        :ensure t
+       :bind ("C-c c" . org-capture)
        :config
        (progn
          (org-babel-do-load-languages
@@ -259,9 +260,8 @@
          (setq org-directory "~/org"
                org-default-notes-file (concat org-directory "/notes.org"))))
 
-     ;; (use-package org-plus-contrib
-     ;;   :bind ("C-c c" . org-capture)
-     ;;   :ensure t)
+     (use-package org-plus-contrib
+       :ensure t)
    #+end_src
 ** TODO Latex
    =tex-site= seems to be the package for =auctex=.
