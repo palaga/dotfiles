@@ -51,8 +51,8 @@ zstyle ':vcs_info:*' enable git hg
 prompt palaga
 
 
-# Key binds:
-bindkey -v
+# Key binds emacs style:
+bindkey -e
 bindkey '^R' history-incremental-search-backward
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward

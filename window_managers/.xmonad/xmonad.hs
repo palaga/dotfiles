@@ -1,5 +1,5 @@
 import XMonad
-import XMonad.Actions.Volume
+-- import XMonad.Actions.Volume
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog
@@ -40,20 +40,20 @@ myConfig = myDefaults `additionalKeysP` myKeys where
     }
 
 
-myKeys =
-  [ ("<XF86AudioMute>",        toggleMute    >>= dzenMute)
-  , ("<XF86AudioLowerVolume>", lowerVolume 3 >>= dzenVolume)
-  , ("<XF86AudioRaiseVolume>", raiseVolume 3 >>= dzenVolume)
-  ] where
-    dzenVolume = dzenConfig dzenParams . show . round
-    dzenMute   = dzenConfig dzenParams . show
-    dzenParams = onCurr (center 200 66)
-              >=> timeout 1
-              >=> font "-*-helvetica-*-r-*-*-64-*-*-*-*-*-*-*"
-              >=> addArgs ["-fg", fgColor]
-              >=> addArgs ["-bg", bgColor]
-    fgColor    = "#80c0ff"
-    bgColor    = "#303030"
+myKeys = []
+--   [ ("<XF86AudioMute>",        toggleMute    >>= dzenMute)
+--   , ("<XF86AudioLowerVolume>", lowerVolume 3 >>= dzenVolume)
+--   , ("<XF86AudioRaiseVolume>", raiseVolume 3 >>= dzenVolume)
+--   ] where
+--     dzenVolume = dzenConfig dzenParams . show . round
+--     dzenMute   = dzenConfig dzenParams . show
+--     dzenParams = onCurr (center 200 66)
+--               >=> timeout 1
+--               >=> font "-*-helvetica-*-r-*-*-64-*-*-*-*-*-*-*"
+--               >=> addArgs ["-fg", fgColor]
+--               >=> addArgs ["-bg", bgColor]
+--     fgColor    = "#80c0ff"
+--     bgColor    = "#303030"
 
 
 -- Hooks:

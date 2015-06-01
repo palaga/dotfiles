@@ -1,0 +1,413 @@
+* Introduction
+** TODO Why org mode
+   Self documenting configuration, yay!
+* Package Configuration
+  Packages should be installed and loaded in a modular and reliable
+  way... Enter /use-package/! It allows for easy package loading and
+  configuration!
+  #+begin_src emacs-lisp :tangle yes
+    (require 'package)
+
+    (eval-and-compile
+      (package-initialize)
+      (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                               ("marmalade" . "http://marmalade-repo.org/packages/")
+                               ("org" . "http://orgmode.org/elpa/")
+                               ("melpa" . "http://melpa.milkbox.net/packages/"))))
+
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+
+    (require 'use-package)
+    (eval-when-compile
+      (unless (boundp 'package-archive-content)
+        (when (y-or-n-p "Update package list?")
+          (package-refresh-contents))))
+  #+end_src
+  =package-initialize= is executed in a =eval-and-compile= block to
+  ensure that it is loaded properly compile time. Also add a general
+  elisp directory to our path, in order to experiment!
+  #+begin_src emacs-lisp :tangle yes
+    (eval-and-compile (add-to-list 'load-path "~/.emacs.d/elisp/"))
+  #+end_src
+* Auto-Compile
+  Auto compile everything on load, in order to speed up future loads.
+  #+begin_src emacs-lisp :tangle yes
+    (use-package auto-compile
+      :ensure t
+      :config
+      (progn
+        (auto-compile-on-load-mode)
+        (setq load-prefer-newer t)))
+  #+end_src
+* General Configuration
+** Visual Appearance
+   Now that we have the packages configured, we want to clean up the
+   visual appearances of emacs. Lets cut down on the bars and what
+   not.
+   #+begin_src emacs-lisp :tangle yes
+     (setq inhibit-splash-screen t)          ; Disable splash screen
+     (setq inhibit-startup-message t)        ; Disable startup message
+
+     (when window-system
+       (scroll-bar-mode -1)                  ; Disable scroll bars
+       (tool-bar-mode -1)                    ; Disable tool bar
+       (menu-bar-mode -1))                   ; Disable menu bar
+
+     (setq use-dialog-box nil)               ; Do not use dialog boxes
+     (global-linum-mode 1)                   ; Enable line number
+     (global-hl-line-mode 1)                 ; Highlight line of the cursor
+     (setq echo-keystrokes 0.1)              ; Lower the time to show keystrokes
+
+     (set-face-background hl-line-face "gray16")
+   #+end_src
+** Key bindings
+   Some simple key bindings, to make life easier.
+   #+begin_src emacs-lisp :tangle yes
+     (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+     (global-set-key (kbd "C--") 'text-scale-decrease)
+     (global-set-key (kbd "C-+") 'text-scale-increase)
+     (global-set-key (kbd "RET") 'newline-and-indent)
+     (global-set-key (kbd "M-\\") 'hippie-expand)
+     (global-set-key (kbd "M-[") 'align)
+   #+end_src
+** Increment numbers
+   #+begin_src emacs-lisp :tangle yes
+     (defun my/increment-number-decimal (&optional arg)
+       "Increment the number forward from point by 'arg'."
+       (interactive "p*")
+       (save-excursion
+         (save-match-data
+           (let (inc-by field-width answer)
+             (setq inc-by (if arg arg 1))
+             (skip-chars-backward "0123456789")
+             (when (re-search-forward "[0-9]+" nil t)
+               (setq field-width (- (match-end 0) (match-beginning 0)))
+               (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
+               (when (< answer 0)
+                 (setq answer (+ (expt 10 field-width) answer)))
+               (replace-match (format (concat "%0" (int-to-string field-width) "d")
+                                      answer)))))))
+
+     (global-set-key (kbd "C-c i") 'my/increment-number-decimal)
+   #+end_src
+** Aliases
+   Disable annoying /enter yes or no/ questions and replace them
+   with a simple /enter y or n/ question.
+   #+begin_src emacs-lisp :tangle yes
+     (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+** White spaces
+   #+begin_src emacs-lisp :tangle yes
+     (use-package whitespace
+       :diminish global-whitespace-mode
+       :config
+       (progn
+         (global-whitespace-mode 1)
+         (setq whitespace-style '(face trailing tabs))))
+
+     (setq-default indent-tabs-mode nil)     ; Disable tab
+     (setq truncate-lines t)                 ; Disable line wrapping
+     (setq tab-width 4)                      ; Set tab width to 4 spaces
+   #+end_src
+** Browser Configuration
+   #+begin_src emacs-lisp :tangle yes
+     (setq browse-url-browser-function 'browse-url-generic
+           browse-url-generic-program "firefox")
+   #+end_src
+** Spell Checker Configuration
+   Enable =flyspell-mode= for normal text files.
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'text-mode-hook 'flyspell-mode)
+   #+end_src
+   And enable the spell checker for comments, while programming.
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+   #+end_src
+** Fill Mode Configuration
+   Text should stay within 80 columns. This should be true for both
+   text documents, as well as comments in source code.
+   #+begin_src emacs-lisp :tangle yes
+     (dolist (hook '(text-mode-hook prog-mode-hook))
+             (add-hook hook 'auto-fill-mode))
+     (setq fill-column 80)
+     (setq fill-indent-according-to-mode t)
+
+     (use-package newcomment
+                  :config (setq comment-auto-fill-only-comments t))
+   #+end_src
+** Backups
+   #+begin_src emacs-lisp :tangle yes
+     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+     (setq version-control t)                ; Save versions of our backup files
+     (setq vc-make-backup-files t)           ; Prevent loss of contents in uncommitted files
+   #+end_src
+** History
+   Keep the history of our actions. I have set the maximum number of
+   history entries to 1000.
+   #+begin_src emacs-lisp :tangle yes
+     (savehist-mode 1)
+     (setq history-length 1000)
+     (setq history-delete-duplicates t)
+     (setq savehist-save-minibuffer-history t)
+     (setq savehist-additional-variables '(compile-command
+                                           killring
+                                           search-ring
+                                           regexp-search-ring))
+   #+end_src
+** IDO Mode
+   Simple, yet powerful extension to Emacs. I use it mainly for its
+   file search replacement. It allows me to quickly find the files and
+   buffers I need.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ido
+                  :init (ido-mode 1))
+   #+end_src
+** Dired and Dired-x Configuration
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dired-x)
+     (put 'dired-find-alternate-file 'disabled nil)
+     (setq dired-dwim-target t)
+     (dired-omit-mode 1)
+   #+end_src
+* Theme Configuration
+  Zenburn! Gotta love it..
+  #+begin_src emacs-lisp :tangle yes
+    (use-package zenburn-theme
+      :ensure t
+      :config (load-theme 'zenburn t))
+  #+end_src
+* Languages Modes
+** TODO Haskell
+   #+begin_src emacs-lisp :tangle yes
+     (use-package haskell-mode
+       :config
+       (progn
+         (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+         (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
+         (add-hook 'haskell-mode-hook 'interactive-haskell-mode)))
+   #+end_src
+** TODO OCaml
+** TODO Android
+   #+begin_src emacs-lisp :tangle yes
+     (use-package android-mode
+       :ensure t)
+   #+end_src
+** TODO Java
+*** Eclim Configuration
+   Some eclim configuration. Should be updated for real usage!
+   #+begin_src emacs-lisp :tangle yes
+     ;; (require 'eclim)
+     ;; (require 'eclimd)
+
+     ;; (global-eclim-mode)
+
+     ;; (custom-set-variables
+     ;;  '(eclim-eclipse-dirs '("~/.opt/eclipse_luna/"))
+     ;;  '(eclim-executable "~/.opt/eclipse_luna/eclim"))
+   #+end_src
+*** Ant Configuration
+    #+begin_src emacs-lisp :tangle yes
+      (use-package ant
+        :ensure t)
+    #+end_src
+** TODO Lisps
+*** General
+**** Paredit
+     #+begin_src emacs-lisp :tangle yes
+       (use-package paredit
+         :ensure t
+         :config
+         (dolist
+             (hook '(emacs-lisp-mode-hook
+                     eval-expression-minibuffer-setup-hook
+                     ielm-mode-hook
+                     lisp-mode-hook
+                     lisp-interaction-mode-hook
+                     scheme-mode-hook))
+           (add-hook hook 'enable-paredit-mode)))
+     #+end_src
+*** Emacs Lisp
+*** Common Lisp
+*** Schemes
+    #+begin_src emacs-lisp :tangle yes
+      (use-package geiser
+        :ensure t)
+    #+end_src
+** TODO Python
+** TODO C/C++
+* Markup Modes
+** TODO Markdown
+   #+begin_src emacs-lisp :tangle yes
+     (use-package markdown-mode
+       :ensure t)
+   #+end_src
+** TODO Org Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org
+       :ensure t
+       :config
+       (progn
+         (org-babel-do-load-languages
+          'org-babel-load-languages
+          '((dot    . t)
+            (python . t)
+            (R      . t)
+            (sh     . t)))
+
+         (setq org-directory "~/org"
+               org-default-notes-file (concat org-directory "/notes.org"))))
+
+     ;; (use-package org-plus-contrib
+     ;;   :bind ("C-c c" . org-capture)
+     ;;   :ensure t)
+   #+end_src
+** TODO Latex
+   =tex-site= seems to be the package for =auctex=.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package tex-site
+       :ensure auctex)
+   #+end_src
+** TODO Graphviz
+   #+begin_src emacs-lisp :tangle yes
+     (use-package graphviz-dot-mode
+       :ensure t)
+   #+end_src
+* Other Modes
+** Smex Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package smex
+       :ensure t
+       :init (smex-initialize)
+       :bind (("M-x" . smex)
+              ("M-X" . smex-major-mode-commands)))
+   #+end_src
+** TODO Helm Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package helm
+       :ensure t
+       :init (helm-mode))
+   #+end_src
+*** Helm Swoop
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-swoop
+                   :ensure t
+                   :bind ("M-i" . helm-swoop))
+    #+end_src
+*** Helm Flycheck
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-flycheck
+                   :ensure t
+                   :bind ("C-c ! h" . helm-flycheck))
+    #+end_src
+** TODO Flycheck Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flycheck
+       :ensure t
+       :config
+       (progn
+         (add-hook 'c-mode-hook
+                   (lambda ()
+                     (flycheck-mode)
+                     (flycheck-list-errors)))
+         (add-hook 'python-mode-hook
+                   (lambda ()
+                     (flycheck-select-checker 'python-pylint)
+                     (flycheck-mode)))))
+   #+end_src
+** TODO Magit Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package magit
+       :ensure t
+       :config
+       (progn
+         (setq magit-last-seen-setup-instructions "1.4.0")
+         (setq magit-auto-revert-mode nil)))
+   #+end_src
+** TODO Company Mode
+   Company mode provides auto completion for my setup. I have
+   configured it to work with different back ends. Probably needs some
+   tweaking.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package company
+       :ensure t
+       :init (global-company-mode)
+       :diminish company-mode
+       :config
+       (progn
+         (setq company-backends '(company-files
+                                  company-ispell
+                                  company-dabbrev))
+         (add-hook 'emacs-lisp-mode-hook
+                   (lambda ()
+                     (setq-local company-backends '(company-elisp company-files))))
+         (add-hook 'eclim-mode-hook
+                   (lambda ()
+                     (setq-local company-backends '(company-eclim))))
+         (add-hook 'c-mode-hook
+                   (lambda ()
+                     (setq-local company-backends '(company-clang))))
+         (add-hook 'c++-mode-hook
+                   (lambda ()
+                     (setq-local company-backends '(company-clang))))
+         ))
+   #+end_src
+   The tab completion functionality might clash with yasnippet. The
+   following code (from [[http://www.emacswiki.org/emacs/CompanyMode]])
+   resolves the issue.
+   #+begin_src emacs-lisp :tangle yes
+     (defun check-expansion ()
+       (save-excursion
+         (if (looking-at "\\_>") t
+           (backward-char 1)
+           (if (looking-at "\\.") t
+             (backward-char 1)
+             (if (looking-at "->") t nil)))))
+
+     (defun do-yas-expand ()
+       (let ((yas/fallback-behavior 'return-nil))
+         (yas/expand)))
+
+     (defun tab-indent-or-complete ()
+       (interactive)
+       (if (minibufferp)
+           (minibuffer-complete)
+         (if (or (not yas/minor-mode)
+                 (null (do-yas-expand)))
+             (if (check-expansion)
+                 (company-complete-common)
+               (indent-for-tab-command)))))
+
+
+     (with-eval-after-load 'company
+       (define-key company-active-map "\t" 'tab-indent-or-complete))
+   #+end_src
+** TODO Yasnippet Mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet
+       :ensure t
+       :init (yas-global-mode 1)
+       :diminish yas-minor-mode
+       :config
+       (let ((my/snippets-dir "~/.emacs.d/snippets"))
+         (setq yas-snippet-dirs (list my/snippets-dir))
+         (setq yas/root-directory my/snippets-dir)
+         (yas-load-directory yas/root-directory)))
+   #+end_src
+** TODO CEDET
+*** TODO Sr-Speedbar
+    The key binding for speedbar does not work yet. Fix this!
+    #+begin_src emacs-lisp :tangle no
+      (defun my/sr-speedbar-toggle ()
+        "Toggle sr-speedbar and set focus to it."
+        (interactive)
+        (sr-speedbar-toggle)
+        (when (sr-speedbar-exist-p)
+          (sr-speedbar-select-window)))
+
+      (use-package sr-speedbar
+        :ensure t
+        :bind ("<f6>" . my/sr-speedbar-toggle))
+    #+end_src
+** TODO Rebox2

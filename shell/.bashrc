@@ -21,7 +21,7 @@ export BROWSER=chromium
 export PDFVIEWER=xpdf
 export IMAGEVIEWER='feh -.'
 export MEDIAPLAYER='mplayer'
-export PATH=$PATH:$HOME/bin:$HOME/local/bin
+export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
 export TCLLIBPATH=". $TCLLIBPATH"
 
 # Less configuration:

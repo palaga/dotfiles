@@ -8,3 +8,4 @@ if (($+commands[keychain])); then
     eval $(keychain --eval --quiet -Q)
 fi
 
+export PATH=$HOME/.bin:$HOME/.local/bin:$PATH

@@ -1,2 +1,7 @@
-set editing-mode vi
-set keymap vi
+set editing-mode emacs
+# set keymap emacs
+
+set convert-meta on
+
+Meta-p: history-search-backward
+Meta-n: history-search-forward
