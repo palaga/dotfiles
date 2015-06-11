@@ -55,6 +55,7 @@
        (tool-bar-mode -1)                    ; Disable tool bar
        (menu-bar-mode -1))                   ; Disable menu bar
 
+     (column-number-mode 1)                  ; Add column number to mode-line
      (setq use-dialog-box nil)               ; Do not use dialog boxes
      (global-linum-mode 1)                   ; Enable line number
      (global-hl-line-mode 1)                 ; Highlight line of the cursor
@@ -92,11 +93,24 @@
 
      (global-set-key (kbd "C-c i") 'my/increment-number-decimal)
    #+end_src
-** Aliases
+** Configure yes-or-no-p
    Disable annoying /enter yes or no/ questions and replace them
    with a simple /enter y or n/ question.
    #+begin_src emacs-lisp :tangle yes
      (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+** Exit question
+   I don't like it when I hit C-x C-c on accident and I'm thrown out
+   of Emacs. Emacs should always ask me whether I want to exit or not!
+   #+begin_src emacs-lisp :tangle yes
+     (setq confirm-kill-emacs 'yes-or-no-p)
+   #+end_src
+** Electric pairs
+   #+begin_src emacs-lisp :tangle yes
+     (electric-pair-mode t)
+     (show-paren-mode t)
+     (setq electric-pair-preserve-balance t)
+     (setq electric-pair-delete-adjacent-pairs t)
    #+end_src
 ** White spaces
    #+begin_src emacs-lisp :tangle yes
@@ -140,8 +154,13 @@
 ** Backups
    #+begin_src emacs-lisp :tangle yes
      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-     (setq version-control t)                ; Save versions of our backup files
-     (setq vc-make-backup-files t)           ; Prevent loss of contents in uncommitted files
+     (setq version-control t)           ; Save versions of our backup files
+     (setq delete-old-versions t)       ; Do not ask me whether I want to
+                                             ; delete old backups
+     (setq vc-make-backup-files t)      ; Prevent loss of contents in
+                                             ; uncommitted files
+     (setq kept-new-versions 6)
+     (setq kept-old-versions 2)
    #+end_src
 ** History
    Keep the history of our actions. I have set the maximum number of
@@ -195,6 +214,12 @@
        :ensure t)
    #+end_src
 ** TODO Java
+*** General Configuration
+    Put our buffer in subword mode when Java is loaded. Subword mode
+    allows us to edit CamelCase identifiers easily.
+    #+begin_src emacs-lisp :tangle yes
+      (add-hook 'java-mode-hook 'subword-mode)
+    #+end_src
 *** Eclim Configuration
    Some eclim configuration. Should be updated for real usage!
    #+begin_src emacs-lisp :tangle yes
@@ -236,6 +261,22 @@
         :ensure t)
     #+end_src
 ** TODO Python
+*** Elpy
+    I'm using elpy for my python IDE needs. Elpy uses =rope= and
+    =jedi= for completion, =pyflakes= for checking stuff and
+    =importmagic= for automatic imports. These can be installed with
+    =pip install rope jedi pyflake importmagics=.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package elpy
+        :ensure t
+        :init (elpy-enable))
+    #+end_src
+*** Pyvenv
+    Useful for working with virtual environments.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package pyvenv
+        :ensure t)
+    #+end_src
 ** TODO C/C++
 * Markup Modes
 ** TODO Markdown
@@ -284,6 +325,8 @@
               ("M-X" . smex-major-mode-commands)))
    #+end_src
 ** TODO Helm Mode
+   One day I'll probably replace IDO and Smex with Helm. For now, I'll
+   just use them in tandem.
    #+begin_src emacs-lisp :tangle yes
      (use-package helm
        :ensure t
@@ -302,6 +345,8 @@
                    :bind ("C-c ! h" . helm-flycheck))
     #+end_src
 ** TODO Flycheck Mode
+   Awesome mode to automatically run syntax checkers over the source
+   code in idle-time. Currently, only C and Python are configured.
    #+begin_src emacs-lisp :tangle yes
      (use-package flycheck
        :ensure t
@@ -316,7 +361,7 @@
                      (flycheck-select-checker 'python-pylint)
                      (flycheck-mode)))))
    #+end_src
-** TODO Magit Mode
+** Magit Mode
    #+begin_src emacs-lisp :tangle yes
      (use-package magit
        :ensure t
@@ -325,33 +370,15 @@
          (setq magit-last-seen-setup-instructions "1.4.0")
          (setq magit-auto-revert-mode nil)))
    #+end_src
-** TODO Company Mode
-   Company mode provides auto completion for my setup. I have
-   configured it to work with different back ends. Probably needs some
-   tweaking.
+** Company Mode
+   Company mode provides auto completion for my setup. Company works
+   out of the box. Back-ends can be configured using the
+   =company-backends= list, but has a sane default.
    #+begin_src emacs-lisp :tangle yes
      (use-package company
        :ensure t
        :init (global-company-mode)
-       :diminish company-mode
-       :config
-       (progn
-         (setq company-backends '(company-files
-                                  company-ispell
-                                  company-dabbrev))
-         (add-hook 'emacs-lisp-mode-hook
-                   (lambda ()
-                     (setq-local company-backends '(company-elisp company-files))))
-         (add-hook 'eclim-mode-hook
-                   (lambda ()
-                     (setq-local company-backends '(company-eclim))))
-         (add-hook 'c-mode-hook
-                   (lambda ()
-                     (setq-local company-backends '(company-clang))))
-         (add-hook 'c++-mode-hook
-                   (lambda ()
-                     (setq-local company-backends '(company-clang))))
-         ))
+       :diminish company-mode)
    #+end_src
    The tab completion functionality might clash with yasnippet. The
    following code (from [[http://www.emacswiki.org/emacs/CompanyMode]])
@@ -387,18 +414,37 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
-       :init (yas-global-mode 1)
        :diminish yas-minor-mode
        :config
-       (let ((my/snippets-dir "~/.emacs.d/snippets"))
-         (setq yas-snippet-dirs (list my/snippets-dir))
-         (setq yas/root-directory my/snippets-dir)
-         (yas-load-directory yas/root-directory)))
+       (progn
+         (dolist
+             (hook '(python-mode-hook
+                     emacs-lisp-mode-hook
+                     org-mode-hook
+                     java-mode-hook
+                     cc-mode-hook))
+           (add-hook hook 'yas-minor-mode))
+
+         (let ((my/snippets-dir "~/.emacs.d/snippets"))
+           (setq yas-snippet-dirs (list my/snippets-dir))
+           (setq yas/root-directory my/snippets-dir)
+           (yas-load-directory yas/root-directory))))
    #+end_src
 ** TODO CEDET
+   #+begin_src emacs-lisp :tangle yes
+     (use-package cedet
+       :config
+       (progn
+         (semantic-mode 1)
+         (setq semantic-default-submodes
+               '(global-semanticdb-minor-mode
+                 global-semantic-idle-scheduler-mode
+                 global-semantic-idle-summary-mode
+                 global-semantic-idle-local-symbol-highlight-mode))))
+   #+end_src
 *** TODO Sr-Speedbar
     The key binding for speedbar does not work yet. Fix this!
-    #+begin_src emacs-lisp :tangle no
+    #+begin_src emacs-lisp :tangle yes
       (defun my/sr-speedbar-toggle ()
         "Toggle sr-speedbar and set focus to it."
         (interactive)
@@ -410,4 +456,17 @@
         :ensure t
         :bind ("<f6>" . my/sr-speedbar-toggle))
     #+end_src
+** TODO Projectile
+   Nice to organize projects.
+** TODO Smartpair Mode
+   Could replace my electric pair config. Should be configured
+   correctly.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package smartparens
+       :ensure t
+       :init (smartparens-mode))
+   #+end_src
 ** TODO Rebox2
+   Look into this! Might be nice for creating boxes.
+** TODO Writegood-mode or Artbollocks
+   Nice modes for helping with writing correctly.
