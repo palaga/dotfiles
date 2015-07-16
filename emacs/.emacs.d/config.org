@@ -1,6 +1,16 @@
 * Introduction
-** TODO Why org mode
-   Self documenting configuration, ya!
+** Why org mode
+   Self documenting configuration, yay!
+
+   As far as I know, Emacs 24.0 and up supports org-mode out of the
+   box. Org-mode is great to organize stuff in plain text.
+
+   With just a few lines of elisp in the [[../.emacs][.emacs]] file, we can extract
+   the elisp code from this org-mode file (also known as tangling),
+   compile and execute it. The next time Emacs is opened, it detects
+   the config.elc file and tries to load it, but only if it's newer
+   than the config.org file. So, org makes it easy to document the
+   configuration file, while still keeping it fast to load.
 * Package Configuration
   Packages should be installed and loaded in a modular and reliable
   way... Enter /use-package/! It allows for easy package loading and
@@ -42,6 +52,12 @@
         (setq load-prefer-newer t)))
   #+end_src
 * General Configuration
+** Emacs Server
+   I use emacsclient to edit files from the terminal. However, the
+   server must be running before emacsclient can be used:
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'after-init-hook 'server-start)
+   #+end_src
 ** Visual Appearance
    Now that we have the packages configured, we want to clean up the
    visual appearances of emacs. Lets cut down on the bars and what
@@ -61,10 +77,12 @@
      (global-hl-line-mode 1)                 ; Highlight line of the cursor
      (setq echo-keystrokes 0.1)              ; Lower the time to show keystrokes
 
-     (set-face-background hl-line-face "gray16")
+     (set-face-background                    ; Set the color of the
+      hl-line-face "gray16")                 ; highlight bar
    #+end_src
 ** Key bindings
-   Some simple key bindings, to make life easier.
+   Some simple key bindings, to make life easier. These should be
+   self-explanatory.
    #+begin_src emacs-lisp :tangle yes
      (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
      (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -74,6 +92,8 @@
      (global-set-key (kbd "M-[") 'align)
    #+end_src
 ** Increment numbers
+   Got this script from the [[http://www.emacswiki.org/emacs/IncrementNumber][emacswiki]]. It increments (or decrements) a
+   number under point. This function is bound to =C-c i=.
    #+begin_src emacs-lisp :tangle yes
      (defun my/increment-number-decimal (&optional arg)
        "Increment the number forward from point by 'arg'."
@@ -106,6 +126,10 @@
      (setq confirm-kill-emacs 'yes-or-no-p)
    #+end_src
 ** Electric pairs
+   Electric pair mode rocks for most modes, so its on by default. It
+   automatically closes an opening bracket or quote. When a piece of
+   text is selected, it will wrap the text in the given pair. This
+   makes many programming tasks a joy!
    #+begin_src emacs-lisp :tangle yes
      (electric-pair-mode t)
      (show-paren-mode t)
@@ -113,6 +137,9 @@
      (setq electric-pair-delete-adjacent-pairs t)
    #+end_src
 ** White spaces
+   Here I configure my whitespace settings. I currently use softtabs
+   consisting of 4 spaces. Line wrapping is turned of, since I find it
+   confusing.
    #+begin_src emacs-lisp :tangle yes
      (use-package whitespace
        :diminish global-whitespace-mode
@@ -125,7 +152,21 @@
      (setq truncate-lines t)                 ; Disable line wrapping
      (setq tab-width 4)                      ; Set tab width to 4 spaces
    #+end_src
+** Fill column
+   Text should stay within 80 columns. This should be true for both
+   text documents, as well as comments in source code.
+   #+begin_src emacs-lisp :tangle yes
+     (dolist (hook '(text-mode-hook prog-mode-hook))
+       (add-hook hook 'auto-fill-mode))
+     (setq fill-column 80)
+     (setq fill-indent-according-to-mode t)
+   #+end_src
+   #+begin_src emacs-lisp :tangle yes
+     (use-package newcomment
+       :config (setq comment-auto-fill-only-comments t))
+   #+end_src
 ** Browser Configuration
+   Set the default browser to firefox.
    #+begin_src emacs-lisp :tangle yes
      (setq browse-url-browser-function 'browse-url-generic
            browse-url-generic-program "firefox")
@@ -139,26 +180,16 @@
    #+begin_src emacs-lisp :tangle yes
      (add-hook 'prog-mode-hook 'flyspell-prog-mode)
    #+end_src
-** Fill Mode Configuration
-   Text should stay within 80 columns. This should be true for both
-   text documents, as well as comments in source code.
-   #+begin_src emacs-lisp :tangle yes
-     (dolist (hook '(text-mode-hook prog-mode-hook))
-             (add-hook hook 'auto-fill-mode))
-     (setq fill-column 80)
-     (setq fill-indent-according-to-mode t)
-
-     (use-package newcomment
-                  :config (setq comment-auto-fill-only-comments t))
-   #+end_src
 ** Backups
+   Save up to 6 new versions and two old versions in a dedicated
+   backup directory. Better safe than sorry.
    #+begin_src emacs-lisp :tangle yes
      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
      (setq version-control t)           ; Save versions of our backup files
      (setq delete-old-versions t)       ; Do not ask me whether I want to
-                                             ; delete old backups
+                                        ; delete old backups
      (setq vc-make-backup-files t)      ; Prevent loss of contents in
-                                             ; uncommitted files
+                                        ; uncommitted files
      (setq kept-new-versions 6)
      (setq kept-old-versions 2)
    #+end_src
@@ -178,12 +209,13 @@
 ** IDO Mode
    Simple, yet powerful extension to Emacs. I use it mainly for its
    file search replacement. It allows me to quickly find the files and
-   buffers I need.
+   buffers I need. I do not use it's more advanced features (yet).
    #+begin_src emacs-lisp :tangle yes
      (use-package ido
                   :init (ido-mode 1))
    #+end_src
 ** Dired and Dired-x Configuration
+   Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
      (use-package dired-x)
      (put 'dired-find-alternate-file 'disabled nil)
@@ -198,7 +230,9 @@
       :config (load-theme 'zenburn t))
   #+end_src
 * Languages Modes
-** TODO Haskell
+** Haskell
+   Configuration for Haskell mode. Most importantly, configure the
+   right indentation mode.
    #+begin_src emacs-lisp :tangle yes
      (use-package haskell-mode
        :config
@@ -208,20 +242,23 @@
          (add-hook 'haskell-mode-hook 'interactive-haskell-mode)))
    #+end_src
 ** TODO OCaml
-** TODO Android
+** Android
+   Make sure that android mode installed for app development.
    #+begin_src emacs-lisp :tangle yes
      (use-package android-mode
        :ensure t)
    #+end_src
-** TODO Java
+** Java
+   All configuration regarding Java goes here.
 *** General Configuration
     Put our buffer in subword mode when Java is loaded. Subword mode
     allows us to edit CamelCase identifiers easily.
     #+begin_src emacs-lisp :tangle yes
       (add-hook 'java-mode-hook 'subword-mode)
     #+end_src
-*** Eclim Configuration
-   Some eclim configuration. Should be updated for real usage!
+*** TODO Eclim Configuration
+   Some eclim configuration. Does nothing yet. Not sure whether I want
+   to use this.
    #+begin_src emacs-lisp :tangle yes
      ;; (require 'eclim)
      ;; (require 'eclimd)
@@ -232,14 +269,30 @@
      ;;  '(eclim-eclipse-dirs '("~/.opt/eclipse_luna/"))
      ;;  '(eclim-executable "~/.opt/eclipse_luna/eclim"))
    #+end_src
+*** Groovy
+    #+begin_src emacs-lisp :tangle yes
+      (use-package groovy-mode
+        :ensure t
+        :config (progn
+                  (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
+                  (add-to-list 'auto-mode-alist '("\.gradle$" . groovy-mode))))
+    #+end_src
+*** Gradle Configuration
+    #+begin_src emacs-lisp :tangle yes
+      (use-package gradle-mode
+        :ensure t)
+    #+end_src
 *** Ant Configuration
+    Ant mode makes it easier to call ant from Emacs.
     #+begin_src emacs-lisp :tangle yes
       (use-package ant
         :ensure t)
     #+end_src
-** TODO Lisps
+** Lisps
 *** General
 **** Paredit
+     Configure paredit mode for all the lisp dialects. This is a must
+     for lisp development of any kind.
      #+begin_src emacs-lisp :tangle yes
        (use-package paredit
          :ensure t
@@ -249,18 +302,26 @@
                      eval-expression-minibuffer-setup-hook
                      ielm-mode-hook
                      lisp-mode-hook
+                     clojure-mode-hook
                      lisp-interaction-mode-hook
                      scheme-mode-hook))
            (add-hook hook 'enable-paredit-mode)))
      #+end_src
-*** Emacs Lisp
-*** Common Lisp
+*** TODO Emacs Lisp
+*** Clojure
+    Make sure that Cider is installed, for interactive clojure development.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package cider
+        :ensure t)
+    #+end_src
+*** TODO Common Lisp
 *** Schemes
+    Make sure that Geiser is installed, for interactive scheme development.
     #+begin_src emacs-lisp :tangle yes
       (use-package geiser
         :ensure t)
     #+end_src
-** TODO Python
+** Python
 *** Elpy
     I'm using elpy for my python IDE needs. Elpy uses =rope= and
     =jedi= for completion, =pyflakes= for checking stuff and
@@ -279,12 +340,15 @@
     #+end_src
 ** TODO C/C++
 * Markup Modes
-** TODO Markdown
+** Markdown
+   Make sure markdown mode is there, if needed.
    #+begin_src emacs-lisp :tangle yes
      (use-package markdown-mode
        :ensure t)
    #+end_src
-** TODO Org Mode
+** Org Mode
+   Must have! Make sure org-mode is installed, up-to-date and
+   configured to my needs.
    #+begin_src emacs-lisp :tangle yes
      (use-package org
        :ensure t
@@ -304,19 +368,30 @@
      (use-package org-plus-contrib
        :ensure t)
    #+end_src
-** TODO Latex
-   =tex-site= seems to be the package for =auctex=.
+** Latex
+   Make sure =auctex= is installed, for Latex development. (=tex-site=
+   seems to be the package for =auctex=)
    #+begin_src emacs-lisp :tangle yes
      (use-package tex-site
        :ensure auctex)
    #+end_src
-** TODO Graphviz
+** Graphviz
+   Ensure graphviz dot mode is installed, for creating graphviz diagrams.
    #+begin_src emacs-lisp :tangle yes
      (use-package graphviz-dot-mode
        :ensure t)
    #+end_src
 * Other Modes
+** Fill Column Indicator
+   #+begin_src emacs-lisp :tangle yes
+     (use-package fill-column-indicator
+       :ensure t
+       :config (progn
+                 (add-hook 'text-mode-hook 'fci-mode)
+                 (setq fci-rule-column 80)))
+   #+end_src
 ** Smex Mode
+   IDO-like functionality for M-x.
    #+begin_src emacs-lisp :tangle yes
      (use-package smex
        :ensure t
@@ -324,7 +399,7 @@
        :bind (("M-x" . smex)
               ("M-X" . smex-major-mode-commands)))
    #+end_src
-** TODO Helm Mode
+** Helm Mode
    One day I'll probably replace IDO and Smex with Helm. For now, I'll
    just use them in tandem.
    #+begin_src emacs-lisp :tangle yes
@@ -344,7 +419,7 @@
                    :ensure t
                    :bind ("C-c ! h" . helm-flycheck))
     #+end_src
-** TODO Flycheck Mode
+** Flycheck Mode
    Awesome mode to automatically run syntax checkers over the source
    code in idle-time. Currently, only C and Python are configured.
    #+begin_src emacs-lisp :tangle yes
@@ -362,6 +437,7 @@
                      (flycheck-mode)))))
    #+end_src
 ** Magit Mode
+   Awesome git mode. Must have to control git from Emacs.
    #+begin_src emacs-lisp :tangle yes
      (use-package magit
        :ensure t
@@ -410,7 +486,10 @@
      (with-eval-after-load 'company
        (define-key company-active-map "\t" 'tab-indent-or-complete))
    #+end_src
-** TODO Yasnippet Mode
+** Yasnippet Mode
+   Snippets, yay! The defaults OK, but it gets better with the
+   snippets library from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. Clone that repository to
+   ~/.emacs.d/snippets for great snippet support.
    #+begin_src emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
@@ -430,7 +509,8 @@
            (setq yas/root-directory my/snippets-dir)
            (yas-load-directory yas/root-directory))))
    #+end_src
-** TODO CEDET
+** CEDET
+   Basic CEDET configuration.
    #+begin_src emacs-lisp :tangle yes
      (use-package cedet
        :config
@@ -465,6 +545,19 @@
      (use-package smartparens
        :ensure t
        :init (smartparens-mode))
+   #+end_src
+** TODO Ace-mode
+   Awesome mode to jump quickly to a specific point in one of the
+   visible buffers.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ace-jump-mode
+       :ensure t
+       :bind ("C-c SPC" . ace-jump-mode))
+   #+end_src
+** TODO Origami mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package origami
+       :ensure t)
    #+end_src
 ** TODO Rebox2
    Look into this! Might be nice for creating boxes.
