@@ -16,8 +16,8 @@ eval `dircolors -b $HOME/.dircolors`
 ulimit -c unlimited
 
 # Environment variables:
-export EDITOR=vim
-export BROWSER=chromium
+export EDITOR=emacsclient
+export BROWSER=firefox
 export PDFVIEWER=xpdf
 export IMAGEVIEWER='feh -.'
 export MEDIAPLAYER='mplayer'
@@ -32,6 +32,9 @@ export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
 export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# Locale
+export LC_ALL=C.UTF-8
 
 source ~/.bashaliases
 [ -e ~/.bashcustom ] && source ~/.bashcustom
