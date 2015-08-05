@@ -388,6 +388,14 @@
      (use-package graphviz-dot-mode
        :ensure t)
    #+end_src
+* Web development related
+** Web-mode
+   Added web-mode to be able to edit javascript with Javascript major
+   mode in a HTML file. Works out of the box.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package web-mode
+       :ensure t)
+   #+end_src
 * Other Modes
 ** Fill Column Indicator
    #+begin_src emacs-lisp :tangle yes
