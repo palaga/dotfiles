@@ -368,6 +368,13 @@
      (use-package org-plus-contrib
        :ensure t)
    #+end_src
+
+   Install necessary export libraries:
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ox-reveal
+       :ensure t)
+   #+end_src
 ** Latex
    Make sure =auctex= is installed, for Latex development. (=tex-site=
    seems to be the package for =auctex=)
