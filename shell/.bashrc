@@ -21,7 +21,7 @@ export BROWSER=firefox
 export PDFVIEWER=xpdf
 export IMAGEVIEWER='feh -.'
 export MEDIAPLAYER='mplayer'
-export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
+export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/node_modules/.bin:$HOME/.cabal/bin:$PATH
 export TCLLIBPATH=". $TCLLIBPATH"
 
 # Less configuration:
@@ -34,7 +34,8 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # Locale
-export LC_ALL=C.UTF-8
+
+export LC_ALL=en_US.UTF-8
 
 source ~/.bashaliases
 [ -e ~/.bashcustom ] && source ~/.bashcustom
