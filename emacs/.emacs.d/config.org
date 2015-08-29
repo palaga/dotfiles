@@ -242,6 +242,15 @@
          (add-hook 'haskell-mode-hook 'interactive-haskell-mode)))
    #+end_src
 ** TODO OCaml
+** Go
+   #+begin_src emacs-lisp :tangle yes
+     (use-package go-mode
+       :config
+       (add-hook 'go-mode-hook
+                 (lambda ()
+                   (setq whitespace-style '(face trailing))
+                   (setq tab-width 2))))
+   #+end_src
 ** Android
    Make sure that android mode installed for app development.
    #+begin_src emacs-lisp :tangle yes
@@ -414,6 +423,13 @@
        :bind (("M-x" . smex)
               ("M-X" . smex-major-mode-commands)))
    #+end_src
+** Expand Region
+   Expand region increases the selected region by semantic units.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package expand-region
+       :ensure t
+       :bind ("C-=" . er/expand-region))
+   #+end_src
 ** Helm Mode
    One day I'll probably replace IDO and Smex with Helm. For now, I'll
    just use them in tandem.
@@ -446,6 +462,9 @@
                    (lambda ()
                      (flycheck-mode)
                      (flycheck-list-errors)))
+         (add-hook 'js-mode-hook
+                   (lambda ()
+                     (flycheck-select-checker 'jshint)))
          (add-hook 'python-mode-hook
                    (lambda ()
                      (flycheck-select-checker 'python-pylint)
