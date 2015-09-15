@@ -403,7 +403,9 @@
    mode in a HTML file. Works out of the box.
    #+begin_src emacs-lisp :tangle yes
      (use-package web-mode
-       :ensure t)
+       :ensure t
+       :defer t
+       :init (add-to-list 'auto-mode-alist '("\\.html?\\" . web-mode)))
    #+end_src
 * Other Modes
 ** Fill Column Indicator
