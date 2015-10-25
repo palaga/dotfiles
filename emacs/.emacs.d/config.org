@@ -537,7 +537,8 @@
                      emacs-lisp-mode-hook
                      org-mode-hook
                      java-mode-hook
-                     cc-mode-hook))
+                     go-mode-hook
+                     c-mode-hook))
            (add-hook hook 'yas-minor-mode))
 
          (let ((my/snippets-dir "~/.emacs.d/snippets"))
