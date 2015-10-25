@@ -77,8 +77,10 @@
      (global-hl-line-mode 1)                 ; Highlight line of the cursor
      (setq echo-keystrokes 0.1)              ; Lower the time to show keystrokes
 
-     (set-face-background                    ; Set the color of the
-      hl-line-face "gray16")                 ; highlight bar
+     (use-package hl-line
+       :config
+       (set-face-background                  ; Set the color of the
+        hl-line-face "gray16"))              ; highlight bar
    #+end_src
 ** Key bindings
    Some simple key bindings, to make life easier. These should be
