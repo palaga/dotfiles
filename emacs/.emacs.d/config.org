@@ -384,6 +384,14 @@
      (use-package ox-reveal
        :ensure t)
    #+end_src
+*** Org Bullets
+    #+begin_src emacs-lisp :tangle yes
+      (use-package org-bullets
+        :ensure t
+        :init (add-hook 'org-mode-hook
+                        (lambda ()
+                          (org-bullets-mode 1))))
+    #+end_src
 ** Latex
    Make sure =auctex= is installed, for Latex development. (=tex-site=
    seems to be the package for =auctex=)
