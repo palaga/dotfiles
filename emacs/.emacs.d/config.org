@@ -405,7 +405,7 @@
      (use-package web-mode
        :ensure t
        :defer t
-       :init (add-to-list 'auto-mode-alist '("\\.html?\\" . web-mode)))
+       :init (add-to-list 'auto-mode-alist '("\\.html?" . web-mode)))
    #+end_src
 * Other Modes
 ** Fill Column Indicator
