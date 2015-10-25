@@ -219,10 +219,14 @@
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
-     (use-package dired-x)
-     (put 'dired-find-alternate-file 'disabled nil)
-     (setq dired-dwim-target t)
-     (dired-omit-mode 1)
+     (use-package dired-x
+       :config (dired-omit-mode 1))
+
+     (use-package dired
+       :config
+       (progn
+         (put 'dired-find-alternate-file 'disabled nil)
+         (setq dired-dwim-target t)))
    #+end_src
 * Theme Configuration
   Zenburn! Gotta love it..
