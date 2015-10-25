@@ -414,6 +414,7 @@
        :ensure t
        :config (progn
                  (add-hook 'text-mode-hook 'fci-mode)
+                 (add-hook 'prog-mode-hook 'fci-mode)
                  (setq fci-rule-column 80)))
    #+end_src
 ** Smex Mode
