@@ -230,6 +230,15 @@
       :config (load-theme 'zenburn t))
   #+end_src
 * Languages Modes
+  Here you will find the configuration for some of the languages I
+  use. The configurations for each language can be found under its own
+  header.
+
+  For all the languages I use, I want to see in which function I
+  currently am:
+  #+begin_src emacs-lisp :tangle yes
+    (add-hook 'prog-mode-hook 'which-function-mode)
+  #+end_src
 ** Haskell
    Configuration for Haskell mode. Most importantly, configure the
    right indentation mode.
