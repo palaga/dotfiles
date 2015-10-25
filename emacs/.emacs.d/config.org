@@ -242,6 +242,15 @@
          (add-hook 'haskell-mode-hook 'interactive-haskell-mode)))
    #+end_src
 ** TODO OCaml
+** FORTH
+   For this to work, gforth must be installed. I use a locally
+   installed version of emacs, so for this to work, I had to symlink
+   ~/local/share/emacs/site-lisp/gforth to /usr/share/emacs/site-lisp/gforth.
+   #+begin_src emacs-lisp :tangle yes
+     (autoload 'forth-mode "gforth.el")
+     (autoload 'forth-block-mode "gforth.el")
+     (add-to-list 'auto-mode-alist '("\\.fs$" . forth-mode))
+   #+end_src
 ** Go
    #+begin_src emacs-lisp :tangle yes
      (use-package go-mode
