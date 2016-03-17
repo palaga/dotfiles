@@ -503,6 +503,10 @@
                    (lambda ()
                      (flycheck-mode)
                      (flycheck-list-errors)))
+         (add-hook 'c++-mode-hook
+                   (lambda ()
+                     (flycheck-mode)
+                     (flycheck-list-errors)))
          (add-hook 'js-mode-hook
                    (lambda ()
                      (flycheck-select-checker 'jshint)))
