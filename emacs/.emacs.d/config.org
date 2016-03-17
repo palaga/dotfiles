@@ -371,7 +371,13 @@
       (use-package pyvenv
         :ensure t)
     #+end_src
-** TODO C/C++
+** C/C++
+   Activate the =xcscope= package, to easily navigate C/C++ code.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package xcscope
+       :ensure t
+       :init (cscope-setup))
+   #+end_src
 * Markup Modes
 ** Markdown
    Make sure markdown mode is there, if needed.
