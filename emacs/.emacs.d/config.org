@@ -396,10 +396,12 @@
        (progn
          (org-babel-do-load-languages
           'org-babel-load-languages
-          '((dot    . t)
-            (python . t)
-            (R      . t)
-            (sh     . t)))
+          '((dot      . t)
+            (ditaa    . t)
+            (python   . t)
+            (R        . t)
+            (makefile . t)
+            (sh       . t)))
 
          (setq org-directory "~/org"
                org-default-notes-file (concat org-directory "/notes.org"))))
