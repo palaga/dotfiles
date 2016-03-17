@@ -448,6 +448,19 @@
        :init (add-to-list 'auto-mode-alist '("\\.html?" . web-mode)))
    #+end_src
 * Other Modes
+** Workgroups
+   Workgroups allow me to organize my windows in a persistent way. I
+   use the default prefix of =C-z=. You can use =C-z c= to create a
+   new workgroup, =C-z <0-9>= to switch to a numbered workgroup or
+   =C-z n= and =C-z p= for the next and previous workspace,
+   respectively. =C-z v= can be used to select a workspace by name.
+
+   Workspaces van be loaded using =C-z C-l= and stored with =C-z C-s=.
+   #+begin_src emacs-lisp :tangle yes
+     (require workgroups
+              :ensure t
+              :init (workgroups-mode 1))
+   #+end_src
 ** Fill Column Indicator
    #+begin_src emacs-lisp :tangle yes
      (use-package fill-column-indicator
