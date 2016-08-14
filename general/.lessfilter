@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+
+# Disassemble ELF files
+if file $1 | grep -qi ELF; then
+    objdump -W -d "$1"
+    exit 0
+fi
+
+case $1 in
+    # Colorize source code
+    *.c|*.cc|*.py|*.tcl|*.hs|*.tex|*.ps|*.php|*.java|*.js|*.as})
+        pygmentize -f terminal "$1";;
+
+    # Show pictures (sort of)
+    *.jpg|*.gif|*.png)
+        img2txt "$1";;
+
+    # In other cases, do nothing
+    *) exit 1;;
+esac
+
+exit 0
