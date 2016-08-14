@@ -400,11 +400,15 @@
             (ditaa    . t)
             (python   . t)
             (R        . t)
+            (latex    . t)
             (makefile . t)
             (sh       . t)))
 
          (setq org-directory "~/org"
-               org-default-notes-file (concat org-directory "/notes.org"))))
+               org-default-notes-file (concat org-directory "/notes.org"))
+
+         ;; Ensure that the beamer exporter is available
+         (require 'ox-beamer)))
 
      (use-package org-plus-contrib
        :ensure t)
