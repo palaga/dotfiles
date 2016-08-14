@@ -596,6 +596,7 @@
                      org-mode-hook
                      java-mode-hook
                      go-mode-hook
+                     c++-mode-hook
                      c-mode-hook))
            (add-hook hook 'yas-minor-mode))
 
