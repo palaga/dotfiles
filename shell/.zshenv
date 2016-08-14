@@ -9,3 +9,8 @@ if (($+commands[keychain])); then
 fi
 
 export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=$HOME/.local/lib:$LIBRARY_PATH
+export CPATH=$HOME/.local/include:$CPATH
+export CPLUS_INCLUDE_PATH=$HOME/.local/include:$CPLUS_INCLUDE_PATH
+export C_INCLUDE_PATH=$HOME/.local/include:$C_INCLUDE_PATH
