@@ -53,9 +53,14 @@ prompt palaga
 
 # Key binds emacs style:
 bindkey -e
+bindkey '^w' kill-region
 bindkey '^R' history-incremental-search-backward
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
+
+
+# Explicitly set word characters
+WORDCHARS='~?'
 
 
 # Zsh aliases:
