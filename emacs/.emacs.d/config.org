@@ -208,14 +208,47 @@
                                            search-ring
                                            regexp-search-ring))
    #+end_src
-** IDO Mode
-   Simple, yet powerful extension to Emacs. I use it mainly for its
-   file search replacement. It allows me to quickly find the files and
-   buffers I need. I do not use it's more advanced features (yet).
+** Projectile
+   Easy project management with =C-c p= as prefix.
    #+begin_src emacs-lisp :tangle yes
-     (use-package ido
-                  :init (ido-mode 1))
+     (use-package projectile
+       :ensure t)
    #+end_src
+** Helm Mode
+   Using Helm for most completion tasks. It replaces Ido and Smex.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package helm
+       :ensure t
+       :bind (("M-x"     . helm-M-x)
+              ("C-x a"   . helm-apt)
+              ("C-x C-f" . helm-find-files)
+              ("C-x C-b" . helm-buffers-list))
+       :init (progn
+               (helm-mode)))
+   #+end_src
+*** Helm ag
+   #+begin_src emacs-lisp :tangle yes
+     (use-package helm-ag
+       :ensure t)
+   #+end_src
+*** Helm Swoop
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-swoop
+                   :ensure t
+                   :bind ("M-i" . helm-swoop))
+    #+end_src
+*** Helm Flycheck
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-flycheck
+                   :ensure t
+                   :bind ("C-c ! h" . helm-flycheck))
+    #+end_src
+*** Helm Projectile
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-projectile
+        :ensure t
+        :bind (("C-c p p" . helm-projectile-switch-project)))
+    #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
@@ -227,6 +260,16 @@
        (progn
          (put 'dired-find-alternate-file 'disabled nil)
          (setq dired-dwim-target t)))
+   #+end_src
+** EditorConfig
+   Editor config helps to configure your editor, independent of the
+   exact editor you use. This is used for projects where developers
+   choose their own editor, but want consistent settings for the
+   projects they collaborate on.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package editorconfig
+       :ensure t
+       :config (editorconfig-mode 1))
    #+end_src
 * Theme Configuration
   Zenburn! Gotta love it..
@@ -245,41 +288,15 @@
   #+begin_src emacs-lisp :tangle yes
     (add-hook 'prog-mode-hook 'which-function-mode)
   #+end_src
-** Haskell
-   Configuration for Haskell mode. Most importantly, configure the
-   right indentation mode.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package haskell-mode
-       :config
-       (progn
-         (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-         (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
-         (add-hook 'haskell-mode-hook 'interactive-haskell-mode)))
-   #+end_src
-** TODO OCaml
-** FORTH
-   For this to work, gforth must be installed. I use a locally
-   installed version of emacs, so for this to work, I had to symlink
-   ~/local/share/emacs/site-lisp/gforth to /usr/share/emacs/site-lisp/gforth.
-   #+begin_src emacs-lisp :tangle yes
-     (autoload 'forth-mode "gforth.el")
-     (autoload 'forth-block-mode "gforth.el")
-     (add-to-list 'auto-mode-alist '("\\.fs$" . forth-mode))
-   #+end_src
 ** Go
    #+begin_src emacs-lisp :tangle yes
      (use-package go-mode
+       :ensure t
        :config
        (add-hook 'go-mode-hook
                  (lambda ()
                    (setq whitespace-style '(face trailing))
                    (setq tab-width 2))))
-   #+end_src
-** Android
-   Make sure that android mode installed for app development.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package android-mode
-       :ensure t)
    #+end_src
 ** Java
    All configuration regarding Java goes here.
@@ -392,7 +409,7 @@
      (use-package org
        :ensure t
        :bind ("C-c c" . org-capture)
-       :config
+       :init
        (progn
          (org-babel-do-load-languages
           'org-babel-load-languages
@@ -405,13 +422,11 @@
             (sh       . t)))
 
          (setq org-directory "~/org"
-               org-default-notes-file (concat org-directory "/notes.org"))
+               org-default-notes-file (concat org-directory "/notes.org")
+               org-agenda-files '("~/org/"))
 
          ;; Ensure that the beamer exporter is available
          (require 'ox-beamer)))
-
-     (use-package org-plus-contrib
-       :ensure t)
    #+end_src
 
    Install necessary export libraries:
@@ -428,6 +443,13 @@
                         (lambda ()
                           (org-bullets-mode 1))))
     #+end_src
+** Yaml
+   Add yaml mode, for use in all yaml related project (ansible,
+   docker-compose, etc).
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yaml-mode
+       :ensure t)
+   #+END_SRC
 ** Latex
    Make sure =auctex= is installed, for Latex development. (=tex-site=
    seems to be the package for =auctex=)
@@ -441,6 +463,22 @@
      (use-package graphviz-dot-mode
        :ensure t)
    #+end_src
+* Framework Modes
+  Configuration for frameworks, such as docker, ansible, etc. is done
+  here.
+** Dockerfiles
+   Enable highlighting for Dockerfiles.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dockerfile-mode
+       :ensure t)
+   #+end_src
+** Ansible
+   Enable ansible documentation hook, under C-c ?.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ansible-doc
+       :ensure t
+       :init (add-hook 'yaml-mode-hook 'ansible-doc-mode))
+   #+end_src
 * Web development related
 ** Web-mode
    Added web-mode to be able to edit javascript with Javascript major
@@ -452,19 +490,6 @@
        :init (add-to-list 'auto-mode-alist '("\\.html?" . web-mode)))
    #+end_src
 * Other Modes
-** Workgroups
-   Workgroups allow me to organize my windows in a persistent way. I
-   use the default prefix of =C-z=. You can use =C-z c= to create a
-   new workgroup, =C-z <0-9>= to switch to a numbered workgroup or
-   =C-z n= and =C-z p= for the next and previous workspace,
-   respectively. =C-z v= can be used to select a workspace by name.
-
-   Workspaces van be loaded using =C-z C-l= and stored with =C-z C-s=.
-   #+begin_src emacs-lisp :tangle yes
-     (require workgroups
-              :ensure t
-              :init (workgroups-mode 1))
-   #+end_src
 ** Fill Column Indicator
    #+begin_src emacs-lisp :tangle yes
      (use-package fill-column-indicator
@@ -474,15 +499,6 @@
                  (add-hook 'prog-mode-hook 'fci-mode)
                  (setq fci-rule-column 80)))
    #+end_src
-** Smex Mode
-   IDO-like functionality for M-x.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package smex
-       :ensure t
-       :init (smex-initialize)
-       :bind (("M-x" . smex)
-              ("M-X" . smex-major-mode-commands)))
-   #+end_src
 ** Expand Region
    Expand region increases the selected region by semantic units.
    #+begin_src emacs-lisp :tangle yes
@@ -490,26 +506,6 @@
        :ensure t
        :bind ("C-=" . er/expand-region))
    #+end_src
-** Helm Mode
-   One day I'll probably replace IDO and Smex with Helm. For now, I'll
-   just use them in tandem.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package helm
-       :ensure t
-       :init (helm-mode))
-   #+end_src
-*** Helm Swoop
-    #+begin_src emacs-lisp :tangle yes
-      (use-package helm-swoop
-                   :ensure t
-                   :bind ("M-i" . helm-swoop))
-    #+end_src
-*** Helm Flycheck
-    #+begin_src emacs-lisp :tangle yes
-      (use-package helm-flycheck
-                   :ensure t
-                   :bind ("C-c ! h" . helm-flycheck))
-    #+end_src
 ** Flycheck Mode
    Awesome mode to automatically run syntax checkers over the source
    code in idle-time. Currently, only C and Python are configured.
@@ -531,7 +527,7 @@
                      (flycheck-select-checker 'jshint)))
          (add-hook 'python-mode-hook
                    (lambda ()
-                     (flycheck-select-checker 'python-pylint)
+                     (flycheck-select-checker 'python-flake8)
                      (flycheck-mode)))))
    #+end_src
 ** Magit Mode
@@ -622,7 +618,7 @@
                  global-semantic-idle-summary-mode
                  global-semantic-idle-local-symbol-highlight-mode))))
    #+end_src
-*** TODO Sr-Speedbar
+*** Sr-Speedbar
     The key binding for speedbar does not work yet. Fix this!
     #+begin_src emacs-lisp :tangle yes
       (defun my/sr-speedbar-toggle ()
@@ -636,8 +632,6 @@
         :ensure t
         :bind ("<f6>" . my/sr-speedbar-toggle))
     #+end_src
-** TODO Projectile
-   Nice to organize projects.
 ** TODO Smartpair Mode
    Could replace my electric pair config. Should be configured
    correctly.
