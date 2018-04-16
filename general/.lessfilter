@@ -8,8 +8,10 @@ fi
 
 case $1 in
     # Colorize source code
-    *.c|*.cc|*.cpp|*.h|*.sh|*.py|*.tcl|*.hs|*.tex|*.ps|*.php|*.java|*.js|*.as})
+    *.c|*.cc|*.cpp|*.h|*.sh|*.py|*.tcl|*.hs|*.tex|*.ps|*.php|*.java|*.js|*.as|*.yml|*.md)
         pygmentize -f terminal "$1";;
+
+    *.j2) pygmentize -f terminal -l jinja "$1";;
 
     # Show pictures (sort of)
     *.jpg|*.gif|*.png)
