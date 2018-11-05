@@ -491,6 +491,12 @@
        :ensure t
        :init (add-hook 'yaml-mode-hook 'ansible-doc-mode))
    #+end_src
+** Terraform
+   Enable terraform mode!
+   #+begin_src emacs-lisp :tangle yes
+     (use-package terraform-mode
+       :ensure t)
+   #+end_src
 * Web development related
 ** Web-mode
    Added web-mode to be able to edit javascript with Javascript major
