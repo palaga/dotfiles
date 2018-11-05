@@ -323,9 +323,11 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package groovy-mode
         :ensure t
-        :config (progn
-                  (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
-                  (add-to-list 'auto-mode-alist '("\.gradle$" . groovy-mode))))
+        :config
+        (progn
+          (setq groovy-indent-offset 2)
+          (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
+          (add-to-list 'auto-mode-alist '("\.gradle$" . groovy-mode))))
     #+end_src
 *** Gradle Configuration
     #+begin_src emacs-lisp :tangle yes
