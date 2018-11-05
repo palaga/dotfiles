@@ -468,12 +468,22 @@
 * Framework Modes
   Configuration for frameworks, such as docker, ansible, etc. is done
   here.
-** Dockerfiles
-   Enable highlighting for Dockerfiles.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package dockerfile-mode
-       :ensure t)
-   #+end_src
+** Docker
+*** Docker
+    Enable Docker management through emacs.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package docker
+        :ensure t)
+    #+end_src
+*** Dockerfiles
+    Enable highlighting for Dockerfiles.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package dockerfile-mode
+        :ensure t)
+
+      (use-package docker-compose-mode
+        :ensure t)
+    #+end_src
 ** Ansible
    Enable ansible documentation hook, under C-c ?.
    #+begin_src emacs-lisp :tangle yes
