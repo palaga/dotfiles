@@ -212,7 +212,8 @@
    Easy project management with =C-c p= as prefix.
    #+begin_src emacs-lisp :tangle yes
      (use-package projectile
-       :ensure t)
+       :ensure t
+       :init (projectile-mode))
    #+end_src
 ** Helm Mode
    Using Helm for most completion tasks. It replaces Ido and Smex.
@@ -411,6 +412,15 @@
      (use-package org
        :ensure t
        :bind ("C-c c" . org-capture)
+       :config
+       (setq org-directory "~/org"
+             org-default-notes-file (concat org-directory "/notes.org")
+             org-agenda-files '("~/org/")
+             org-capture-templates '(("t" "TODO"
+                                      entry (file+headline
+                                             "~/org/todo.org"
+                                             "Tasks")
+                                      "* TODO %?\n  %i %F")))
        :init
        (progn
          (org-babel-do-load-languages
@@ -422,10 +432,6 @@
             (latex    . t)
             (makefile . t)
             (sh       . t)))
-
-         (setq org-directory "~/org"
-               org-default-notes-file (concat org-directory "/notes.org")
-               org-agenda-files '("~/org/"))
 
          ;; Ensure that the beamer exporter is available
          (require 'ox-beamer)))
