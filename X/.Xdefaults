@@ -8,6 +8,7 @@ URxvt.perl-ext-common:                  default,matcher
 URxvt.urlLauncher:                      chromium
 URxvt.matcher.button:                   2
 URxvt.scrollBar:                        false
+URxvt.urgentOnBell:                     true
 
 
 ! xterm config:
