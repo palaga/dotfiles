@@ -563,6 +563,12 @@
          (setq magit-last-seen-setup-instructions "1.4.0")
          (setq magit-auto-revert-mode nil)))
    #+end_src
+** Org-Jira
+   Mode to work with Jira from Emacs.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-jira
+       :ensure t)
+   #+end_src
 ** Company Mode
    Company mode provides auto completion for my setup. Company works
    out of the box. Back-ends can be configured using the
