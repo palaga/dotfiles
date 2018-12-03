@@ -390,6 +390,14 @@
       (use-package pyvenv
         :ensure t)
     #+end_src
+** Jinja2
+   #+begin_src emacs-lisp :tangle yes
+     (use-package jinja2-mode
+       :ensure t
+       :init
+       (add-to-list 'auto-mode-alist
+                    '("\.j2$" . jinja2-mode)))
+   #+end_src
 ** C/C++
    Activate the =xcscope= package, to easily navigate C/C++ code.
    #+begin_src emacs-lisp :tangle yes
