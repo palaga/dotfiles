@@ -252,6 +252,11 @@
                ("C-c p f" . helm-projectile-find-file-dwim)
                ("C-c p F" . helm-projectile-find-file-in-known-projects)))
     #+end_src
+*** Helm Yasnippet
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-c-yasnippet
+        :ensure t)
+    #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
@@ -620,9 +625,7 @@
        (define-key company-active-map "\t" 'tab-indent-or-complete))
    #+end_src
 ** Yasnippet Mode
-   Snippets, yay! The defaults OK, but it gets better with the
-   snippets library from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. Clone that repository to
-   ~/.emacs.d/snippets for great snippet support.
+   Snippets, yay!
    #+begin_src emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
@@ -643,6 +646,12 @@
            (setq yas-snippet-dirs (list my/snippets-dir))
            (setq yas/root-directory my/snippets-dir)
            (yas-load-directory yas/root-directory))))
+   #+end_src
+   The defaults are OK, but it gets better with the snippets library
+   from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. No need to clone them manually anymore.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet-snippets
+       :ensure t)
    #+end_src
 ** CEDET
    Basic CEDET configuration.
