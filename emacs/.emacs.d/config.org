@@ -560,6 +560,11 @@
                      (flycheck-select-checker 'python-flake8)
                      (flycheck-mode)))))
    #+end_src
+** Org-Jira
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-jira
+       :ensure t)
+   #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
    #+begin_src emacs-lisp :tangle yes
