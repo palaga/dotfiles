@@ -231,11 +231,11 @@
      (use-package helm-ag
        :ensure t)
    #+end_src
-*** Helm Swoop
+*** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
-      (use-package helm-swoop
+      (use-package swiper-helm
                    :ensure t
-                   :bind ("M-i" . helm-swoop))
+                   :bind ("M-i" . swiper-helm))
     #+end_src
 *** Helm Flycheck
     #+begin_src emacs-lisp :tangle yes
