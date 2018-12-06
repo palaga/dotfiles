@@ -229,7 +229,8 @@
 *** Helm ag
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-ag
-       :ensure t)
+       :ensure t
+       :bind   ("C-c p g" . helm-do-ag-project-root))
    #+end_src
 *** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
@@ -248,7 +249,6 @@
       (use-package helm-projectile
         :ensure t
         :bind (("C-c p p" . helm-projectile-switch-project)
-               ("C-c p g" . helm-projectile-ag)
                ("C-c p f" . helm-projectile-find-file-dwim)
                ("C-c p F" . helm-projectile-find-file-in-known-projects)))
     #+end_src
