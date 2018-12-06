@@ -257,6 +257,12 @@
       (use-package helm-c-yasnippet
         :ensure t)
     #+end_src
+*** Helm Tramp
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-tramp
+        :ensure t
+        :bind ("C-x t" . helm-tramp))
+    #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
