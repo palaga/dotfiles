@@ -577,7 +577,8 @@
 ** Org-Jira
    #+begin_src emacs-lisp :tangle yes
      (use-package org-jira
-       :ensure t)
+       :ensure t
+       :bind ("C-c j c" . org-jira-create-issue))
    #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
@@ -636,6 +637,7 @@
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode
+       :bind (("C-c y c" . helm-yas-complete))
        :config
        (progn
          (dolist
