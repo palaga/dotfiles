@@ -20,10 +20,9 @@
 
     (eval-and-compile
       (package-initialize)
-      (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                               ("marmalade" . "http://marmalade-repo.org/packages/")
-                               ("org" . "http://orgmode.org/elpa/")
-                               ("melpa" . "http://melpa.milkbox.net/packages/"))))
+      (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                               ("org" . "https://orgmode.org/elpa/")
+                               ("melpa" . "https://melpa.org/packages/"))))
 
     (unless (package-installed-p 'use-package)
       (package-refresh-contents)
@@ -212,7 +211,8 @@
    Easy project management with =C-c p= as prefix.
    #+begin_src emacs-lisp :tangle yes
      (use-package projectile
-       :ensure t)
+       :ensure t
+       :init (projectile-mode))
    #+end_src
 ** Helm Mode
    Using Helm for most completion tasks. It replaces Ido and Smex.
@@ -229,13 +229,14 @@
 *** Helm ag
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-ag
-       :ensure t)
+       :ensure t
+       :bind   ("C-c p g" . helm-do-ag-project-root))
    #+end_src
-*** Helm Swoop
+*** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
-      (use-package helm-swoop
+      (use-package swiper-helm
                    :ensure t
-                   :bind ("M-i" . helm-swoop))
+                   :bind ("M-i" . swiper-helm))
     #+end_src
 *** Helm Flycheck
     #+begin_src emacs-lisp :tangle yes
@@ -247,7 +248,20 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package helm-projectile
         :ensure t
-        :bind (("C-c p p" . helm-projectile-switch-project)))
+        :bind (("C-c p p" . helm-projectile-switch-project)
+               ("C-c p f" . helm-projectile-find-file-dwim)
+               ("C-c p F" . helm-projectile-find-file-in-known-projects)))
+    #+end_src
+*** Helm Yasnippet
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-c-yasnippet
+        :ensure t)
+    #+end_src
+*** Helm Tramp
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-tramp
+        :ensure t
+        :bind ("C-x t" . helm-tramp))
     #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
@@ -390,6 +404,13 @@
       (use-package pyvenv
         :ensure t)
     #+end_src
+** Jinja2
+   #+begin_src emacs-lisp :tangle yes
+     (use-package jinja2-mode
+       :ensure t
+       :init
+       (add-to-list 'auto-mode-alist '("\.j2$" . jinja2-mode)))
+   #+end_src
 ** C/C++
    Activate the =xcscope= package, to easily navigate C/C++ code.
    #+begin_src emacs-lisp :tangle yes
@@ -411,6 +432,15 @@
      (use-package org
        :ensure t
        :bind ("C-c c" . org-capture)
+       :config
+       (setq org-directory "~/org"
+             org-default-notes-file (concat org-directory "/notes.org")
+             org-agenda-files '("~/org/")
+             org-capture-templates '(("t" "TODO"
+                                      entry (file+headline
+                                             "~/org/todo.org"
+                                             "Tasks")
+                                      "* TODO %?\n  %i %F")))
        :init
        (progn
          (org-babel-do-load-languages
@@ -422,10 +452,6 @@
             (latex    . t)
             (makefile . t)
             (sh       . t)))
-
-         (setq org-directory "~/org"
-               org-default-notes-file (concat org-directory "/notes.org")
-               org-agenda-files '("~/org/"))
 
          ;; Ensure that the beamer exporter is available
          (require 'ox-beamer)))
@@ -548,11 +574,18 @@
                      (flycheck-select-checker 'python-flake8)
                      (flycheck-mode)))))
    #+end_src
+** Org-Jira
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-jira
+       :ensure t
+       :bind ("C-c j c" . org-jira-create-issue))
+   #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
    #+begin_src emacs-lisp :tangle yes
      (use-package magit
        :ensure t
+       :bind (("C-c g" . magit-status))
        :config
        (progn
          (setq magit-last-seen-setup-instructions "1.4.0")
@@ -599,13 +632,12 @@
        (define-key company-active-map "\t" 'tab-indent-or-complete))
    #+end_src
 ** Yasnippet Mode
-   Snippets, yay! The defaults OK, but it gets better with the
-   snippets library from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. Clone that repository to
-   ~/.emacs.d/snippets for great snippet support.
+   Snippets, yay!
    #+begin_src emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode
+       :bind (("C-c y c" . helm-yas-complete))
        :config
        (progn
          (dolist
@@ -622,6 +654,12 @@
            (setq yas-snippet-dirs (list my/snippets-dir))
            (setq yas/root-directory my/snippets-dir)
            (yas-load-directory yas/root-directory))))
+   #+end_src
+   The defaults are OK, but it gets better with the snippets library
+   from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. No need to clone them manually anymore.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet-snippets
+       :ensure t)
    #+end_src
 ** CEDET
    Basic CEDET configuration.
