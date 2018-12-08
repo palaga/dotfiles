@@ -550,6 +550,18 @@
        :ensure t
        :bind ("C-=" . er/expand-region))
    #+end_src
+** Rainbow Delimiters
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-delimiters
+       :ensure t
+       :hook ((text-mode prog-mode) . rainbow-delimiters-mode))
+   #+end_src
+** Rainbow Blocks
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-blocks
+       :ensure t
+       :hook (text-mode . rainbow-blocks-mode))
+   #+end_src
 ** Flycheck Mode
    Awesome mode to automatically run syntax checkers over the source
    code in idle-time. Currently, only C and Python are configured.
