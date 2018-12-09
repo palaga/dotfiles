@@ -562,6 +562,11 @@
        :ensure t
        :hook (text-mode . rainbow-blocks-mode))
    #+end_src
+** Rest Client
+   #+begin_src emacs-lisp :tangle yes
+     (use-package restclient
+       :ensure t)
+   #+end_src
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
