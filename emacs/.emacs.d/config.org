@@ -626,14 +626,14 @@
              (if (looking-at "->") t nil)))))
 
      (defun do-yas-expand ()
-       (let ((yas/fallback-behavior 'return-nil))
-         (yas/expand)))
+       (let ((yas-fallback-behavior 'return-nil))
+         (yas-expand)))
 
      (defun tab-indent-or-complete ()
        (interactive)
        (if (minibufferp)
            (minibuffer-complete)
-         (if (or (not yas/minor-mode)
+         (if (or (not yas-minor-mode)
                  (null (do-yas-expand)))
              (if (check-expansion)
                  (company-complete-common)
@@ -662,10 +662,10 @@
                      c-mode-hook))
            (add-hook hook 'yas-minor-mode))
 
-         (let ((my/snippets-dir "~/.emacs.d/snippets"))
-           (setq yas-snippet-dirs (list my/snippets-dir))
-           (setq yas/root-directory my/snippets-dir)
-           (yas-load-directory yas/root-directory))))
+         (let ((my-snippets-dir "~/.emacs.d/snippets"))
+           (setq yas-snippet-dirs (list my-snippets-dir))
+           (setq yas-root-directory my-snippets-dir)
+           (yas-load-directory yas-root-directory))))
    #+end_src
    The defaults are OK, but it gets better with the snippets library
    from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. No need to clone them manually anymore.
