@@ -18,7 +18,7 @@ alias -s gif=$IMAGEVIEWER
 
 alias -s avi=$MEDIAPLAYER
 
-if command -v rlwrap; then
+if command -v rlwrap > /dev/null; then
   alias tclsh='rlwrap tclsh'
   alias wish='rlwrap wish'
 fi
