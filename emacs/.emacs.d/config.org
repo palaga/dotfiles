@@ -538,10 +538,9 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package fill-column-indicator
        :ensure t
-       :config (progn
-                 (add-hook 'text-mode-hook 'fci-mode)
-                 (add-hook 'prog-mode-hook 'fci-mode)
-                 (setq fci-rule-column 80)))
+       :hook   ((text-mode prog-mode) . fci-mode)
+       :custom ((fci-rule-column 100)
+                (fci-rule-width  1)))
    #+end_src
 ** Expand Region
    Expand region increases the selected region by semantic units.
