@@ -560,7 +560,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package rainbow-blocks
        :ensure t
-       :hook (text-mode . rainbow-blocks-mode))
+       :hook (python-mode . rainbow-blocks-mode))
    #+end_src
 ** Rest Client
    #+begin_src emacs-lisp :tangle yes
