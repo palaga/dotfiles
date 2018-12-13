@@ -229,7 +229,8 @@
 *** Helm ag
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-ag
-       :ensure t)
+       :ensure t
+       :bind   ("C-c p g" . helm-do-ag-project-root))
    #+end_src
 *** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
@@ -247,7 +248,20 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package helm-projectile
         :ensure t
-        :bind (("C-c p p" . helm-projectile-switch-project)))
+        :bind (("C-c p p" . helm-projectile-switch-project)
+               ("C-c p f" . helm-projectile-find-file-dwim)
+               ("C-c p F" . helm-projectile-find-file-in-known-projects)))
+    #+end_src
+*** Helm Yasnippet
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-c-yasnippet
+        :ensure t)
+    #+end_src
+*** Helm Tramp
+    #+begin_src emacs-lisp :tangle yes
+      (use-package helm-tramp
+        :ensure t
+        :bind ("C-x t" . helm-tramp))
     #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
@@ -525,10 +539,9 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package fill-column-indicator
        :ensure t
-       :config (progn
-                 (add-hook 'text-mode-hook 'fci-mode)
-                 (add-hook 'prog-mode-hook 'fci-mode)
-                 (setq fci-rule-column 80)))
+       :hook   ((text-mode prog-mode) . fci-mode)
+       :custom ((fci-rule-column 100)
+                (fci-rule-width  1)))
    #+end_src
 ** Expand Region
    Expand region increases the selected region by semantic units.
@@ -536,6 +549,31 @@
      (use-package expand-region
        :ensure t
        :bind ("C-=" . er/expand-region))
+   #+end_src
+** Rainbow Delimiters
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-delimiters
+       :ensure t
+       :hook ((text-mode prog-mode) . rainbow-delimiters-mode))
+   #+end_src
+** Rainbow Blocks
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-blocks
+       :ensure t
+       :hook (python-mode . rainbow-blocks-mode))
+   #+end_src
+** Rest Client
+   #+begin_src emacs-lisp :tangle yes
+     (use-package restclient
+       :ensure t)
+   #+end_src
+** TODO Dired Sidebar
+   Nice for tree style file navigation. Would like to add the
+   vscode-icon package, for nicer icons.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dired-sidebar
+       :ensure t
+       :bind ("C-c d" . dired-sidebar-toggle-sidebar))
    #+end_src
 ** Flycheck Mode
    Awesome mode to automatically run syntax checkers over the source
@@ -561,11 +599,18 @@
                      (flycheck-select-checker 'python-flake8)
                      (flycheck-mode)))))
    #+end_src
+** Org-Jira
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-jira
+       :ensure t
+       :bind ("C-c j c" . org-jira-create-issue))
+   #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
    #+begin_src emacs-lisp :tangle yes
      (use-package magit
        :ensure t
+       :bind (("C-c g" . magit-status))
        :config
        (progn
          (setq magit-last-seen-setup-instructions "1.4.0")
@@ -600,14 +645,14 @@
              (if (looking-at "->") t nil)))))
 
      (defun do-yas-expand ()
-       (let ((yas/fallback-behavior 'return-nil))
-         (yas/expand)))
+       (let ((yas-fallback-behavior 'return-nil))
+         (yas-expand)))
 
      (defun tab-indent-or-complete ()
        (interactive)
        (if (minibufferp)
            (minibuffer-complete)
-         (if (or (not yas/minor-mode)
+         (if (or (not yas-minor-mode)
                  (null (do-yas-expand)))
              (if (check-expansion)
                  (company-complete-common)
@@ -618,13 +663,12 @@
        (define-key company-active-map "\t" 'tab-indent-or-complete))
    #+end_src
 ** Yasnippet Mode
-   Snippets, yay! The defaults OK, but it gets better with the
-   snippets library from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. Clone that repository to
-   ~/.emacs.d/snippets for great snippet support.
+   Snippets, yay!
    #+begin_src emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode
+       :bind (("C-c y c" . helm-yas-complete))
        :config
        (progn
          (dolist
@@ -637,10 +681,16 @@
                      c-mode-hook))
            (add-hook hook 'yas-minor-mode))
 
-         (let ((my/snippets-dir "~/.emacs.d/snippets"))
-           (setq yas-snippet-dirs (list my/snippets-dir))
-           (setq yas/root-directory my/snippets-dir)
-           (yas-load-directory yas/root-directory))))
+         (let ((my-snippets-dir "~/.emacs.d/snippets"))
+           (setq yas-snippet-dirs (list my-snippets-dir))
+           (setq yas-root-directory my-snippets-dir)
+           (yas-load-directory yas-root-directory))))
+   #+end_src
+   The defaults are OK, but it gets better with the snippets library
+   from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. No need to clone them manually anymore.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet-snippets
+       :ensure t)
    #+end_src
 ** CEDET
    Basic CEDET configuration.

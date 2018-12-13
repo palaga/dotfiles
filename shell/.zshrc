@@ -75,3 +75,5 @@ fi
 #plugin=(git)
 #source $ZSH/oh-my-zsh.sh
 
+# Enable bash completion compatibility
+autoload -U +X bashcompinit && bashcompinit

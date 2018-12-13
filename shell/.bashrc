@@ -24,6 +24,9 @@ export MEDIAPLAYER='mplayer'
 export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/node_modules/.bin:$HOME/.cabal/bin:$PATH
 export TCLLIBPATH=". $TCLLIBPATH"
 
+# Python Environment
+export PYTHONSTARTUP="$HOME/.pythonrc"
+
 # Less configuration:
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
