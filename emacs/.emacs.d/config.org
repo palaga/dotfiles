@@ -57,6 +57,11 @@
    #+begin_src emacs-lisp :tangle yes
      (add-hook 'after-init-hook 'server-start)
    #+end_src
+** Custom file
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq custom-file "~/.emacs-custom")
+     (load custom-file 'noerror)
+   #+END_SRC
 ** Visual Appearance
    Now that we have the packages configured, we want to clean up the
    visual appearances of emacs. Lets cut down on the bars and what
@@ -164,7 +169,7 @@
    #+end_src
    #+begin_src emacs-lisp :tangle yes
      (use-package newcomment
-       :config (setq comment-auto-fill-only-comments t))
+       :custom (comment-auto-fill-only-comments t))
    #+end_src
 ** Browser Configuration
    Set the default browser to firefox.
@@ -207,6 +212,14 @@
                                            search-ring
                                            regexp-search-ring))
    #+end_src
+** Diminish and Delight
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package diminish
+       :ensure t)
+
+     (use-package delight
+       :ensure t)
+   #+END_SRC
 ** Projectile
    Easy project management with =C-c p= as prefix.
    #+begin_src emacs-lisp :tangle yes
@@ -219,12 +232,13 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package helm
        :ensure t
+       :diminish helm-mode
        :bind (("M-x"     . helm-M-x)
               ("C-x a"   . helm-apt)
+              ("C-x c"   . helm-colors)
               ("C-x C-f" . helm-find-files)
               ("C-x C-b" . helm-buffers-list))
-       :init (progn
-               (helm-mode)))
+       :init (helm-mode))
    #+end_src
 *** Helm ag
    #+begin_src emacs-lisp :tangle yes
@@ -255,6 +269,7 @@
 *** Helm Yasnippet
     #+begin_src emacs-lisp :tangle yes
       (use-package helm-c-yasnippet
+        :bind (("C-c y c" . helm-yas-complete))
         :ensure t)
     #+end_src
 *** Helm Tramp
@@ -283,6 +298,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package editorconfig
        :ensure t
+       :diminish (editorconfig-mode)
        :config (editorconfig-mode 1))
    #+end_src
 * Theme Configuration
@@ -306,11 +322,8 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package go-mode
        :ensure t
-       :config
-       (add-hook 'go-mode-hook
-                 (lambda ()
-                   (setq whitespace-style '(face trailing))
-                   (setq tab-width 2))))
+       :custom ((whitespace-style '(face trailing))
+                (tab-width 2)))
    #+end_src
 ** Java
    All configuration regarding Java goes here.
@@ -320,32 +333,17 @@
     #+begin_src emacs-lisp :tangle yes
       (add-hook 'java-mode-hook 'subword-mode)
     #+end_src
-*** TODO Eclim Configuration
-   Some eclim configuration. Does nothing yet. Not sure whether I want
-   to use this.
-   #+begin_src emacs-lisp :tangle yes
-     ;; (require 'eclim)
-     ;; (require 'eclimd)
-
-     ;; (global-eclim-mode)
-
-     ;; (custom-set-variables
-     ;;  '(eclim-eclipse-dirs '("~/.opt/eclipse_luna/"))
-     ;;  '(eclim-executable "~/.opt/eclipse_luna/eclim"))
-   #+end_src
 *** Groovy
     #+begin_src emacs-lisp :tangle yes
       (use-package groovy-mode
         :ensure t
-        :config
-        (progn
-          (setq groovy-indent-offset 2)
-          (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
-          (add-to-list 'auto-mode-alist '("\.gradle$" . groovy-mode))))
+        :mode ("\.groovy$")
+        :custom (groovy-indent-offset 2))
     #+end_src
 *** Gradle Configuration
     #+begin_src emacs-lisp :tangle yes
       (use-package gradle-mode
+        :mode  "\.gradle$"
         :ensure t)
     #+end_src
 *** Ant Configuration
@@ -362,16 +360,13 @@
      #+begin_src emacs-lisp :tangle yes
        (use-package paredit
          :ensure t
-         :config
-         (dolist
-             (hook '(emacs-lisp-mode-hook
-                     eval-expression-minibuffer-setup-hook
-                     ielm-mode-hook
-                     lisp-mode-hook
-                     clojure-mode-hook
-                     lisp-interaction-mode-hook
-                     scheme-mode-hook))
-           (add-hook hook 'enable-paredit-mode)))
+         :hook ((emacs-lisp-mode
+                 eval-expression-minibuffer-setup
+                 ielm-mode
+                 lisp-mode
+                 clojure-mode
+                 lisp-interaction-mode
+                 scheme-mode) . enable-paredit-mode))
      #+end_src
 *** TODO Emacs Lisp
 *** Clojure
@@ -408,9 +403,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package jinja2-mode
        :ensure t
-       :init
-       (add-to-list 'auto-mode-alist
-                    '("\.j2$" . jinja2-mode)))
+       :mode ("\.j2$" . jinja2-mode))
    #+end_src
 ** C/C++
    Activate the =xcscope= package, to easily navigate C/C++ code.
@@ -531,8 +524,8 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package web-mode
        :ensure t
-       :defer t
-       :init (add-to-list 'auto-mode-alist '("\\.html?" . web-mode)))
+       :custom (web-mode-markup-indent-offset 2)
+       :mode "\.html?$")
    #+end_src
 * Other Modes
 ** Fill Column Indicator
@@ -610,11 +603,9 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package magit
        :ensure t
-       :bind (("C-c g" . magit-status))
-       :config
-       (progn
-         (setq magit-last-seen-setup-instructions "1.4.0")
-         (setq magit-auto-revert-mode nil)))
+       :custom ((magit-last-seen-setup-instructions "1.4.0")
+                (magit-auto-revert-mode nil))
+       :bind (("C-c g" . magit-status)))
    #+end_src
 ** Org-Jira
    Mode to work with Jira from Emacs.
@@ -668,23 +659,18 @@
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode
-       :bind (("C-c y c" . helm-yas-complete))
+       :hook ((python-mode-hook
+               emacs-lisp-mode-hook
+               org-mode-hook
+               java-mode-hook
+               go-mode-hook
+               c++-mode-hook
+               c-mode-hook) . yas-minor-mode)
        :config
-       (progn
-         (dolist
-             (hook '(python-mode-hook
-                     emacs-lisp-mode-hook
-                     org-mode-hook
-                     java-mode-hook
-                     go-mode-hook
-                     c++-mode-hook
-                     c-mode-hook))
-           (add-hook hook 'yas-minor-mode))
-
-         (let ((my-snippets-dir "~/.emacs.d/snippets"))
-           (setq yas-snippet-dirs (list my-snippets-dir))
-           (setq yas-root-directory my-snippets-dir)
-           (yas-load-directory yas-root-directory))))
+       (let ((my-snippets-dir "~/.emacs.d/snippets"))
+         (setq yas-snippet-dirs (list my-snippets-dir))
+         (setq yas-root-directory my-snippets-dir)
+         (yas-load-directory yas-root-directory)))
    #+end_src
    The defaults are OK, but it gets better with the snippets library
    from [[https://github.com/AndreaCrotti/yasnippet-snippets.git][Andrea Crotti]]. No need to clone them manually anymore.
