@@ -721,10 +721,13 @@
        :ensure t
        :bind ("C-c SPC" . ace-jump-mode))
    #+end_src
-** TODO Origami mode
+** Origami mode
    #+begin_src emacs-lisp :tangle yes
      (use-package origami
-       :ensure t)
+       :ensure t
+       :hook (yaml-mode . origami-mode)
+       :bind (("C-c C-z" . origami-toggle-node)
+              ("C-c z" . origami-toggle-node)))
    #+end_src
 ** TODO Rebox2
    Look into this! Might be nice for creating boxes.
