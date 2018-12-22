@@ -86,6 +86,19 @@
        (set-face-background                  ; Set the color of the
         hl-line-face "gray16"))              ; highlight bar
    #+end_src
+** Window Management
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun switch-next-window-to-other-buffer (&rest r)
+        (set-window-buffer (next-window) (other-buffer)))
+
+     (advice-add
+      #'split-window-right
+      :after #'switch-next-window-to-other-buffer)
+
+     (advice-add
+      #'split-window-below
+      :after #'switch-next-window-to-other-buffer)
+   #+END_SRC
 ** Key bindings
    Some simple key bindings, to make life easier. These should be
    self-explanatory.
