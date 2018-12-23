@@ -621,6 +621,12 @@
                 (magit-auto-revert-mode nil))
        :bind (("C-c g" . magit-status)))
    #+end_src
+** Git gutter
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package git-gutter
+       :ensure t
+       :hook (prog-mode . git-gutter-mode))
+   #+END_SRC
 ** Org present
    #+begin_src emacs-lisp :tangle yes
      (use-package org-present
