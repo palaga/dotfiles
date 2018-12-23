@@ -568,6 +568,12 @@
        :ensure t
        :hook (python-mode . rainbow-blocks-mode))
    #+end_src
+** Rainbow Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package rainbow-mode
+       :ensure t
+       :hook (prog-mode . rainbow-mode))
+   #+END_SRC
 ** Rest Client
    #+begin_src emacs-lisp :tangle yes
      (use-package restclient
