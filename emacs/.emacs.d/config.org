@@ -476,6 +476,7 @@
             (ditaa    . t)
             (python   . t)
             (R        . t)
+            (sqlite   . t)
             (latex    . t)
             (makefile . t)
             (sh       . t)))
