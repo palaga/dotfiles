@@ -291,6 +291,16 @@
         :ensure t
         :bind ("C-x t" . helm-tramp))
     #+end_src
+** Ivy Mode
+   Still deciding if I want helm, ivy or both...
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package ivy
+       :ensure t)
+
+     (use-package all-the-icons-ivy
+       :ensure t
+       :config (all-the-icons-ivy-setup))
+   #+END_SRC
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
