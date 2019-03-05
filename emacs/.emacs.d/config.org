@@ -325,12 +325,22 @@
        :config (editorconfig-mode 1))
    #+end_src
 * Theme Configuration
+** Zenburn
   Zenburn! Gotta love it..
   #+begin_src emacs-lisp :tangle yes
     (use-package zenburn-theme
       :ensure t
       :config (load-theme 'zenburn t))
   #+end_src
+** Doom themes
+   Has a lot of good themes!
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package doom-themes
+       :ensure t)
+
+     (use-package doom-modeline
+       :ensure t)
+   #+END_SRC
 * Languages Modes
   Here you will find the configuration for some of the languages I
   use. The configurations for each language can be found under its own
