@@ -590,6 +590,12 @@
      (use-package restclient
        :ensure t)
    #+end_src
+** Which Key
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode))
+   #+END_SRC
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
