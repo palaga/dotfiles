@@ -257,7 +257,8 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-ag
        :ensure t
-       :bind   ("C-c p g" . helm-do-ag-project-root))
+       :bind   (("C-c p g" . helm-do-ag-project-root)
+                ("C-c C-p g" . helm-do-ag-project-root)))
    #+end_src
 *** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
@@ -276,8 +277,11 @@
       (use-package helm-projectile
         :ensure t
         :bind (("C-c p p" . helm-projectile-switch-project)
+               ("C-c C-p p" . helm-projectile-switch-project)
                ("C-c p f" . helm-projectile-find-file-dwim)
-               ("C-c p F" . helm-projectile-find-file-in-known-projects)))
+               ("C-c C-p f" . helm-projectile-find-file-dwim)
+               ("C-c p F" . helm-projectile-find-file-in-known-projects)
+               ("C-c C-p F" . helm-projectile-find-file-in-known-projects)))
     #+end_src
 *** Helm Yasnippet
     #+begin_src emacs-lisp :tangle yes
@@ -674,7 +678,8 @@
        :ensure t
        :custom ((magit-last-seen-setup-instructions "1.4.0")
                 (magit-auto-revert-mode nil))
-       :bind (("C-c g" . magit-status)))
+       :bind (("C-x g" . magit-status)
+              ("C-x C-g" . magit-status)))
    #+end_src
 ** Git gutter
    #+BEGIN_SRC emacs-lisp :tangle yes
