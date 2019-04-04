@@ -640,6 +640,12 @@
               ("C-<" . mc/mark-prev-like-this)
               ("C-c C->" . mc/mark-all-like-this)))
    #+END_SRC
+** Eyebrowse
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package eyebrowse
+       :ensure t
+       :init (eyebrowse-mode))
+   #+END_SRC
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
