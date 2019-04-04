@@ -632,6 +632,14 @@
        :ensure t
        :config (which-key-mode))
    #+END_SRC
+** Multiple Cursor
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package multiple-cursors
+       :ensure t
+       :bind (("C->" . mc/mark-next-like-this)
+              ("C-<" . mc/mark-prev-like-this)
+              ("C-c C->" . mc/mark-all-like-this)))
+   #+END_SRC
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
