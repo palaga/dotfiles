@@ -257,7 +257,8 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-ag
        :ensure t
-       :bind   ("C-c p g" . helm-do-ag-project-root))
+       :bind   (("C-c p g" . helm-do-ag-project-root)
+                ("C-c C-p g" . helm-do-ag-project-root)))
    #+end_src
 *** Helm Swiper
     #+begin_src emacs-lisp :tangle yes
@@ -276,8 +277,11 @@
       (use-package helm-projectile
         :ensure t
         :bind (("C-c p p" . helm-projectile-switch-project)
+               ("C-c C-p p" . helm-projectile-switch-project)
                ("C-c p f" . helm-projectile-find-file-dwim)
-               ("C-c p F" . helm-projectile-find-file-in-known-projects)))
+               ("C-c C-p f" . helm-projectile-find-file-dwim)
+               ("C-c p F" . helm-projectile-find-file-in-known-projects)
+               ("C-c C-p F" . helm-projectile-find-file-in-known-projects)))
     #+end_src
 *** Helm Yasnippet
     #+begin_src emacs-lisp :tangle yes
@@ -291,6 +295,16 @@
         :ensure t
         :bind ("C-x t" . helm-tramp))
     #+end_src
+** Ivy Mode
+   Still deciding if I want helm, ivy or both...
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package ivy
+       :ensure t)
+
+     (use-package all-the-icons-ivy
+       :ensure t
+       :config (all-the-icons-ivy-setup))
+   #+END_SRC
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
@@ -315,12 +329,22 @@
        :config (editorconfig-mode 1))
    #+end_src
 * Theme Configuration
+** Zenburn
   Zenburn! Gotta love it..
   #+begin_src emacs-lisp :tangle yes
     (use-package zenburn-theme
       :ensure t
       :config (load-theme 'zenburn t))
   #+end_src
+** Doom themes
+   Has a lot of good themes!
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package doom-themes
+       :ensure t)
+
+     (use-package doom-modeline
+       :ensure t)
+   #+END_SRC
 * Languages Modes
   Here you will find the configuration for some of the languages I
   use. The configurations for each language can be found under its own
@@ -456,6 +480,7 @@
             (ditaa    . t)
             (python   . t)
             (R        . t)
+            (sqlite   . t)
             (latex    . t)
             (makefile . t)
             (sh       . t)))
@@ -549,6 +574,17 @@
        :custom ((fci-rule-column 100)
                 (fci-rule-width  1)))
    #+end_src
+** Password Mode
+   Awesome mode for hiding passwords where necessary. Needs some
+   tweaking, depending on the type of file. Prefixes can be easily set
+   in a .dir-locals.el file.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package password-mode)
+   #+END_SRC
+** Password Generator Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package password-generator)
+   #+END_SRC
 ** Expand Region
    Expand region increases the selected region by semantic units.
    #+begin_src emacs-lisp :tangle yes
@@ -568,11 +604,48 @@
        :ensure t
        :hook (python-mode . rainbow-blocks-mode))
    #+end_src
+** Rainbow Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package rainbow-mode
+       :ensure t
+       :hook (prog-mode . rainbow-mode))
+   #+END_SRC
 ** Rest Client
    #+begin_src emacs-lisp :tangle yes
      (use-package restclient
        :ensure t)
    #+end_src
+** Treemacs
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package treemacs
+       :ensure t)
+
+     (use-package treemacs-projectile
+       :ensure t)
+
+     (use-package treemacs-magit
+       :ensure t)
+   #+END_SRC
+** Which Key
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode))
+   #+END_SRC
+** Multiple Cursor
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package multiple-cursors
+       :ensure t
+       :bind (("C->" . mc/mark-next-like-this)
+              ("C-<" . mc/mark-prev-like-this)
+              ("C-c C->" . mc/mark-all-like-this)))
+   #+END_SRC
+** Eyebrowse
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package eyebrowse
+       :ensure t
+       :init (eyebrowse-mode))
+   #+END_SRC
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
@@ -606,6 +679,7 @@
                      (flycheck-mode)))))
    #+end_src
 ** Org-Jira
+   Mode to work with Jira from Emacs.
    #+begin_src emacs-lisp :tangle yes
      (use-package org-jira
        :ensure t
@@ -618,12 +692,18 @@
        :ensure t
        :custom ((magit-last-seen-setup-instructions "1.4.0")
                 (magit-auto-revert-mode nil))
-       :bind (("C-c g" . magit-status)))
+       :bind (("C-x g" . magit-status)
+              ("C-x C-g" . magit-status)))
    #+end_src
-** Org-Jira
-   Mode to work with Jira from Emacs.
+** Git gutter
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package git-gutter
+       :ensure t
+       :hook (prog-mode . git-gutter-mode))
+   #+END_SRC
+** Org present
    #+begin_src emacs-lisp :tangle yes
-     (use-package org-jira
+     (use-package org-present
        :ensure t)
    #+end_src
 ** Company Mode
