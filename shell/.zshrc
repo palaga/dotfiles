@@ -25,9 +25,10 @@ setopt prompt_subst         # Enable prompt substitution
 
 
 # Load modules
-autoload -U compinit promptinit
+autoload -U compinit promptinit edit-command-line
 compinit
 promptinit
+zle -N edit-command-line
 
 
 # Completion rules:
@@ -43,16 +44,14 @@ zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
 
 
-# VCS info configuration:
-zstyle ':vcs_info:*' enable git hg
-
-
 # Setting up prompt:
 prompt palaga
 
 
 # Key binds emacs style:
 bindkey -e
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
 bindkey '^w' kill-region
 bindkey '^R' history-incremental-search-backward
 bindkey '^[[A' history-search-backward
