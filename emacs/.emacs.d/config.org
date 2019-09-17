@@ -152,8 +152,8 @@
    #+begin_src emacs-lisp :tangle yes
      (electric-pair-mode t)
      (show-paren-mode t)
-     (setq electric-pair-preserve-balance t)
-     (setq electric-pair-delete-adjacent-pairs t)
+     (defvar electric-pair-preserve-balance t)
+     (defvar electric-pair-delete-adjacent-pairs t)
    #+end_src
 ** White spaces
    Here I configure my whitespace settings. I currently use softtabs
@@ -187,8 +187,8 @@
 ** Browser Configuration
    Set the default browser to firefox.
    #+begin_src emacs-lisp :tangle yes
-     (setq browse-url-browser-function 'browse-url-generic
-           browse-url-generic-program "firefox")
+     (setq browse-url-browser-function 'browse-url-generic)
+     (defvar browse-url-generic-program "firefox")
    #+end_src
 ** Spell Checker Configuration
    Enable =flyspell-mode= for normal text files.
@@ -219,11 +219,11 @@
      (savehist-mode 1)
      (setq history-length 1000)
      (setq history-delete-duplicates t)
-     (setq savehist-save-minibuffer-history t)
-     (setq savehist-additional-variables '(compile-command
-                                           killring
-                                           search-ring
-                                           regexp-search-ring))
+     (defvar savehist-save-minibuffer-history t)
+     (defvar savehist-additional-variables '(compile-command
+                                             killring
+                                             search-ring
+                                             regexp-search-ring))
    #+end_src
 ** Diminish and Delight
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -264,24 +264,13 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package swiper-helm
                    :ensure t
-                   :bind ("M-i" . swiper-helm))
+                   :bind ("M-i" . swiper))
     #+end_src
 *** Helm Flycheck
     #+begin_src emacs-lisp :tangle yes
       (use-package helm-flycheck
                    :ensure t
                    :bind ("C-c ! h" . helm-flycheck))
-    #+end_src
-*** Helm Projectile
-    #+begin_src emacs-lisp :tangle yes
-      (use-package helm-projectile
-        :ensure t
-        :bind (("C-c p p" . helm-projectile-switch-project)
-               ("C-c C-p p" . helm-projectile-switch-project)
-               ("C-c p f" . helm-projectile-find-file-dwim)
-               ("C-c C-p f" . helm-projectile-find-file-dwim)
-               ("C-c p F" . helm-projectile-find-file-in-known-projects)
-               ("C-c C-p F" . helm-projectile-find-file-in-known-projects)))
     #+end_src
 *** Helm Yasnippet
     #+begin_src emacs-lisp :tangle yes
@@ -296,10 +285,14 @@
         :bind ("C-x t" . helm-tramp))
     #+end_src
 ** Ivy Mode
-   Still deciding if I want helm, ivy or both...
+   Gradually replacing my helm config with ivy, where useful!
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ivy
-       :ensure t)
+       :ensure t
+       :bind (("C-c p p" . counsel-projectile-switch-project)
+              ("C-c C-p p" . counsel-projectile-switch-project)
+              ("C-c p f" . counsel-projectile-find-file-dwim)
+              ("C-c C-p f" . counsel-projectile-find-file-dwim)))
 
      (use-package all-the-icons-ivy
        :ensure t
@@ -309,6 +302,7 @@
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
      (use-package dired-x
+       :commands dired-omit-mode
        :config (dired-omit-mode 1))
 
      (use-package dired
@@ -316,7 +310,30 @@
        (progn
          (put 'dired-find-alternate-file 'disabled nil)
          (setq dired-dwim-target t)))
+
+     (use-package dired-rainbow
+       :ensure t
+       :config
+       (progn
+         (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+         (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+         (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+         (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx" "org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+         (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+         (dired-rainbow-define media "#ff4500" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+         (dired-rainbow-define log "#8b0000" ("log"))
+         (dired-rainbow-define shell "#2f4f4f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+         (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+         (dired-rainbow-define compiled "#6c7b8b" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" "java" "exe" "msi"))
+         (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+         (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+         (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+         (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+         (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+         (dired-rainbow-define vc "#0074d9" (".git" ".gitignore" ".gitattributes" ".gitmodules"))
+         (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")))
    #+end_src
+
 ** EditorConfig
    Editor config helps to configure your editor, independent of the
    exact editor you use. This is used for projects where developers
@@ -449,6 +466,13 @@
        :ensure t
        :init (cscope-setup))
    #+end_src
+* Configuration Modes
+** Nginx Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package nginx-mode
+       :ensure t
+       :custom ((nginx-indent-level 2)))
+   #+END_SRC
 * Markup Modes
 ** Markdown
    Make sure markdown mode is there, if needed.
@@ -463,15 +487,17 @@
      (use-package org
        :ensure t
        :bind ("C-c c" . org-capture)
+       :commands org-babel-do-load-languages
        :config
-       (setq org-directory "~/org"
-             org-default-notes-file (concat org-directory "/notes.org")
-             org-agenda-files '("~/org/")
-             org-capture-templates '(("t" "TODO"
-                                      entry (file+headline
-                                             "~/org/todo.org"
-                                             "Tasks")
-                                      "* TODO %?\n  %i %F")))
+       (progn
+         (setq org-directory "~/org"
+               org-default-notes-file (concat org-directory "/notes.org")
+               org-agenda-files '("~/org/"))
+         (defvar org-capture-templates '(("t" "TODO"
+                                          entry (file+headline
+                                                 "~/org/todo.org"
+                                                 "Tasks")
+                                          "* TODO %?\n  %i %F"))))
        :init
        (progn
          (org-babel-do-load-languages
@@ -483,7 +509,7 @@
             (sqlite   . t)
             (latex    . t)
             (makefile . t)
-            (sh       . t)))
+            (shell    . t)))
 
          ;; Ensure that the beamer exporter is available
          (require 'ox-beamer)))
@@ -499,9 +525,7 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package org-bullets
         :ensure t
-        :init (add-hook 'org-mode-hook
-                        (lambda ()
-                          (org-bullets-mode 1))))
+        :init (add-hook 'org-mode-hook #'org-bullets-mode))
     #+end_src
 ** Yaml
    Add yaml mode, for use in all yaml related project (ansible,
@@ -542,13 +566,6 @@
       (use-package docker-compose-mode
         :ensure t)
     #+end_src
-** Ansible
-   Enable ansible documentation hook, under C-c ?.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package ansible-doc
-       :ensure t
-       :init (add-hook 'yaml-mode-hook 'ansible-doc-mode))
-   #+end_src
 ** Terraform
    Enable terraform mode!
    #+begin_src emacs-lisp :tangle yes
@@ -646,6 +663,17 @@
        :ensure t
        :init (eyebrowse-mode))
    #+END_SRC
+** Shackle
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package shackle
+       :ensure t
+       :custom (shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :size 0.4)
+                                ("*compilation*" :regexp nil :align t :size 0.4)
+                                ("*swiper*" :align t :size 0.4)))
+       :init (shackle-mode))
+
+     (setq ivy-display-functions-alist '((ivy-completion-in-region . ivy-display-function-overlay)))
+   #+END_SRC
 ** TODO Dired Sidebar
    Nice for tree style file navigation. Would like to add the
    vscode-icon package, for nicer icons.
@@ -660,6 +688,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package flycheck
        :ensure t
+       :commands (flycheck-mode flycheck-list-errors flycheck-select-checker)
        :config
        (progn
          (add-hook 'c-mode-hook
@@ -713,6 +742,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package company
        :ensure t
+       :commands company-complete-common
        :init (global-company-mode)
        :diminish company-mode)
    #+end_src
@@ -728,16 +758,13 @@
              (backward-char 1)
              (if (looking-at "->") t nil)))))
 
-     (defun do-yas-expand ()
-       (let ((yas-fallback-behavior 'return-nil))
-         (yas-expand)))
 
      (defun tab-indent-or-complete ()
        (interactive)
        (if (minibufferp)
            (minibuffer-complete)
          (if (or (not yas-minor-mode)
-                 (null (do-yas-expand)))
+                 (null (yas-expand)))
              (if (check-expansion)
                  (company-complete-common)
                (indent-for-tab-command)))))
@@ -752,6 +779,7 @@
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode
+       :commands yas-expand yas-load-directory
        :hook ((python-mode-hook
                emacs-lisp-mode-hook
                org-mode-hook
@@ -762,7 +790,7 @@
        :config
        (let ((my-snippets-dir "~/.emacs.d/snippets"))
          (setq yas-snippet-dirs (list my-snippets-dir))
-         (setq yas-root-directory my-snippets-dir)
+         (defvar yas-root-directory my-snippets-dir)
          (yas-load-directory yas-root-directory)))
    #+end_src
    The defaults are OK, but it gets better with the snippets library
@@ -787,16 +815,17 @@
 *** Sr-Speedbar
     The key binding for speedbar does not work yet. Fix this!
     #+begin_src emacs-lisp :tangle yes
-      (defun my/sr-speedbar-toggle ()
-        "Toggle sr-speedbar and set focus to it."
-        (interactive)
-        (sr-speedbar-toggle)
-        (when (sr-speedbar-exist-p)
-          (sr-speedbar-select-window)))
-
       (use-package sr-speedbar
         :ensure t
-        :bind ("<f6>" . my/sr-speedbar-toggle))
+        :commands (sr-speedbar-exist-p sr-speedbar-select-window)
+        :bind ("<f6>" . my/sr-speedbar-toggle)
+        :config
+        (defun my/sr-speedbar-toggle ()
+          "Toggle sr-speedbar and set focus to it."
+          (interactive)
+          (sr-speedbar-toggle)
+          (when (sr-speedbar-exist-p)
+            (sr-speedbar-select-window))))
     #+end_src
 ** TODO Smartpair Mode
    Could replace my electric pair config. Should be configured

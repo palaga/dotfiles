@@ -16,6 +16,9 @@ prompt_palaga_setup () {
   if [[ "$TERM" != "dumb" ]]; then
     autoload -Uz vcs_info
 
+    # VCS info configuration:
+    zstyle ':vcs_info:*' enable git hg
+
     zstyle ':vcs_info:*' stagedstr     '%F{black}|%F{magenta}s%f'
     zstyle ':vcs_info:*' unstagedstr   '%F{black}|%F{magenta}u%f'
     zstyle ':vcs_info:*' actionformats ' %F{blue}[%F{cyan}%s%F{blue}:%F{yellow}%b%F{blue}|%F{red}%a%c%u%F{blue}]%f'
