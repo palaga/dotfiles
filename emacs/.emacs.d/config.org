@@ -289,15 +289,30 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ivy
        :ensure t
-       :bind (("C-c p p" . counsel-projectile-switch-project)
-              ("C-c C-p p" . counsel-projectile-switch-project)
-              ("C-c p f" . counsel-projectile-find-file-dwim)
-              ("C-c C-p f" . counsel-projectile-find-file-dwim)))
+       )
 
      (use-package all-the-icons-ivy
        :ensure t
        :config (all-the-icons-ivy-setup))
    #+END_SRC
+*** Counsel plugins
+**** Projectile
+     #+BEGIN_SRC emacs-lisp :tangle yes
+       (use-package counsel-projectile
+         :ensure t
+         :bind (("C-c p p" . counsel-projectile-switch-project)
+                ("C-c C-p p" . counsel-projectile-switch-project)
+                ("C-c p f" . counsel-projectile-find-file-dwim)
+                ("C-c C-p f" . counsel-projectile-find-file-dwim)))
+     #+END_SRC
+**** Spotify
+     #+BEGIN_SRC emacs-lisp :tangle yes
+       (use-package counsel-spotify
+         :ensure t
+         :bind (("C-c s P" . counsel-spotify-toggle-play-pause)
+                ("C-c s p" . counsel-spotify-previous)
+                ("C-c s n" . counsel-spotify-next)))
+     #+END_SRC
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
