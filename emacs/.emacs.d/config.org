@@ -240,6 +240,11 @@
        :ensure t
        :init (projectile-mode))
    #+end_src
+** Hydra
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package hydra
+       :ensure t)
+   #+END_SRC
 ** Helm Mode
    Using Helm for most completion tasks. It replaces Ido and Smex.
    #+begin_src emacs-lisp :tangle yes
@@ -309,9 +314,16 @@
      #+BEGIN_SRC emacs-lisp :tangle yes
        (use-package counsel-spotify
          :ensure t
-         :bind (("C-c s P" . counsel-spotify-toggle-play-pause)
-                ("C-c s p" . counsel-spotify-previous)
-                ("C-c s n" . counsel-spotify-next)))
+         :after hydra
+         :bind ("C-c s" . hydra-spotify/body)
+         :init (defhydra hydra-spotify (:color pink) "Spotify"
+                 ("s" counsel-spotify-toggle-play-pause "play/pause")
+                 ("p" counsel-spotify-previous "previous")
+                 ("n" counsel-spotify-next "next")
+                 ("al" counsel-spotify-search-album "search album" :color blue)
+                 ("ar" counsel-spotify-search-artist "search artist" :color blue)
+                 ("t" counsel-spotify-search-track "search tracks" :color blue)
+                 ("q" quit-window "quit" :color blue)))
      #+END_SRC
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
