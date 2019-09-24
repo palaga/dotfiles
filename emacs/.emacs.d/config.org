@@ -323,7 +323,7 @@
                  ("al" counsel-spotify-search-album "search album" :color blue)
                  ("ar" counsel-spotify-search-artist "search artist" :color blue)
                  ("t" counsel-spotify-search-track "search tracks" :color blue)
-                 ("q" quit-window "quit" :color blue)))
+                 ("q" keyboard-quit "quit" :color blue)))
      #+END_SRC
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
