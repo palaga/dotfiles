@@ -267,26 +267,10 @@
      (use-package helm
        :ensure t
        :diminish helm-mode
-       :bind (("M-x"     . helm-M-x)
-              ("C-x a"   . helm-apt)
-              ("C-x c"   . helm-colors)
-              ("C-x C-f" . helm-find-files)
+       :bind (("C-x a"   . helm-apt)
               ("C-x C-b" . helm-buffers-list))
        :init (helm-mode))
    #+end_src
-*** Helm ag
-   #+begin_src emacs-lisp :tangle yes
-     (use-package helm-ag
-       :ensure t
-       :bind   (("C-c p g" . helm-do-ag-project-root)
-                ("C-c C-p g" . helm-do-ag-project-root)))
-   #+end_src
-*** Helm Swiper
-    #+begin_src emacs-lisp :tangle yes
-      (use-package swiper-helm
-                   :ensure t
-                   :bind ("M-i" . swiper))
-    #+end_src
 *** Helm Flycheck
     #+begin_src emacs-lisp :tangle yes
       (use-package helm-flycheck
@@ -310,7 +294,12 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ivy
        :ensure t
-       )
+       :bind (("C-s" . swiper)
+              ("C-x C-f" . counsel-find-file)
+              ("C-x c" . counsel-colors-emacs)
+              ("C-x b" . counsel-switch-buffer)
+              ("M-x" . counsel-M-x))
+       :init (setq ivy-initial-inputs-alist nil))
 
      (use-package all-the-icons-ivy
        :ensure t
@@ -321,10 +310,13 @@
      #+BEGIN_SRC emacs-lisp :tangle yes
        (use-package counsel-projectile
          :ensure t
-         :bind (("C-c p p" . counsel-projectile-switch-project)
-                ("C-c C-p p" . counsel-projectile-switch-project)
-                ("C-c p f" . counsel-projectile-find-file-dwim)
-                ("C-c C-p f" . counsel-projectile-find-file-dwim)))
+         :bind (("C-c C-p" . hydra-counsel-projectile/body)
+                ("C-c p" . hydra-counsel-projectile/body))
+         :init (defhydra hydra-counsel-projectile (:color blue) "Projectile"
+                 ("p" counsel-projectile-switch-project "switch project")
+                 ("f" counsel-projectile-find-file-dwim "find file")
+                 ("g" counsel-projectile-ag "grep source")
+                 ("q" keyboard-quit "quit")))
      #+END_SRC
 **** Spotify
      #+BEGIN_SRC emacs-lisp :tangle yes
