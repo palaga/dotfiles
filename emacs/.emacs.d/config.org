@@ -462,7 +462,8 @@
     Make sure that Cider is installed, for interactive clojure development.
     #+begin_src emacs-lisp :tangle yes
       (use-package cider
-        :ensure t)
+        :ensure t
+        :defer t)
     #+end_src
 *** TODO Common Lisp
 *** Schemes
@@ -480,6 +481,7 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package elpy
         :ensure t
+        :defer t
         :init (elpy-enable))
     #+end_src
 *** Pyvenv
@@ -676,7 +678,8 @@
        :ensure t)
 
      (use-package treemacs-magit
-       :ensure t)
+       :ensure t
+       :defer t)
    #+END_SRC
 ** Which Key
    #+BEGIN_SRC emacs-lisp :tangle yes
