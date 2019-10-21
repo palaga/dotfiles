@@ -342,7 +342,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package dired-x
        :commands dired-omit-mode
-       :config (dired-omit-mode 1))
+       :hook (dired-mode . dired-omit-mode))
 
      (use-package dired
        :config
