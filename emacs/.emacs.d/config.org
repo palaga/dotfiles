@@ -777,6 +777,18 @@
      (use-package org-present
        :ensure t)
    #+end_src
+** Pulseaudio control
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package pulseaudio-control
+       :ensure t
+       :bind (("C-c C-a" . hydra-counsel-pulseaudio/body))
+       :init (defhydra hydra-counsel-pulseaudio (:color pink) "PulseAudio"
+               ("s" pulseaudio-control-select-sink-by-name "select sink")
+               ("u" pulseaudio-control-increase-volume "volume up")
+               ("d" pulseaudio-control-decrease-volume "volume down")
+               ("m" pulseaudio-control-toggle-current-sink-mute "mute")
+               ("q" keyboard-quit "quit" :color blue)))
+   #+END_SRC
 ** Company Mode
    Company mode provides auto completion for my setup. Company works
    out of the box. Back-ends can be configured using the
