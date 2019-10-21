@@ -494,6 +494,13 @@
       (use-package pyvenv
         :ensure t)
     #+end_src
+*** Autopep8
+    Reformat python files according to PEP8 on save. For this to work, install autopep8 with pip.
+    #+begin_src emacs-lisp :tangle yes
+      (use-package py-autopep8
+        :ensure t
+        :hook (elpy-mode-hook . py-autopep8-enable-on-save))
+    #+end_src
 ** Jinja2
    #+begin_src emacs-lisp :tangle yes
      (use-package jinja2-mode
