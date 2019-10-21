@@ -304,6 +304,10 @@
      (use-package all-the-icons-ivy
        :ensure t
        :config (all-the-icons-ivy-setup))
+
+     (use-package ivy-hydra
+       :ensure t
+       :after hydra)
    #+END_SRC
 *** Counsel plugins
 **** Projectile
