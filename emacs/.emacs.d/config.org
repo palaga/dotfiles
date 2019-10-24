@@ -77,7 +77,6 @@
 
      (column-number-mode 1)                  ; Add column number to mode-line
      (setq use-dialog-box nil)               ; Do not use dialog boxes
-     (global-linum-mode 1)                   ; Enable line number
      (global-hl-line-mode 1)                 ; Highlight line of the cursor
      (setq echo-keystrokes 0.1)              ; Lower the time to show keystrokes
 
@@ -99,6 +98,12 @@
       #'split-window-below
       :after #'switch-next-window-to-other-buffer)
    #+END_SRC
+** Line numbers
+   #+begin_src emacs-lisp :tangle yes
+     (if (version<= "26.0.50" emacs-version)
+         (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+       (global-linum-mode 1))
+   #+end_src
 ** Key bindings
    Some simple key bindings, to make life easier. These should be
    self-explanatory.
