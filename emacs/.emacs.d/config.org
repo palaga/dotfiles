@@ -487,6 +487,9 @@
         :ensure t)
     #+end_src
 ** Python
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'python-mode 'subword-mode)
+   #+end_src
 *** Elpy
     I'm using elpy for my python IDE needs. Elpy uses =rope= and
     =jedi= for completion, =pyflakes= for checking stuff and
