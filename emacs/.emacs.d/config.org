@@ -851,13 +851,13 @@
        :ensure t
        :diminish yas-minor-mode
        :commands yas-expand yas-load-directory
-       :hook ((python-mode-hook
-               emacs-lisp-mode-hook
-               org-mode-hook
-               java-mode-hook
-               go-mode-hook
-               c++-mode-hook
-               c-mode-hook) . yas-minor-mode)
+       :hook ((python-mode
+               emacs-lisp-mode
+               org-mode
+               java-mode
+               go-mode
+               c++-mode
+               c-mode) . yas-minor-mode)
        :config
        (let ((my-snippets-dir "~/.emacs.d/snippets"))
          (setq yas-snippet-dirs (list my-snippets-dir))
