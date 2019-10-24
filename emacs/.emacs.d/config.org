@@ -278,8 +278,7 @@
        :ensure t
        :diminish helm-mode
        :bind (("C-x a"   . helm-apt)
-              ("C-x C-b" . helm-buffers-list))
-       :init (helm-mode))
+              ("C-x C-b" . helm-buffers-list)))
    #+end_src
 *** Helm Flycheck
     #+begin_src emacs-lisp :tangle yes
@@ -304,12 +303,13 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ivy
        :ensure t
+       :custom ((ivy-initial-inputs-alist nil))
        :bind (("C-s" . swiper)
               ("C-x C-f" . counsel-find-file)
               ("C-x c" . counsel-colors-emacs)
               ("C-x b" . counsel-switch-buffer)
               ("M-x" . counsel-M-x))
-       :init (setq ivy-initial-inputs-alist nil))
+       :init (ivy-mode 1))
 
      (use-package all-the-icons-ivy
        :ensure t
