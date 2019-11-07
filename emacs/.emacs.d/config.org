@@ -118,6 +118,16 @@
      (global-set-key (kbd "RET") 'newline-and-indent)
      (global-set-key (kbd "M-[") 'align)
    #+end_src
+** Transpose
+   Transpose symbols instead of words with M-t
+   #+begin_src emacs-lisp :tangle yes
+     (use-package simple
+       :bind ("M-t" . transpose-symbols)
+       :init (defun transpose-symbols (arg)
+               (interactive "*p")
+               (transpose-subr 'forward-symbol arg)))
+
+   #+end_src
 ** Increment numbers
    Got this script from the [[http://www.emacswiki.org/emacs/IncrementNumber][emacswiki]]. It increments (or decrements) a
    number under point. This function is bound to =C-c i=.
