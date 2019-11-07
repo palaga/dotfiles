@@ -331,6 +331,10 @@
      (use-package ivy-hydra
        :ensure t
        :after hydra)
+
+     (use-package ivy-rich
+       :ensure t
+       :init (ivy-rich-mode 1))
    #+END_SRC
 *** Counsel plugins
 **** Projectile
