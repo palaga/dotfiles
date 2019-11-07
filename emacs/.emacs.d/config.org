@@ -100,9 +100,13 @@
    #+END_SRC
 ** Line numbers
    #+begin_src emacs-lisp :tangle yes
-     (if (version<= "26.0.50" emacs-version)
-         (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-       (global-linum-mode 1))
+     (use-package display-line-numbers
+       :if (version<= "26.0.50" emacs-version)
+       :hook ((prog-mode yaml-mode) . display-line-numbers-mode))
+
+     (use-package linum
+       :if (version<= emacs-version "26.0.50")
+       :hook ((prog-mode yaml-mode) . global-linum-mode))
    #+end_src
 ** Key bindings
    Some simple key bindings, to make life easier. These should be
