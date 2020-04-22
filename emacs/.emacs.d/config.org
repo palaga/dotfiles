@@ -347,6 +347,7 @@
          :ensure t
          :bind (("C-c C-p" . hydra-counsel-projectile/body)
                 ("C-c p" . hydra-counsel-projectile/body))
+         :custom (counsel-ag-base-command "ag --ignore-case --nocolor --nogroup %s")
          :init (defhydra hydra-counsel-projectile (:color blue) "Projectile"
                  ("p" counsel-projectile-switch-project "switch project")
                  ("f" counsel-projectile-find-file-dwim "find file")
