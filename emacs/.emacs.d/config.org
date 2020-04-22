@@ -202,6 +202,10 @@
      (use-package newcomment
        :custom (comment-auto-fill-only-comments t))
    #+end_src
+** Ediff Configuration
+   #+begin_src emacs-lisp :tangle yes
+     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+   #+end_src
 ** Browser Configuration
    Set the default browser to firefox.
    #+begin_src emacs-lisp :tangle yes
