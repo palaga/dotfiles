@@ -14,3 +14,10 @@ export LIBRARY_PATH=$HOME/.local/lib:$LIBRARY_PATH
 export CPATH=$HOME/.local/include:$CPATH
 export CPLUS_INCLUDE_PATH=$HOME/.local/include:$CPLUS_INCLUDE_PATH
 export C_INCLUDE_PATH=$HOME/.local/include:$C_INCLUDE_PATH
+
+# Load local host configurations
+if [ -d ~/.zshenv.d ]; then
+  for script in $(find $HOME/.zshenv.d/ -type f -name '*.zsh' | sort -n); do
+    source "$script"
+  done
+fi
