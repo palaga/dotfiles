@@ -805,6 +805,7 @@
        :ensure t
        :custom ((magit-last-seen-setup-instructions "1.4.0")
                 (magit-auto-revert-mode nil))
+       :hook (magit-process-mode . goto-address-mode)
        :bind (("C-x g" . magit-status)
               ("C-x C-g" . magit-status)))
    #+end_src
