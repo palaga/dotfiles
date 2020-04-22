@@ -61,18 +61,20 @@ bindkey '^[[B' history-search-forward
 # Explicitly set word characters
 WORDCHARS='~?'
 
+# Enable bash completion compatibility
+autoload bashcompinit && bashcompinit
+
+
+# Enable zed editor
+autoload zed
+
 
 # Zsh aliases:
 source ~/.zshaliases
-if [[ -e ~/.zshcustom ]]; then
-  source ~/.zshcustom;
+
+# Load local host configurations
+if [ -d ~/.zshcustom.d ]; then
+  for script in $(find $HOME/.zshcustom.d/ -type f -name '*.zsh' | sort); do
+    source "$script"
+  done
 fi
-
-
-# Oh-My-Zsh configuration:
-#ZSH=$HOME/.oh-my-zsh
-#plugin=(git)
-#source $ZSH/oh-my-zsh.sh
-
-# Enable bash completion compatibility
-autoload -U +X bashcompinit && bashcompinit
