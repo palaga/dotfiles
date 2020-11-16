@@ -449,6 +449,11 @@
   #+begin_src emacs-lisp :tangle yes
     (add-hook 'prog-mode-hook 'which-function-mode)
   #+end_src
+** Sed
+   #+begin_src emacs-lisp :tangle yes
+     (use-package sed-mode
+       :ensure t)
+   #+end_src
 ** Go
    #+begin_src emacs-lisp :tangle yes
      (use-package go-mode
