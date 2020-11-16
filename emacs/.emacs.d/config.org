@@ -369,6 +369,12 @@
                  ("t" counsel-spotify-search-track "search tracks" :color blue)
                  ("q" keyboard-quit "quit" :color blue)))
      #+END_SRC
+** Wgrep
+   Apply changes to grep buffer!
+   #+begin_src emacs-lisp :tangle yes
+     (use-package wgrep
+       :ensure t)
+   #+end_src
 ** Dired and Dired-x Configuration
    Some basic config for dired and dired-x.
    #+begin_src emacs-lisp :tangle yes
