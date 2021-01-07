@@ -601,6 +601,7 @@
             (plantuml . t)
             (python   . t)
             (R        . t)
+            (screen   . t)
             (sqlite   . t)
             (latex    . t)
             (makefile . t)
@@ -691,11 +692,13 @@
    tweaking, depending on the type of file. Prefixes can be easily set
    in a .dir-locals.el file.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package password-mode)
+     (use-package password-mode
+       :ensure t)
    #+END_SRC
 ** Password Generator Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package password-generator)
+     (use-package password-generator
+       :ensure t)
    #+END_SRC
 ** Expand Region
    Expand region increases the selected region by semantic units.
