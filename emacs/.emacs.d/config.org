@@ -600,27 +600,39 @@
        (progn
          (org-babel-do-load-languages
           'org-babel-load-languages
-          '((dot      . t)
-            (ditaa    . t)
-            (plantuml . t)
-            (python   . t)
-            (R        . t)
-            (screen   . t)
-            (sqlite   . t)
-            (latex    . t)
-            (makefile . t)
-            (shell    . t)))
+          '((dot        . t)
+            (ditaa      . t)
+            (plantuml   . t)
+            (python     . t)
+            (R          . t)
+            (tmux       . t)
+            (restclient . t)
+            (sqlite     . t)
+            (latex      . t)
+            (makefile   . t)
+            (shell      . t)))
 
          ;; Ensure that the beamer exporter is available
          (require 'ox-beamer)))
    #+end_src
 
-   Install necessary export libraries:
-
+*** Org Export Libraries
    #+begin_src emacs-lisp :tangle yes
      (use-package ox-reveal
        :ensure t)
    #+end_src
+
+*** Org Babel Libraries
+    #+begin_src emacs-lisp :tangle yes
+      (use-package ob-tmux
+        :ensure t)
+    #+end_src
+
+    #+begin_src emacs-lisp :tangle yes
+      (use-package ob-restclient
+        :ensure t)
+    #+end_src
+
 *** Org Bullets
     #+begin_src emacs-lisp :tangle yes
       (use-package org-bullets
