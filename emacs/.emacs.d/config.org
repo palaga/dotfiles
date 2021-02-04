@@ -643,6 +643,12 @@
      (use-package graphviz-dot-mode
        :ensure t)
    #+end_src
+** Plantuml
+   Ensure plantuml mode is installed.
+   #+begin_src emacs-lisp :tangle yes
+     (use-package plantuml-mode
+       :ensure t)
+   #+end_src
 * Framework Modes
   Configuration for frameworks, such as docker, ansible, etc. is done
   here.
