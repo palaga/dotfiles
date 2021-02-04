@@ -16,23 +16,24 @@
   way... Enter /use-package/! It allows for easy package loading and
   configuration!
   #+begin_src emacs-lisp :tangle yes
-    (require 'package)
-
     (eval-and-compile
-      (package-initialize)
+      (require 'package)
+
       (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                               ("org" . "https://orgmode.org/elpa/")
-                               ("melpa" . "https://melpa.org/packages/"))))
+			       ("org" . "https://orgmode.org/elpa/")
+			       ("melpa" . "https://melpa.org/packages/")))
+      (package-initialize)
 
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
+      (unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
 
-    (require 'use-package)
+      (require 'use-package))
+
     (eval-when-compile
       (unless (boundp 'package-archive-content)
-        (when (y-or-n-p "Update package list?")
-          (package-refresh-contents))))
+	(when (y-or-n-p "Update package list?")
+	  (package-refresh-contents))))
   #+end_src
   =package-initialize= is executed in a =eval-and-compile= block to
   ensure that it is loaded properly compile time. Also add a general
