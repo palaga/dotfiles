@@ -9,6 +9,40 @@
 # General startup settings (dircolors, etc)
 source ~/.bashrc
 fpath=($fpath ~/.zshfunctions)
+
+# Load modules
+autoload -U compinit promptinit edit-command-line
+compinit
+promptinit
+zle -N edit-command-line
+
+
+if [[ -f /usr/share/zplug/init.zsh ]]; then
+  USE_ZPLUG=1
+  source /usr/share/zplug/init.zsh
+
+  zplug mafredri/zsh-async, from:github
+  zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+
+  zstyle :prompt:pure:git:fetch only_upstream yes
+  zstyle ':prompt:pure:prompt:success' color green
+  zstyle ':prompt:pure:prompt:error' color red
+
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+      echo; zplug install
+    fi
+  fi
+
+  zplug load
+else
+  USE_ZPLUG=0
+  printf "\e[33mWARNING\e[m: Failed to load zplug, won't load extensions!!\n"
+fi
+
+
 limit coredumpsize unlimited
 
 # History configuration:
@@ -24,13 +58,6 @@ setopt hist_ignore_space    # Do not store commands, which start with a space
 setopt prompt_subst         # Enable prompt substitution
 
 
-# Load modules
-autoload -U compinit promptinit edit-command-line
-compinit
-promptinit
-zle -N edit-command-line
-
-
 # Completion rules:
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
@@ -42,10 +69,6 @@ zstyle ':completion:*:cd:*' force-list always
 
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:warnings' format 'Sorry, no matches for: %B%d%b'
-
-
-# Setting up prompt:
-prompt palaga
 
 
 # Key binds emacs style:
