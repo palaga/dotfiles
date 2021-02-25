@@ -74,7 +74,7 @@ source ~/.zshaliases
 
 # Load local host configurations
 if [ -d ~/.zshcustom.d ]; then
-  for script in $(find $HOME/.zshcustom.d/ -type f -name '*.zsh' | sort); do
+  for script in $(find $HOME/.zshcustom.d/ \( -type f -o -type l \) -name '*.zsh' | sort); do
     source "$script"
   done
 fi
