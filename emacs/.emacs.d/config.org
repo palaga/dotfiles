@@ -532,7 +532,7 @@
     I'm using elpy for my python IDE needs. Elpy uses =rope= and
     =jedi= for completion, =pyflakes= for checking stuff and
     =importmagic= for automatic imports. These can be installed with
-    =pip install rope jedi pyflake importmagics=.
+    =pip3 install rope jedi pyflakes importmagic=.
     #+begin_src emacs-lisp :tangle yes
       (use-package elpy
         :ensure t
