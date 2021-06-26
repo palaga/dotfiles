@@ -277,6 +277,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package projectile
        :ensure t
+       :diminish projectile-mode
        :init (projectile-mode))
    #+end_src
 ** Hydra
@@ -321,6 +322,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ivy
        :ensure t
+       :diminish ivy-mode
        :custom ((ivy-initial-inputs-alist nil))
        :bind (("C-s" . swiper)
               ("C-x C-f" . counsel-find-file)
