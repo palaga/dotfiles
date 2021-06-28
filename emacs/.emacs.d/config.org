@@ -539,6 +539,7 @@
       (use-package elpy
         :ensure t
         :defer t
+        :custom ((elpy-rpc-python-command "python3"))
         :init (elpy-enable))
     #+end_src
 *** Pyvenv
