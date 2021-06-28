@@ -16,10 +16,14 @@ compinit
 promptinit
 zle -N edit-command-line
 
+if [ -d /usr/share/zplug ]; then
+  ZPLUG_HOME=/usr/share/zplug
+elif [ -d "$HOME/.zplug" ]; then
+  ZPLUG_HOME="$HOME/.zplug"
+fi
 
-if [[ -f /usr/share/zplug/init.zsh ]]; then
-  USE_ZPLUG=1
-  source /usr/share/zplug/init.zsh
+if [ ! -z "$ZPLUG_HOME" ]; then
+  source "$ZPLUG_HOME/init.zsh"
 
   zplug mafredri/zsh-async, from:github
   zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
