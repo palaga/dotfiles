@@ -772,6 +772,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package which-key
        :ensure t
+       :diminish which-key-mode
        :config (which-key-mode))
    #+END_SRC
 ** Multiple Cursor
