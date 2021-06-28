@@ -8,43 +8,21 @@
 # Environment variables
 # General startup settings (dircolors, etc)
 source ~/.bashrc
-fpath=($fpath ~/.zshfunctions)
+fpath+=(~/.zshfunctions ~/.zshpackages/*)
+
 
 # Load modules
-autoload -U compinit promptinit edit-command-line
+autoload -U compinit promptinit edit-command-line async
 compinit
 promptinit
 zle -N edit-command-line
 
-if [ -d /usr/share/zplug ]; then
-  ZPLUG_HOME=/usr/share/zplug
-elif [ -d "$HOME/.zplug" ]; then
-  ZPLUG_HOME="$HOME/.zplug"
-fi
 
-if [ ! -z "$ZPLUG_HOME" ]; then
-  source "$ZPLUG_HOME/init.zsh"
-
-  zplug mafredri/zsh-async, from:github
-  zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
-
-  zstyle :prompt:pure:git:fetch only_upstream yes
-  zstyle ':prompt:pure:prompt:success' color green
-  zstyle ':prompt:pure:prompt:error' color red
-
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-      echo; zplug install
-    fi
-  fi
-
-  zplug load
-else
-  USE_ZPLUG=0
-  printf "\e[33mWARNING\e[m: Failed to load zplug, won't load extensions!!\n"
-fi
+# Pure config
+prompt pure
+zstyle :prompt:pure:git:fetch only_upstream yes
+zstyle ':prompt:pure:prompt:success' color green
+zstyle ':prompt:pure:prompt:error' color red
 
 
 limit coredumpsize unlimited
