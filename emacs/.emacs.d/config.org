@@ -575,7 +575,7 @@
        :ensure t
        :custom ((nginx-indent-level 2)))
    #+END_SRC
-* Markup Modes
+* Markup and Data File Modes
 ** Markdown
    Make sure markdown mode is there, if needed.
    #+begin_src emacs-lisp :tangle yes
@@ -643,6 +643,16 @@
         :ensure t
         :init (add-hook 'org-mode-hook #'org-bullets-mode))
     #+end_src
+** CSV
+   #+begin_src emacs-lisp :tangle yes
+     (use-package csv-mode
+       :ensure t)
+   #+END_SRC
+** JSON
+   #+begin_src emacs-lisp :tangle yes
+     (use-package json-mode
+       :ensure t)
+   #+END_SRC
 ** Yaml
    Add yaml mode, for use in all yaml related project (ansible,
    docker-compose, etc).
