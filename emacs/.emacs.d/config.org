@@ -86,7 +86,26 @@
        (set-face-background                  ; Set the color of the
         hl-line-face "gray16"))              ; highlight bar
    #+end_src
+** Fonts
+   Set Fira Code as default font, if possible.
+
+   #+begin_src emacs-lisp :tangle yes
+     (defvar my-prefered-font-family "Fira Code")
+
+     (if (member my-prefered-font-family (font-family-list))
+         (set-face-attribute 'default nil :family my-prefered-font-family)
+       (set-face-attribute 'default nil :family "Mono"))
+
+     (set-face-attribute 'variable-pitch nil :family "Sans Serif")
+   #+end_src
 ** Window Management
+   Use windmove to navigate windows. Enable default keybindings (shift + arrow keys) to move between windows.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package windmove
+       :init (windmove-default-keybindings))
+   #+END_SRC
+
+   When splitting windows, switch to other buffer, since that's always more interesting than a clone of the current buffer.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun switch-next-window-to-other-buffer (&rest r)
         (set-window-buffer (next-window) (other-buffer)))
@@ -181,10 +200,9 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package whitespace
        :diminish global-whitespace-mode
+       :hook (((prog-mode text-mode) . whitespace-mode))
        :config
-       (progn
-         (global-whitespace-mode 1)
-         (setq whitespace-style '(face trailing tabs))))
+       (setq whitespace-style '(face trailing tabs)))
 
      (setq-default indent-tabs-mode nil)     ; Disable tab
      (setq truncate-lines t)                 ; Disable line wrapping
@@ -205,7 +223,7 @@
    #+end_src
 ** Ediff Configuration
    #+begin_src emacs-lisp :tangle yes
-     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+     (defvar ediff-window-setup-function 'ediff-setup-windows-plain)
    #+end_src
 ** Browser Configuration
    Set the default browser to firefox.
@@ -357,21 +375,6 @@
                  ("g" counsel-projectile-ag "grep source")
                  ("q" keyboard-quit "quit")))
      #+END_SRC
-**** Spotify
-     #+BEGIN_SRC emacs-lisp :tangle yes
-       (use-package counsel-spotify
-         :ensure t
-         :after hydra
-         :bind ("C-c s" . hydra-spotify/body)
-         :init (defhydra hydra-spotify (:color pink) "Spotify"
-                 ("s" counsel-spotify-toggle-play-pause "play/pause")
-                 ("p" counsel-spotify-previous "previous")
-                 ("n" counsel-spotify-next "next")
-                 ("al" counsel-spotify-search-album "search album" :color blue)
-                 ("ar" counsel-spotify-search-artist "search artist" :color blue)
-                 ("t" counsel-spotify-search-track "search tracks" :color blue)
-                 ("q" keyboard-quit "quit" :color blue)))
-     #+END_SRC
 ** Wgrep
    Apply changes to grep buffer!
    #+begin_src emacs-lisp :tangle yes
@@ -451,11 +454,31 @@
   use. The configurations for each language can be found under its own
   header.
 
-  For all the languages I use, I want to see in which function I
-  currently am:
+  There are some general modes that should be active for a few or all
+  languages. Subword mode lets me navigate over subwords in camelcase
+  and snakecase. Which function shows the function I'm in on the
+  bottom of the screen, which is very useful while navigating large
+  code bases!
   #+begin_src emacs-lisp :tangle yes
-    (add-hook 'prog-mode-hook 'which-function-mode)
+    (use-package subword
+      :hook ((java-mode python-mode) . subword-mode))
+
+    (use-package which-func
+      :hook ((prog-mode) . which-function-mode))
   #+end_src
+** LSP-mode
+   #+begin_src emacs-lisp :tangle yes
+     (use-package lsp-mode
+       :ensure t
+       :bind (:map lsp-mode-map
+                   ("C-c l" . lsp-command-map)))
+   #+end_src
+** Shell scripts
+   #+begin_src emacs-lisp :tangle yes
+     (use-package sh-script
+       :custom ((sh-basic-offset 2)
+                (sh-guess-basic-offset t)))
+   #+end_src
 ** Sed
    #+begin_src emacs-lisp :tangle yes
      (use-package sed-mode
@@ -524,12 +547,10 @@
     Make sure that Geiser is installed, for interactive scheme development.
     #+begin_src emacs-lisp :tangle yes
       (use-package geiser
-        :ensure t)
+        :ensure t
+        :defer t)
     #+end_src
 ** Python
-   #+begin_src emacs-lisp :tangle yes
-     (add-hook 'python-mode 'subword-mode)
-   #+end_src
 *** Elpy
     I'm using elpy for my python IDE needs. Elpy uses =rope= and
     =jedi= for completion, =pyflakes= for checking stuff and
@@ -555,6 +576,17 @@
         :ensure t
         :hook (elpy-mode-hook . py-autopep8-enable-on-save))
     #+end_src
+*** Python (pyright)
+    Install pyright using:
+    #+begin_src sh :results silent :session none
+      sudo snap install node
+      sudo npm install -g pyright
+    #+end_src
+    #+begin_src emacs-lisp :tangle yes
+      (use-package lsp-pyright
+        :ensure t
+        :requires (lsp-mode))
+    #+end_src
 ** Jinja2
    #+begin_src emacs-lisp :tangle yes
      (use-package jinja2-mode
@@ -566,6 +598,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package xcscope
        :ensure t
+       :defer t
        :init (cscope-setup))
    #+end_src
 * Configuration Modes
@@ -583,47 +616,82 @@
        :ensure t)
    #+end_src
 ** Org Mode
-   Must have! Make sure org-mode is installed, up-to-date and
-   configured to my needs.
+     Must have! Make sure org-mode is installed, up-to-date and configured to my needs.
    #+begin_src emacs-lisp :tangle yes
+     (defun my-org-hook ()
+       (variable-pitch-mode 1)
+       (mapc
+        (lambda (face) ;; Rescale and inherit the properties from the fixed-pitch font.
+          (set-face-attribute face nil :inherit 'fixed-pitch))
+        (list 'org-code 'org-link 'org-block 'org-table 'org-property-value 'org-formula
+              'org-tag 'org-verbatim 'org-date 'company-tooltip
+              'org-special-keyword 'org-block-begin-line 'org-todo 'org-done
+              'org-block-end-line 'org-meta-line
+              'org-document-info-keyword)))
+
+     (custom-theme-set-faces
+      'user
+      '(org-code ((t (:inherit (fixed-pitch)))))
+      '(org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)) t)))
+      '(org-code ((t (:inherit (shadow fixed-pitch)))))
+      '(org-code ((t (:inherit (shadow fixed-pitch)) t))))
+
      (use-package org
        :ensure t
-       :bind ("C-c c" . org-capture)
+       :bind (("C-c c" . org-capture)
+              ("<F11>" . org-tree-slide-mode))
+       :custom ((org-babel-python-command "python3")
+                (org-export-backends '(ascii pandoc html man md odt texinfo confluence groff))
+                (org-ellipsis " ⏷")
+                (org-image-actual-width nil)
+                (org-hide-emphasis-markers t))
+       :hook (org-mode . my-org-hook)
+       :custom-face
+       (org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+       (org-ellipsis ((t (:underline nil))))
+
        :commands org-babel-do-load-languages
        :config
-       (progn
-         (setq org-directory "~/org"
-               org-default-notes-file (concat org-directory "/notes.org")
-               org-agenda-files '("~/org/"))
-         (defvar org-capture-templates '(("t" "TODO"
-                                          entry (file+headline
-                                                 "~/org/todo.org"
-                                                 "Tasks")
-                                          "* TODO %?\n  %i %F"))))
-       :init
-       (progn
-         (org-babel-do-load-languages
-          'org-babel-load-languages
-          '((dot        . t)
-            (ditaa      . t)
-            (plantuml   . t)
-            (python     . t)
-            (R          . t)
-            (tmux       . t)
-            (restclient . t)
-            (sqlite     . t)
-            (latex      . t)
-            (makefile   . t)
-            (shell      . t)))
-
-         ;; Ensure that the beamer exporter is available
-         (require 'ox-beamer)))
+       (setq org-directory "~/org"
+             org-default-notes-file (concat org-directory "/notes.org")
+             org-agenda-files '("~/org/"))
+       (defvar org-capture-templates '(("t" "TODO"
+                                        entry (file+headline
+                                               "~/org/todo.org"
+                                               "Tasks")
+                                        "* TODO %?\n  %i %F")))
+       (org-babel-do-load-languages
+        'org-babel-load-languages
+        '((dot        . t)
+          (ditaa      . t)
+          (plantuml   . t)
+          (python     . t)
+          (R          . t)
+          (tmux       . t)
+          (restclient . t)
+          (sqlite     . t)
+          (latex      . t)
+          (makefile   . t)
+          (shell      . t))))
    #+end_src
 
 *** Org Export Libraries
    #+begin_src emacs-lisp :tangle yes
      (use-package ox-reveal
        :ensure t)
+
+     (use-package ox-pandoc
+       :ensure t)
+
+     ;;; Ensure beamer exporter is loaded
+     (use-package ox-beamer)
+   #+end_src
+
+*** Org tree slide
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-tree-slide
+       :ensure t
+       :defer t)
    #+end_src
 
 *** Org Babel Libraries
@@ -641,7 +709,7 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package org-bullets
         :ensure t
-        :init (add-hook 'org-mode-hook #'org-bullets-mode))
+        :hook (org-mode . org-bullets-mode))
     #+end_src
 ** CSV
    #+begin_src emacs-lisp :tangle yes
@@ -704,7 +772,7 @@
      (use-package terraform-mode
        :ensure t)
    #+end_src
-* Web development related
+* Web Development Related
 ** Web-mode
    Added web-mode to be able to edit javascript with Javascript major
    mode in a HTML file. Works out of the box.
@@ -714,6 +782,50 @@
        :custom (web-mode-markup-indent-offset 2)
        :mode "\.html?$")
    #+end_src
+* Multimedia
+** EMMS
+   Future proof media center!
+
+   Config disabled for now, since there is a bug in the current version (20210911.2031), causing infinite recursion during startup. Will enable it again when this bug is fixed.
+
+  #+begin_src emacs-lisp :tangle yes
+    (use-package emms
+      :ensure t
+      :init
+      (emms-minimalistic)
+      (emms-default-players))
+  #+end_src
+** Pulseaudio control
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package pulseaudio-control
+       :ensure t
+       :bind (("C-x /" . hydra-counsel-pulseaudio/body))
+       :init (defhydra hydra-counsel-pulseaudio (:color pink) "PulseAudio"
+               ("s" pulseaudio-control-select-sink-by-name "select sink")
+               ("u" pulseaudio-control-increase-volume "volume up")
+               ("d" pulseaudio-control-decrease-volume "volume down")
+               ("m" pulseaudio-control-toggle-current-sink-mute "mute")
+               ("q" keyboard-quit "quit" :color blue)))
+   #+END_SRC
+* Rainbows
+** Rainbow Delimiters
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-delimiters
+       :ensure t
+       :hook ((text-mode prog-mode) . rainbow-delimiters-mode))
+   #+end_src
+** Rainbow Blocks
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rainbow-blocks
+       :ensure t
+       :hook (python-mode . rainbow-blocks-mode))
+   #+end_src
+** Rainbow Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package rainbow-mode
+       :ensure t
+       :hook (prog-mode . rainbow-mode))
+   #+END_SRC
 * Other Modes
 ** Fill Column Indicator
    #+begin_src emacs-lisp :tangle yes
@@ -743,24 +855,6 @@
        :ensure t
        :bind ("C-=" . er/expand-region))
    #+end_src
-** Rainbow Delimiters
-   #+begin_src emacs-lisp :tangle yes
-     (use-package rainbow-delimiters
-       :ensure t
-       :hook ((text-mode prog-mode) . rainbow-delimiters-mode))
-   #+end_src
-** Rainbow Blocks
-   #+begin_src emacs-lisp :tangle yes
-     (use-package rainbow-blocks
-       :ensure t
-       :hook (python-mode . rainbow-blocks-mode))
-   #+end_src
-** Rainbow Mode
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package rainbow-mode
-       :ensure t
-       :hook (prog-mode . rainbow-mode))
-   #+END_SRC
 ** Rest Client
    #+begin_src emacs-lisp :tangle yes
      (use-package restclient
@@ -769,13 +863,17 @@
 ** Treemacs
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package treemacs
-       :ensure t)
+       :ensure t
+       :bind ("<f6>" . treemacs))
 
      (use-package treemacs-projectile
-       :ensure t)
+       :ensure t
+       :requires treemacs
+       :defer t)
 
      (use-package treemacs-magit
        :ensure t
+       :requires treemacs
        :defer t)
    #+END_SRC
 ** Which Key
@@ -803,7 +901,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package shackle
        :ensure t
-       :custom (shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :size 0.4)
+       :custom (shackle-rules '(("\\*helm.*?\\*" :regexp t :align t :size 0.4)
                                 ("*compilation*" :regexp nil :align t :size 0.4)
                                 ("*swiper*" :align t :size 0.4)))
        :init (shackle-mode))
@@ -857,32 +955,14 @@
        :ensure t
        :custom ((magit-last-seen-setup-instructions "1.4.0")
                 (magit-auto-revert-mode nil))
-       :hook (magit-process-mode . goto-address-mode)
-       :bind (("C-x g" . magit-status)
-              ("C-x C-g" . magit-status)))
+       :hook ((magit-process-mode . goto-address-mode))
+       :bind ("C-x g" . magit-status))
    #+end_src
 ** Git gutter
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package git-gutter
        :ensure t
        :hook (prog-mode . git-gutter-mode))
-   #+END_SRC
-** Org present
-   #+begin_src emacs-lisp :tangle yes
-     (use-package org-present
-       :ensure t)
-   #+end_src
-** Pulseaudio control
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package pulseaudio-control
-       :ensure t
-       :bind (("C-c C-a" . hydra-counsel-pulseaudio/body))
-       :init (defhydra hydra-counsel-pulseaudio (:color pink) "PulseAudio"
-               ("s" pulseaudio-control-select-sink-by-name "select sink")
-               ("u" pulseaudio-control-increase-volume "volume up")
-               ("d" pulseaudio-control-decrease-volume "volume down")
-               ("m" pulseaudio-control-toggle-current-sink-mute "mute")
-               ("q" keyboard-quit "quit" :color blue)))
    #+END_SRC
 ** Company Mode
    Company mode provides auto completion for my setup. Company works
@@ -1004,3 +1084,14 @@
    Look into this! Might be nice for creating boxes.
 ** TODO Writegood-mode or Artbollocks
    Nice modes for helping with writing correctly.
+* Personal customizations
+  Some hacks I often use.
+
+  #+begin_src emacs-lisp :tangle yes
+    (defun ansi-color-region (begin end)
+      "Add color to a region with ansi color codes in it."
+      (interactive "r")
+      (ansi-color-apply-on-region
+       (or begin (point-min))
+       (or end (point-max))))
+  #+end_src
