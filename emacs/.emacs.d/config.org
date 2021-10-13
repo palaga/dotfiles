@@ -205,7 +205,6 @@
        (setq whitespace-style '(face trailing tabs)))
 
      (setq-default indent-tabs-mode nil)     ; Disable tab
-     (setq truncate-lines t)                 ; Disable line wrapping
      (setq tab-width 4)                      ; Set tab width to 4 spaces
    #+end_src
 ** Fill column
