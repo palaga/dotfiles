@@ -20,20 +20,20 @@
       (require 'package)
 
       (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			       ("org" . "https://orgmode.org/elpa/")
-			       ("melpa" . "https://melpa.org/packages/")))
+                               ("melpa" . "https://melpa.org/packages/")))
       (package-initialize)
 
       (unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+        (package-refresh-contents)
+        (package-install 'use-package))
 
       (require 'use-package))
 
-    (eval-when-compile
-      (unless (boundp 'package-archive-content)
-	(when (y-or-n-p "Update package list?")
-	  (package-refresh-contents))))
+      (eval-when-compile
+        (unless (boundp 'package-archive-content)
+
+    (when (y-or-n-p "Update package list?")
+      (package-refresh-contents))))
   #+end_src
   =package-initialize= is executed in a =eval-and-compile= block to
   ensure that it is loaded properly compile time. Also add a general
@@ -58,11 +58,6 @@
    #+begin_src emacs-lisp :tangle yes
      (add-hook 'after-init-hook 'server-start)
    #+end_src
-** Custom file
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq custom-file "~/.emacs-custom")
-     (load custom-file 'noerror)
-   #+END_SRC
 ** Visual Appearance
    Now that we have the packages configured, we want to clean up the
    visual appearances of emacs. Lets cut down on the bars and what
@@ -617,16 +612,16 @@
 ** Org Mode
      Must have! Make sure org-mode is installed, up-to-date and configured to my needs.
    #+begin_src emacs-lisp :tangle yes
-     (defun my-org-hook ()
-       (variable-pitch-mode 1)
-       (mapc
-        (lambda (face) ;; Rescale and inherit the properties from the fixed-pitch font.
-          (set-face-attribute face nil :inherit 'fixed-pitch))
-        (list 'org-code 'org-link 'org-block 'org-table 'org-property-value 'org-formula
-              'org-tag 'org-verbatim 'org-date 'company-tooltip
-              'org-special-keyword 'org-block-begin-line 'org-todo 'org-done
-              'org-block-end-line 'org-meta-line
-              'org-document-info-keyword)))
+     ;; (defun my-org-hook ()
+     ;;   (variable-pitch-mode 1)
+     ;;   (mapc
+     ;;    (lambda (face) ;; Rescale and inherit the properties from the fixed-pitch font.
+     ;;      (set-face-attribute face nil :inherit 'fixed-pitch))
+     ;;    (list 'org-code 'org-link 'org-block 'org-table 'org-property-value 'org-formula
+     ;;          'org-tag 'org-verbatim 'org-date 'company-tooltip 'org-indent
+     ;;          'org-special-keyword 'org-block-begin-line 'org-todo 'org-done
+     ;;          'org-block-end-line 'org-meta-line
+     ;;          'org-document-info-keyword)))
 
      (custom-theme-set-faces
       'user
@@ -636,7 +631,8 @@
       '(org-code ((t (:inherit (shadow fixed-pitch)) t))))
 
      (use-package org
-       :ensure t
+       :ensure org-plus-contrib
+       :pin gnu
        :bind (("C-c c" . org-capture)
               ("<F11>" . org-tree-slide-mode))
        :custom ((org-babel-python-command "python3")
@@ -644,7 +640,7 @@
                 (org-ellipsis " ⏷")
                 (org-image-actual-width nil)
                 (org-hide-emphasis-markers t))
-       :hook (org-mode . my-org-hook)
+       ;; :hook (org-mode . my-org-hook)
        :custom-face
        (org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
        (org-ellipsis ((t (:underline nil))))
@@ -668,6 +664,7 @@
           (R          . t)
           (tmux       . t)
           (restclient . t)
+          (sql        . t)
           (sqlite     . t)
           (latex      . t)
           (makefile   . t)
@@ -688,9 +685,9 @@
 
 *** Org tree slide
    #+begin_src emacs-lisp :tangle yes
-     (use-package org-tree-slide
-       :ensure t
-       :defer t)
+     ;; (use-package org-tree-slide
+     ;;   :ensure t
+     ;;   :defer t)
    #+end_src
 
 *** Org Babel Libraries
@@ -763,6 +760,11 @@
         :ensure t)
 
       (use-package docker-compose-mode
+        :ensure t)
+    #+end_src
+** Kubernetes
+    #+begin_src emacs-lisp :tangle yes
+      (use-package k8s-mode
         :ensure t)
     #+end_src
 ** Terraform
@@ -943,9 +945,9 @@
 ** Org-Jira
    Mode to work with Jira from Emacs.
    #+begin_src emacs-lisp :tangle yes
-     (use-package org-jira
-       :ensure t
-       :bind ("C-c j c" . org-jira-create-issue))
+     ;; (use-package org-jira
+     ;;   :ensure t
+     ;;   :bind ("C-c j c" . org-jira-create-issue))
    #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
@@ -1063,7 +1065,7 @@
        :ensure t
        :init (smartparens-mode))
    #+end_src
-** TODO Ace-mode
+** Ace-mode
    Awesome mode to jump quickly to a specific point in one of the
    visible buffers.
    #+begin_src emacs-lisp :tangle yes
@@ -1083,9 +1085,46 @@
    Look into this! Might be nice for creating boxes.
 ** TODO Writegood-mode or Artbollocks
    Nice modes for helping with writing correctly.
-* Personal customizations
+* Email
+** Mu4e
+   #+begin_src emacs-lisp :tangle yes
+     (use-package mu4e
+       :ensure nil
+       :custom ((mu4e-view-date-format "%F %T")
+                (mu4e-headers-date-format "%F")
+                (mu4e-change-filenames-when-moving t)
+                (mu4e-compose-signature
+                 (with-temp-buffer
+                   (insert-file-contents-literally "~/.email-signature/signature")
+                   (buffer-substring-no-properties (point-min) (point-max))))))
+   #+end_src
+*** Account specific customizations
+     The following settings are account specific, but can be set
+     permanently with =customize=. Example:
+   #+begin_src emacs-lisp :tangle no
+     (setq mu4e-maildir "/path/to/mailbox"
+           mu4e-sent-folder "/Sent Items"
+           mu4e-trash-folder "/Deleted Items"
+           mu4e-drafts-folder "/Drafts"
+           mu4e-get-mail-command "mbsync work")
+   #+end_src
+** SMTP Setup
+     Since the settings are mostly private, here is an example:
+   #+BEGIN_SRC emacs-lisp :tangle no
+     (setq user-mail-address "my@mail.tld"
+           user-full-name "My Name"
+           smtpmail-smtp-user "my@mail.tld"  ; Depending on provider
+           smtpmail-smtp-server "smtp.office365.com" ; For office 365
+           smtpmail-smtp-service 587 ; For office 365
+           smtpmail-stream-type 'starttls ; For office 365
+           smtpmail-debug-info t
+           auth-sources '("secrets:Login"))
+   #+END_SRC
+   These can be set permanently using the =customize= interface.
+* Personal Customizations
   Some hacks I often use.
 
+** ANSI Color region
   #+begin_src emacs-lisp :tangle yes
     (defun ansi-color-region (begin end)
       "Add color to a region with ansi color codes in it."
@@ -1094,3 +1133,20 @@
        (or begin (point-min))
        (or end (point-max))))
   #+end_src
+** Kill Filename and Linenumber
+  #+begin_src emacs-lisp :tangle yes
+    (defun kill-filename-and-linenumber ()
+      "Kill filename:linenumber pair of current position."
+      (interactive)
+      (kill-new
+       (format "%s:%d"
+               (buffer-file-name)
+               (line-number-at-pos))))
+  #+end_src
+** Custom file
+   Load this as late as possible, to ensure everything that will be
+   customized, can be customized.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq custom-file "~/.emacs-custom")
+     (load custom-file 'noerror)
+   #+END_SRC
