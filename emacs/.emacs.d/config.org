@@ -1098,11 +1098,7 @@
        :ensure nil
        :custom ((mu4e-view-date-format "%F %T")
                 (mu4e-headers-date-format "%F")
-                (mu4e-change-filenames-when-moving t)
-                (mu4e-compose-signature
-                 (with-temp-buffer
-                   (insert-file-contents-literally "~/.email-signature/signature")
-                   (buffer-substring-no-properties (point-min) (point-max))))))
+                (mu4e-change-filenames-when-moving t)))
    #+end_src
 *** Account specific customizations
      The following settings are account specific, but can be set
@@ -1127,6 +1123,25 @@
            auth-sources '("secrets:Login"))
    #+END_SRC
    These can be set permanently using the =customize= interface.
+** Org-msg
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-msg
+            :ensure t
+            :custom ((mail-user-agent 'mu4e-user-agent)
+                     (org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t")
+                     (org-msg-startup "hidestars indent inlineimages")
+                     (org-msg-greeting-fmt "\nHi%s,\n\n")
+                     (org-msg-greeting-name-limit 3)
+                     (org-msg-default-alternatives '((new           . (text html))
+                                                     (reply-to-html . (text html))
+                                                     (reply-to-text . (text))))
+                     (org-msg-convert-citation t)
+                     (org-msg-signature
+                      (with-temp-buffer
+                        (insert-file-contents-literally "~/.email-signature/signature.org")
+                        (buffer-substring-no-properties (point-min) (point-max)))))
+            :config (org-msg-mode))
+   #+end_src
 * Personal Customizations
   Some hacks I often use.
 
