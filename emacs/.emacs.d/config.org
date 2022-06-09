@@ -93,6 +93,12 @@
 
      (set-face-attribute 'variable-pitch nil :family "Sans Serif")
    #+end_src
+
+   Prepend Noto Color Emojis to the default fontset!
+
+   #+begin_src emacs-lisp :tangle yes
+     (set-fontset-font "fontset-default" 'symbol "Noto Color Emoji" nil 'prepend)
+   #+end_src
 ** Window Management
    Use windmove to navigate windows. Enable default keybindings (shift + arrow keys) to move between windows.
    #+BEGIN_SRC emacs-lisp :tangle yes
