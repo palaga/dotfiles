@@ -618,17 +618,6 @@
 ** Org Mode
      Must have! Make sure org-mode is installed, up-to-date and configured to my needs.
    #+begin_src emacs-lisp :tangle yes
-     ;; (defun my-org-hook ()
-     ;;   (variable-pitch-mode 1)
-     ;;   (mapc
-     ;;    (lambda (face) ;; Rescale and inherit the properties from the fixed-pitch font.
-     ;;      (set-face-attribute face nil :inherit 'fixed-pitch))
-     ;;    (list 'org-code 'org-link 'org-block 'org-table 'org-property-value 'org-formula
-     ;;          'org-tag 'org-verbatim 'org-date 'company-tooltip 'org-indent
-     ;;          'org-special-keyword 'org-block-begin-line 'org-todo 'org-done
-     ;;          'org-block-end-line 'org-meta-line
-     ;;          'org-document-info-keyword)))
-
      (custom-theme-set-faces
       'user
       '(org-code ((t (:inherit (fixed-pitch)))))
@@ -646,7 +635,6 @@
                 (org-ellipsis " ⏷")
                 (org-image-actual-width nil)
                 (org-hide-emphasis-markers t))
-       ;; :hook (org-mode . my-org-hook)
        :custom-face
        (org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
        (org-ellipsis ((t (:underline nil))))
@@ -709,9 +697,15 @@
 
 *** Org Bullets
     #+begin_src emacs-lisp :tangle yes
-      (use-package org-bullets
+      (use-package org-modern
         :ensure t
-        :hook (org-mode . org-bullets-mode))
+        :init (global-org-modern-mode))
+    #+end_src
+
+*** Org Download
+    #+begin_src emacs-lisp :tangle yes
+      (use-package org-download
+        :ensure t)
     #+end_src
 ** CSV
    #+begin_src emacs-lisp :tangle yes
