@@ -11,11 +11,11 @@
 
 set $mod Mod4
 
-assign [class="Firefox"] → "1: "
-assign [class="Emacs"] → "2: "
-assign [class="Zulip"] → "3: "
-assign [class="Microsoft Teams - Preview"] → "3: "
-assign [class="Gnome-terminal"] → "4: "
+assign [class="Firefox"] → 1
+assign [class="Emacs"] → 2
+assign [class="Zulip"] → 3
+assign [class="Microsoft Teams - Preview"] → 3
+assign [class="Gnome-terminal"] → 4
 
 exec --no-startup-id nm-applet
 exec --no-startup-id zulip
@@ -58,28 +58,16 @@ bindsym $mod+Shift+d exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Shift+w exec --no-startup-id rofi -show window
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+i focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+i move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+b split h
@@ -108,39 +96,34 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace "1: "
-bindsym $mod+2 workspace "2: "
-bindsym $mod+3 workspace "3: "
-bindsym $mod+4 workspace "4: "
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace "8: "
-bindsym $mod+9 workspace "9: "
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace "1: "
-bindsym $mod+Shift+2 move container to workspace "2: "
-bindsym $mod+Shift+3 move container to workspace "3: "
-bindsym $mod+Shift+4 move container to workspace "4: "
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace "8: "
-bindsym $mod+Shift+9 move container to workspace "9: "
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # Moving entire workspaces across screens
-bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output left
 bindsym $mod+Control+l move workspace to output right
-bindsym $mod+Control+k move workspace to output up
-bindsym $mod+Control+j move workspace to output down
-
-bindsym $mod+Control+Left move workspace to output left
-bindsym $mod+Control+Right move workspace to output right
-bindsym $mod+Control+Up move workspace to output up
-bindsym $mod+Control+Down move workspace to output down
+bindsym $mod+Control+i move workspace to output up
+bindsym $mod+Control+k move workspace to output down
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
