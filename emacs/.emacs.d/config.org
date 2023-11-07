@@ -524,15 +524,13 @@
      Configure paredit mode for all the lisp dialects. This is a must
      for lisp development of any kind.
      #+begin_src emacs-lisp :tangle yes
-       (use-package paredit
-         :ensure t
-         :hook ((emacs-lisp-mode
-                 eval-expression-minibuffer-setup
-                 ielm-mode
-                 lisp-mode
-                 clojure-mode
-                 lisp-interaction-mode
-                 scheme-mode) . enable-paredit-mode))
+  (use-package paredit
+    :ensure t
+    :hook ((emacs-lisp-mode
+            lisp-mode
+            clojure-mode
+            lisp-interaction-mode
+            scheme-mode) . enable-paredit-mode))
      #+end_src
 *** TODO Emacs Lisp
 *** Clojure
