@@ -335,6 +335,13 @@
         :ensure t
         :bind ("C-x t" . helm-tramp))
     #+end_src
+** Vertico Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package vertico
+    :ensure t
+    :init (vertico-mode 1)
+    :diminish vertico-mode)
+   #+END_SRC
 ** Ivy Mode
    Gradually replacing my helm config with ivy, where useful!
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -468,16 +475,20 @@
   #+end_src
 ** LSP-mode
    #+begin_src emacs-lisp :tangle yes
-     (use-package lsp-mode
-       :ensure t
-       :bind (:map lsp-mode-map
-                   ("C-c l" . lsp-command-map)))
+  (use-package lsp-mode
+    :ensure t
+    :bind-keymap ("C-c l" . lsp-command-map))
    #+end_src
 ** Shell scripts
    #+begin_src emacs-lisp :tangle yes
      (use-package sh-script
        :custom ((sh-basic-offset 2)
                 (sh-guess-basic-offset t)))
+   #+end_src
+** Gnuplot
+   #+begin_src emacs-lisp :tangle yes
+     (use-package gnuplot
+       :ensure t)
    #+end_src
 ** Sed
    #+begin_src emacs-lisp :tangle yes
@@ -616,51 +627,52 @@
 ** Org Mode
      Must have! Make sure org-mode is installed, up-to-date and configured to my needs.
    #+begin_src emacs-lisp :tangle yes
-     (custom-theme-set-faces
-      'user
-      '(org-code ((t (:inherit (fixed-pitch)))))
-      '(org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)) t)))
-      '(org-code ((t (:inherit (shadow fixed-pitch)))))
-      '(org-code ((t (:inherit (shadow fixed-pitch)) t))))
+  (custom-theme-set-faces
+   'user
+   '(org-code ((t (:inherit (fixed-pitch)))))
+   '(org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)) t)))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)) t))))
 
-     (use-package org
-       :ensure org-plus-contrib
-       :pin gnu
-       :bind (("C-c c" . org-capture)
-              ("<F11>" . org-tree-slide-mode))
-       :custom ((org-babel-python-command "python3")
-                (org-export-backends '(ascii pandoc html man md odt texinfo confluence groff))
-                (org-ellipsis " ⏷")
-                (org-image-actual-width nil)
-                (org-hide-emphasis-markers t))
-       :custom-face
-       (org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-       (org-ellipsis ((t (:underline nil))))
+  (use-package org
+    :ensure org-plus-contrib
+    :pin gnu
+    :bind (("C-c c" . org-capture)
+           ("<F11>" . org-tree-slide-mode))
+    :custom ((org-babel-python-command "python3")
+             (org-export-backends '(ascii pandoc html man md odt texinfo confluence groff))
+             (org-ellipsis " ⏷")
+             (org-image-actual-width nil)
+             (org-hide-emphasis-markers t))
+    :custom-face
+    (org-code-begin-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+    (org-ellipsis ((t (:underline nil))))
 
-       :commands org-babel-do-load-languages
-       :config
-       (setq org-directory "~/org"
-             org-default-notes-file (concat org-directory "/notes.org")
-             org-agenda-files '("~/org/"))
-       (defvar org-capture-templates '(("t" "TODO"
-                                        entry (file+headline
-                                               "~/org/todo.org"
-                                               "Tasks")
-                                        "* TODO %?\n  %i %F")))
-       (org-babel-do-load-languages
-        'org-babel-load-languages
-        '((dot        . t)
-          (ditaa      . t)
-          (plantuml   . t)
-          (python     . t)
-          (R          . t)
-          (tmux       . t)
-          (restclient . t)
-          (sql        . t)
-          (sqlite     . t)
-          (latex      . t)
-          (makefile   . t)
-          (shell      . t))))
+    :commands org-babel-do-load-languages
+    :config
+    (setq org-directory "~/org"
+          org-default-notes-file (concat org-directory "/notes.org")
+          org-agenda-files '("~/org/"))
+    (defvar org-capture-templates '(("t" "TODO"
+                                     entry (file+headline
+                                            "~/org/todo.org"
+                                            "Tasks")
+                                     "* TODO %?\n  %i %F")))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((dot        . t)
+       (ditaa      . t)
+       (gnuplot    . t)
+       (plantuml   . t)
+       (python     . t)
+       (R          . t)
+       (tmux       . t)
+       (restclient . t)
+       (sql        . t)
+       (sqlite     . t)
+       (latex      . t)
+       (makefile   . t)
+       (shell      . t))))
    #+end_src
 
 *** Org Export Libraries
@@ -670,9 +682,6 @@
 
      (use-package ox-pandoc
        :ensure t)
-
-     ;;; Ensure beamer exporter is loaded
-     (use-package ox-beamer)
    #+end_src
 
 *** Org tree slide
@@ -919,26 +928,23 @@
    Awesome mode to automatically run syntax checkers over the source
    code in idle-time. Currently, only C and Python are configured.
    #+begin_src emacs-lisp :tangle yes
-     (use-package flycheck
-       :ensure t
-       :commands (flycheck-mode flycheck-list-errors flycheck-select-checker)
-       :config
-       (progn
-         (add-hook 'c-mode-hook
-                   (lambda ()
-                     (flycheck-mode)
-                     (flycheck-list-errors)))
-         (add-hook 'c++-mode-hook
-                   (lambda ()
-                     (flycheck-mode)
-                     (flycheck-list-errors)))
-         (add-hook 'js-mode-hook
-                   (lambda ()
-                     (flycheck-select-checker 'jshint)))
-         (add-hook 'python-mode-hook
-                   (lambda ()
-                     (flycheck-select-checker 'python-flake8)
-                     (flycheck-mode)))))
+  (use-package flycheck
+    :ensure t
+    :commands (flycheck-mode flycheck-list-errors flycheck-select-checker)
+    :config
+    (progn
+      (add-hook 'c-mode-hook
+                (lambda ()
+                  (flycheck-mode)
+                  (flycheck-list-errors)))
+      (add-hook 'c++-mode-hook
+                (lambda ()
+                  (flycheck-mode)
+                  (flycheck-list-errors)))
+      (add-hook 'python-mode-hook
+                (lambda ()
+                  (flycheck-select-checker 'python-flake8)
+                  (flycheck-mode)))))
    #+end_src
 ** Org-Jira
    Mode to work with Jira from Emacs.
@@ -1086,11 +1092,11 @@
 * Email
 ** Mu4e
    #+begin_src emacs-lisp :tangle yes
-     (use-package mu4e
-       :ensure nil
-       :custom ((mu4e-view-date-format "%F %T")
-                (mu4e-headers-date-format "%F")
-                (mu4e-change-filenames-when-moving t)))
+  (use-package mu4e
+    :ensure nil
+    :custom ((mu4e-view-date-format "%F %T")
+             (mu4e-headers-date-format "%F")
+             (mu4e-change-filenames-when-moving t)))
    #+end_src
 *** Account specific customizations
      The following settings are account specific, but can be set
@@ -1111,6 +1117,7 @@
            smtpmail-smtp-server "smtp.office365.com" ; For office 365
            smtpmail-smtp-service 587 ; For office 365
            smtpmail-stream-type 'starttls ; For office 365
+           send-mail-function 'smtpmail-send-it
            smtpmail-debug-info t
            auth-sources '("secrets:Login"))
    #+END_SRC
