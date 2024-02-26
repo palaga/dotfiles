@@ -19,10 +19,10 @@ zle -N edit-command-line
 
 
 # Pure config
-prompt pure
-zstyle :prompt:pure:git:fetch only_upstream yes
-zstyle ':prompt:pure:prompt:success' color green
-zstyle ':prompt:pure:prompt:error' color red
+# prompt pure
+# zstyle :prompt:pure:git:fetch only_upstream yes
+# zstyle ':prompt:pure:prompt:success' color green
+# zstyle ':prompt:pure:prompt:error' color red
 
 
 limit coredumpsize unlimited
