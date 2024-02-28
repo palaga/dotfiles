@@ -375,11 +375,11 @@
          :ensure t
          :bind (("C-c C-p" . hydra-counsel-projectile/body)
                 ("C-c p" . hydra-counsel-projectile/body))
-         :custom (counsel-ag-base-command "ag --ignore-case --nocolor --nogroup %s")
          :init (defhydra hydra-counsel-projectile (:color blue) "Projectile"
+                 ("a" projectile-add-known-project "add project")
                  ("p" counsel-projectile-switch-project "switch project")
                  ("f" counsel-projectile-find-file-dwim "find file")
-                 ("g" counsel-projectile-ag "grep source")
+                 ("g" counsel-projectile-rg "grep source")
                  ("q" keyboard-quit "quit")))
      #+END_SRC
 ** Wgrep
@@ -473,11 +473,66 @@
     (use-package which-func
       :hook ((prog-mode) . which-function-mode))
   #+end_src
-** LSP-mode
+** TreeSitter
    #+begin_src emacs-lisp :tangle yes
-  (use-package lsp-mode
-    :ensure t
-    :bind-keymap ("C-c l" . lsp-command-map))
+     (setq treesit-language-source-alist
+        '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (cmake "https://github.com/uyha/tree-sitter-cmake")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (make "https://github.com/alemuller/tree-sitter-make")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (toml "https://github.com/tree-sitter/tree-sitter-toml")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+     (mapc #'treesit-install-language-grammar
+           (mapcar #'car treesit-language-source-alist))
+
+     (setq major-mode-remap-alist
+      '((bash-mode . bash-ts-mode)
+        (css-mode . css-ts-mode)
+        (elisp-mode . elisp-ts-mode)
+        (go-mode . go-ts-mode)
+        (html-mode . html-ts-mode)
+        (js-mode . js-ts-mode)
+        (json-mode . json-ts-mode)
+        (make-mode . make-ts-mode)
+        (markdown-mode . markdown-ts-mode)
+        (python-mode . python-ts-mode)
+        (toml-mode . toml-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (yaml-mode . yaml-ts-mode)))
+   #+end_src
+** LSP-mode
+Dependencies:
+    #+begin_src sh :results silent :session none
+      sudo snap install node
+      sudo npm install -g pyright
+    #+end_src
+
+Configure:
+   #+begin_src emacs-lisp :tangle yes
+     (use-package lsp-mode
+       :ensure t
+       :bind-keymap ("C-c l" . lsp-command-map)
+       :commands (lsp lsp-deferred)
+       :hook ((python-mode . lsp-deferred)))
+
+     (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+     (use-package dap-mode :ensure t)
+
+     (use-package lsp-pyright
+       :ensure t
+       :custom ((lsp-pyright-python-executable-cmd "python3"))
+       :requires (lsp-mode))
    #+end_src
 ** Shell scripts
    #+begin_src emacs-lisp :tangle yes
@@ -530,8 +585,7 @@
         :ensure t)
     #+end_src
 ** Lisps
-*** General
-**** Paredit
+*** Paredit
      Configure paredit mode for all the lisp dialects. This is a must
      for lisp development of any kind.
      #+begin_src emacs-lisp :tangle yes
@@ -543,7 +597,6 @@
             lisp-interaction-mode
             scheme-mode) . enable-paredit-mode))
      #+end_src
-*** TODO Emacs Lisp
 *** Clojure
     Make sure that Cider is installed, for interactive clojure development.
     #+begin_src emacs-lisp :tangle yes
@@ -551,7 +604,6 @@
         :ensure t
         :defer t)
     #+end_src
-*** TODO Common Lisp
 *** Schemes
     Make sure that Geiser is installed, for interactive scheme development.
     #+begin_src emacs-lisp :tangle yes
@@ -566,49 +618,19 @@
     =importmagic= for automatic imports. These can be installed with
     =pip3 install rope jedi pyflakes importmagic=.
     #+begin_src emacs-lisp :tangle yes
-      (use-package elpy
+    #+end_src
+*** Ruff formatting
+    #+begin_src emacs-lisp :tangle yes
+      (use-package ruff-format
         :ensure t
         :defer t
-        :custom ((elpy-rpc-python-command "python3"))
-        :init (elpy-enable))
-    #+end_src
-*** Pyvenv
-    Useful for working with virtual environments.
-    #+begin_src emacs-lisp :tangle yes
-      (use-package pyvenv
-        :ensure t)
-    #+end_src
-*** Autopep8
-    Reformat python files according to PEP8 on save. For this to work, install autopep8 with pip.
-    #+begin_src emacs-lisp :tangle yes
-      (use-package py-autopep8
-        :ensure t
-        :hook (elpy-mode-hook . py-autopep8-enable-on-save))
-    #+end_src
-*** Python (pyright)
-    Install pyright using:
-    #+begin_src sh :results silent :session none
-      sudo snap install node
-      sudo npm install -g pyright
-    #+end_src
-    #+begin_src emacs-lisp :tangle yes
-      (use-package lsp-pyright
-        :ensure t
-        :requires (lsp-mode))
+        :hook (python-mode . ruff-format-on-save-mode))
     #+end_src
 ** Jinja2
    #+begin_src emacs-lisp :tangle yes
      (use-package jinja2-mode
        :ensure t
        :mode ("\.j2$" . jinja2-mode))
-   #+end_src
-** C/C++
-   Activate the =xcscope= package, to easily navigate C/C++ code.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package xcscope
-       :ensure t
-       :defer t
-       :init (cscope-setup))
    #+end_src
 * Configuration Modes
 ** Nginx Mode
@@ -619,7 +641,7 @@
    #+END_SRC
 * Markup and Data File Modes
 ** Markdown
-   Make sure markdown mode is there, if needed.
+   Make sure markdown mode is there.
    #+begin_src emacs-lisp :tangle yes
      (use-package markdown-mode
        :ensure t)
@@ -728,8 +750,8 @@
    Add yaml mode, for use in all yaml related project (ansible,
    docker-compose, etc).
    #+begin_src emacs-lisp :tangle yes
-     (use-package yaml-mode
-       :ensure t)
+     ;; (use-package yaml-mode
+     ;;   :ensure t)
    #+END_SRC
 ** Latex
    Make sure =auctex= is installed, for Latex development. (=tex-site=
@@ -943,15 +965,8 @@
                   (flycheck-list-errors)))
       (add-hook 'python-mode-hook
                 (lambda ()
-                  (flycheck-select-checker 'python-flake8)
+                  (flycheck-select-checker 'python-ruff)
                   (flycheck-mode)))))
-   #+end_src
-** Org-Jira
-   Mode to work with Jira from Emacs.
-   #+begin_src emacs-lisp :tangle yes
-     ;; (use-package org-jira
-     ;;   :ensure t
-     ;;   :bind ("C-c j c" . org-jira-create-issue))
    #+end_src
 ** Magit Mode
    Awesome git mode. Must have to control git from Emacs.
@@ -1033,62 +1048,13 @@
      (use-package yasnippet-snippets
        :ensure t)
    #+end_src
-** CEDET
-   Basic CEDET configuration.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package cedet
-       :config
-       (progn
-         (semantic-mode 1)
-         (setq semantic-default-submodes
-               '(global-semanticdb-minor-mode
-                 global-semantic-idle-scheduler-mode
-                 global-semantic-idle-summary-mode
-                 global-semantic-idle-local-symbol-highlight-mode))))
-   #+end_src
-*** Sr-Speedbar
-    The key binding for speedbar does not work yet. Fix this!
-    #+begin_src emacs-lisp :tangle yes
-      (use-package sr-speedbar
-        :ensure t
-        :commands (sr-speedbar-exist-p sr-speedbar-select-window)
-        :bind ("<f6>" . my/sr-speedbar-toggle)
-        :config
-        (defun my/sr-speedbar-toggle ()
-          "Toggle sr-speedbar and set focus to it."
-          (interactive)
-          (sr-speedbar-toggle)
-          (when (sr-speedbar-exist-p)
-            (sr-speedbar-select-window))))
-    #+end_src
 ** TODO Smartpair Mode
-   Could replace my electric pair config. Should be configured
-   correctly.
-   #+begin_src emacs-lisp :tangle yes
+   Could replace my electric pair config. Should be configured correctly.
+   #+begin_src eomacs-lisp :tangle yes
      (use-package smartparens
        :ensure t
        :init (smartparens-mode))
    #+end_src
-** Ace-mode
-   Awesome mode to jump quickly to a specific point in one of the
-   visible buffers.
-   #+begin_src emacs-lisp :tangle yes
-     (use-package ace-jump-mode
-       :ensure t
-       :bind ("C-c SPC" . ace-jump-mode))
-   #+end_src
-** Origami mode
-   #+begin_src emacs-lisp :tangle yes
-     (use-package origami
-       :ensure t
-       :hook (yaml-mode . origami-mode)
-       :bind (("C-c C-z" . origami-toggle-node)
-              ("C-c z" . origami-toggle-node)))
-   #+end_src
-** TODO Rebox2
-   Look into this! Might be nice for creating boxes.
-** TODO Writegood-mode or Artbollocks
-   Nice modes for helping with writing correctly.
 * Email
 ** Mu4e
    #+begin_src emacs-lisp :tangle yes
