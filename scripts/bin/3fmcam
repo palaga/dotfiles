@@ -1,3 +1,0 @@
-# /usr/bin/env bash
-
-mplayer -cache 4096 -cache-min 20 -playlist "http://livestreams.omroep.nl/npo/3fm_vsr-bb"

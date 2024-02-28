@@ -1,4 +1,0 @@
-#! /usr/bin/env bash
-
-chromium --proxy-pac-url="http://www.ubvu.vu.nl/ubvu.pac" &
-
