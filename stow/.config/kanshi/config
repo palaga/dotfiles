@@ -1,0 +1,41 @@
+profile wfh-hp {
+  output eDP-1 enable mode 1920x1200 position 1080,720 scale 1.0 transform normal
+  output DP-1 enable mode 1920x1080 position 0,0 scale 1.0 transform 270
+  output HDMI-A-1 enable mode 1920x1080 position 3000,0 scale 1.0 transform 90
+}
+
+profile wfo-dp-hp {
+  output eDP-1 enable mode 1920x1200 position 257,1848 scale 1.0 transform normal
+  output DP-1 enable position 0,768 scale 1.0 transform normal
+}
+
+profile wfo-hdmi-hp {
+  output eDP-1 enable mode 1920x1200 position 257,1848 scale 1.0 transform normal
+  output HDMI-A-1 enable position 0,768 scale 1.0 transform normal
+}
+
+profile nomad-hp {
+  output eDP-1 enable mode 1920x1200 position 0,0 scale 1.0 transform normal
+}
+
+
+# Lenovo config
+profile wfh-lenovo {
+  output eDP-1 enable mode 1366x768 position 1080,885 scale 1.0 transform normal
+  output DP-1 enable mode 1920x1080 position 0,0 scale 1.0 transform 270
+  output HDMI-A-1 enable mode 1920x1080 position 2446,0 scale 1.0 transform 90
+}
+
+profile wfo-dp-lenovo {
+  output eDP-1 enable mode 1366x768 position 257,1848 scale 1.0 transform normal
+  output DP-1 enable position 0,768 scale 1.0 transform normal
+}
+
+profile wfo-hdmi-lenovo {
+  output eDP-1 enable mode 1366x768 position 257,1848 scale 1.0 transform normal
+  output HDMI-A-1 enable position 0,768 scale 1.0 transform normal
+}
+
+profile nomad-lenovo {
+  output eDP-1 enable mode 1366x768 position 0,0 scale 1.0 transform normal
+}

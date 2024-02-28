@@ -1,0 +1,163 @@
+# Include global config snippet first
+include /etc/sway/config.d/*
+
+# Use meta key as the main modifier
+set $mod Mod4
+
+#############
+# Auto assign
+#############
+
+assign [app_id="firefox"] → 1
+assign [app_id="emacs"] → 2
+
+assign [app_id="chrome-crunchr.zulipchat.com__-Default"] → 3
+assign [app_id="chrome-crunchr.slack.com__-Default"] → 3
+assign [title="^WhatsApp Web"] → 3
+assign [title="^Microsoft Teams"] → 3
+
+assign [app_id="kitty"] → 4
+
+
+############
+# Auto start
+############
+
+exec nm-applet
+exec emacs
+exec firefox
+
+
+##########
+# Autolock
+##########
+
+# Lock after 3 minutes
+exec swayidle -w \
+     timeout 240 "swaylock -f"
+
+
+##########
+# Programs
+##########
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# lock screen
+bindsym $mod+Escape exec --no-startup-id swaylock -e -c 000000
+
+# screenshot
+bindsym $mod+m exec grim -g "$(slurp)" - | wl-copy -t image/png
+
+# # power menu
+# bindsym $mod+m exec grim -g "$(slurp)" - | wl-copy -t image/png
+
+
+#########
+# Generic
+#########
+font pango:DejaVu Sans Mono, Material Design Icons 8
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# Start wofi (a program launcher)
+bindsym $mod+d exec wofi --show drun --allow-image --gtk-dark --insensitive
+bindsym $mod+x exec --no-startup-id rofi -combi-modi drun -show combi -show-icons
+
+# Window switcher
+bindsym $mod+Shift+w exec rofi -show window
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+i focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+i move up
+bindsym $mod+Shift+l move right
+
+# split in horizontal orientation
+bindsym $mod+b split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# Moving entire workspaces across screens
+bindsym $mod+Control+j move workspace to output left
+bindsym $mod+Control+l move workspace to output right
+bindsym $mod+Control+i move workspace to output up
+bindsym $mod+Control+k move workspace to output down
+
+# reload/restart(?) the configuration file
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your session.' -b 'Yes, exit sway' 'swaymsg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bar {
+    swaybar_command waybar
+}
