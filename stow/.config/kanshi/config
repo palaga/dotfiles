@@ -1,7 +1,7 @@
 profile wfh-hp {
-  output eDP-1 enable mode 1920x1200 position 1080,720 scale 1.0 transform normal
+  output eDP-1 enable mode 1920x1200 position 2160,0 scale 1.0 transform normal
   output DP-1 enable mode 1920x1080 position 0,0 scale 1.0 transform 270
-  output HDMI-A-1 enable mode 1920x1080 position 3000,0 scale 1.0 transform 90
+  output HDMI-A-1 enable mode 1920x1080 position 1080,0 scale 1.0 transform 90
 }
 
 profile wfo-dp-hp {

@@ -25,7 +25,6 @@ assign [app_id="kitty"] → 4
 
 exec nm-applet
 exec emacs
-exec firefox
 
 
 ##########
@@ -161,3 +160,9 @@ bindsym $mod+r mode "resize"
 bar {
     swaybar_command waybar
 }
+
+# Necessary to activate the graphical-session target, so other
+# services like waybar, mako and kanshi will be triggered.  See:
+# https://wiki.archlinux.org/title/Sway#Manage_Sway-specific_daemons_with_systemd
+exec_always systemctl --user start sway-session.target
+
