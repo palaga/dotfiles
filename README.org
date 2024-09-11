@@ -1,4 +1,0 @@
-* About
-This is the default setup of the machines I work on. This repository
-contains different files to automate a default setup. Most directories
-represent stow packages and can be installed using =stow <pkg-name>=.
