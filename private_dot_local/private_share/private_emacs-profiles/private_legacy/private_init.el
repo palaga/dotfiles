@@ -4,8 +4,8 @@
 ;;; then load it.
 
 (setq vc-follow-symlinks nil)
-(let ((org-config-file "~/.emacs.d/config.org")
-      (elc-config-file "~/.emacs.d/config.elc"))
+(let ((org-config-file "~/.local/share/emacs-profiles/legacy/config.org")
+      (elc-config-file "~/.local/share/emacs-profiles/legacy/config.elc"))
   (if (file-newer-than-file-p org-config-file elc-config-file)
       (org-babel-load-file org-config-file t)
     (load elc-config-file)))

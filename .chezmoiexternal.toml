@@ -10,13 +10,44 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+[".oh-my-zsh/custom/plugins/fzf-tab"]
+    type = "archive"
+    url = "https://github.com/Aloxaf/fzf-tab/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".oh-my-zsh/custom/plugins/zsh-autopair"]
+    type = "archive"
+    url = "https://github.com/hlissner/zsh-autopair/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".oh-my-zsh/custom/plugins/chezmoi"]
+    type = "archive"
+    url = "https://github.com/mass8326/zsh-chezmoi/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 [".oh-my-zsh/custom/themes/powerlevel10k"]
     type = "archive"
     url = "https://github.com/romkatv/powerlevel10k/archive/v1.15.0.tar.gz"
     exact = true
     stripComponents = 1
-[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
-    type = "archive"
-    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
+[".local/share/emacs-profiles/doom-emacs"]
+    type = "git-repo"
+    url = "https://github.com/doomemacs/doomemacs"
+[".emacs.d"]
+    type = "git-repo"
+    url = "https://github.com/plexus/chemacs2.git"
+[".local/bin/age"]
+    type = "archive-file"
+    url = "https://github.com/FiloSottile/age/releases/download/v1.1.1/age-v1.1.1-{{ if eq .chezmoi.os "android" }}linux{{ else }}{{ .chezmoi.os }}{{ end }}-{{ .chezmoi.arch }}.tar.gz"
+    path = "age/age"
+[".local/bin/chroma"]
+    type = "archive-file"
+    url = "https://github.com/alecthomas/chroma/releases/download/v2.14.0/chroma-2.14.0-{{ if eq .chezmoi.os "android" }}linux{{ else }}{{ .chezmoi.os }}{{ end }}-{{ .chezmoi.arch }}.tar.gz"
+    path = "chroma"
+[".local/bin/eza"]
+    type = "archive-file"
+    url = "https://github.com/eza-community/eza/releases/download/v0.19.3/eza_{{ if eq .chezmoi.arch "amd64" }}x86_64{{ else if eq .chezmoi.arch "arm64" }}aarch64{{ else }}{{ .chezmoi.arch }}{{ end }}-unknown-{{ if eq .chezmoi.os "android" }}linux{{ else }}{{ .chezmoi.os }}{{ end }}-gnu.tar.gz"
+    path = "./eza"
